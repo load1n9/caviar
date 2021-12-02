@@ -6,3 +6,4 @@ export const hexToRGBA = (hex: string): RGBA =>
         parseInt(hex.slice(5, 7), 16),
         1
     ]
+export { Keys } from "./Keycodes.ts";

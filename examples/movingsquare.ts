@@ -1,12 +1,8 @@
-import { World, Rectangle, Line, Point } from '../mod.ts';
+import { World, Rectangle } from '../mod.ts';
 
 
 class Game extends World {
     public test = new Rectangle(100, 100, 100, 100, "#00ff00");
-    public test2 = new Line(
-        new Point(100, 100),
-        new Point(1000,1000)
-    )
     
     public setup() {
         this.addChild(this.test);

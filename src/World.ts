@@ -1,5 +1,5 @@
 import { Canvas } from "../deps.ts";
-import { Entity, Rectangle, Line, Point } from "../mod.ts";
+import { Entity, Rectangle, Line, Sprite } from "../mod.ts";
 import { WorldOptions } from './types.ts';
 
 
@@ -41,8 +41,23 @@ export abstract class World extends Canvas {
                 this.fillRect(entity.x, entity.y, entity.width, entity.height);
             } else if (entity instanceof Line) {
                 this.drawLine(entity.p1, entity.p2);
+            } else if (entity instanceof Sprite) {
+                this.copy(
+                    entity.texture,
+                    {
+                        x: 0,
+                        y: 0,
+                        width: this.params.width,
+                        height: this.params.height,
+                    },
+                    {
+                        x: entity.x,
+                        y: entity.y,
+                        width: entity.width,
+                        height: entity.height,
+                    },
+                );
             }
-
 
         }
         this.draw();
