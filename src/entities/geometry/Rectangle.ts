@@ -8,8 +8,9 @@ export class Rectangle extends Entity {
     public height: number;
 
     public fill: RGBA;
+
     constructor(x: number, y: number, width: number, height: number, fill: RGBA | string) {
-        super(x,y,width,height);
+        super(x,y);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -17,5 +18,12 @@ export class Rectangle extends Entity {
         this.fill = typeof fill === 'string' ? hexToRGBA(fill) : fill;
     }
 
+    public setFill(c: RGBA | string): void {
+        this.fill = typeof c === 'string' ? hexToRGBA(c) : c;
+    }
+
+    public setAlpha(a: number): void {
+        this.fill[3] = a;
+    }
 
 }

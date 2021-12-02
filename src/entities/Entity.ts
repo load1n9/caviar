@@ -2,14 +2,10 @@ export abstract class Entity {
     public x: number;
     public y: number;
     public z: number | undefined;
-    public width: number | undefined;
-    public height: number | undefined;
 
-    constructor(x: number, y: number, width?: number, height?: number) {
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
     }
     public setX(pos:number) {
         this.x = pos;
