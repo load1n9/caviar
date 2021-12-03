@@ -2,36 +2,14 @@ import { World, Sprite, Keys, KeyEvent } from '../mod.ts';
 
 
 class Game extends World {
-    public test = new Sprite(this, "assets/caviar.png", 200, 100, 414, 197);
+    public test = new Sprite(this, "assets/sample.png", 200, 100, 307, 127,{rows:1,cols:4},0);
     
     public setup() {
         this.addChild(this.test);
     }
     public draw() {
-        
+        this.test.nextFrame();
     }
-    public keyDown(key: KeyEvent) {
-        switch (key.keycode) {
-            case Keys.ARROWUP: {
-                this.test.setY(this.test.y - 10);
-                break;
-            }
-            case Keys.ARROWDOWN: {
-                this.test.setY(this.test.y + 10);
-                break;
-            }
-            case Keys.ARROWLEFT: {
-                this.test.setX(this.test.x - 10);
-                break;
-            }
-            case Keys.ARROWRIGHT: {
-                this.test.setX(this.test.x + 10);
-                break;
-            }
-
-        }
-    }
-
 }
 
 const test = new Game({

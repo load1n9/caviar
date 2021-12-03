@@ -1,5 +1,5 @@
 import { Canvas } from "../deps.ts";
-import { Entity, Rectangle, Line, Sprite, Text } from "../mod.ts";
+import { Entity, Rectangle, Line, Sprite, Image, Text } from "../mod.ts";
 import { WorldOptions } from './types.ts';
 
 
@@ -41,7 +41,8 @@ export abstract class World extends Canvas {
                 this.fillRect(entity.x, entity.y, entity.width, entity.height);
             } else if (entity instanceof Line) {
                 this.drawLine(entity.p1, entity.p2);
-            } else if (entity instanceof Sprite) {
+
+            } else if (entity instanceof Image) {
                 this.copy(
                     entity.texture,
                     {
@@ -55,6 +56,22 @@ export abstract class World extends Canvas {
                         y: entity.y,
                         width: entity.width,
                         height: entity.height,
+                    },
+                );
+            } else if (entity instanceof Sprite) {
+                this.copy(
+                    entity.texture,
+                    {
+                        x: Math.round(entity.frame.x),
+                        y: Math.round(entity.frame.y),
+                        width: Math.round(entity.frame.width),
+                        height: Math.round(entity.frame.height),
+                    },
+                    {
+                        x: Math.round(entity.x),
+                        y: Math.round(entity.y),
+                        width: Math.round(entity.frame.width),
+                        height: Math.round(entity.frame.height),
                     },
                 );
             } else if (entity instanceof Text ) {

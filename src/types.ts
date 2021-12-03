@@ -20,3 +20,15 @@ export interface KeyEvent {
     mod: number,
     repeat: boolean
 }
+
+export interface Frame {
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+
+export interface spriteConfig {
+    cols: number,
+    rows: number,
+}
