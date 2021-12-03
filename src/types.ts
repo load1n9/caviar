@@ -12,3 +12,11 @@ export interface WorldOptions {
 }
 
 export type RGBA = [number, number, number, number];
+
+export interface KeyEvent {
+    type: string,
+    keycode: number,
+    scancode: number,
+    mod: number,
+    repeat: boolean
+}

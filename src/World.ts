@@ -1,10 +1,10 @@
 import { Canvas } from "../deps.ts";
-import { Entity, Rectangle, Line, Sprite } from "../mod.ts";
+import { Entity, Rectangle, Line, Sprite, Text } from "../mod.ts";
 import { WorldOptions } from './types.ts';
 
 
 export abstract class World extends Canvas {
-    public entities: Array<Entity | Rectangle> = [];
+    public entities: Array<Entity> = [];
     public params: WorldOptions;
     constructor(params: WorldOptions) {
         super(params);
@@ -16,7 +16,7 @@ export abstract class World extends Canvas {
         for await (const event of this) {
             switch (event.type) {
                 case "draw":
-                    this._draw()
+                    this._draw();
                     break;
                 case "quit":
                     this.quit();
@@ -47,8 +47,25 @@ export abstract class World extends Canvas {
                     {
                         x: 0,
                         y: 0,
-                        width: this.params.width,
-                        height: this.params.height,
+                        width: entity.width,
+                        height: entity.height,
+                    },
+                    {
+                        x: entity.x,
+                        y: entity.y,
+                        width: entity.width,
+                        height: entity.height,
+                    },
+                );
+            } else if (entity instanceof Text ) {
+                entity.render(this);
+                this.copy(
+                    entity.texture,
+                    {
+                        x: 0,
+                        y: 0,
+                        width: entity.width,
+                        height: entity.height,
                     },
                     {
                         x: entity.x,

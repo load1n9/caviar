@@ -1,4 +1,4 @@
-import { World, Sprite, Keys } from '../mod.ts';
+import { World, Sprite, Keys, KeyEvent } from '../mod.ts';
 
 
 class Game extends World {
@@ -10,21 +10,21 @@ class Game extends World {
     public draw() {
         
     }
-    public keyDown(key: any) {
+    public keyDown(key: KeyEvent) {
         switch (key.keycode) {
-            case Keys.W: {
+            case Keys.ARROWUP: {
                 this.test.setY(this.test.y - 10);
                 break;
             }
-            case Keys.S: {
+            case Keys.ARROWDOWN: {
                 this.test.setY(this.test.y + 10);
                 break;
             }
-            case Keys.A: {
+            case Keys.ARROWLEFT: {
                 this.test.setX(this.test.x - 10);
                 break;
             }
-            case Keys.D: {
+            case Keys.ARROWRIGHT: {
                 this.test.setX(this.test.x + 10);
                 break;
             }
