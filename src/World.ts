@@ -1,6 +1,14 @@
 import { Canvas } from "../deps.ts";
-import { Entity, Rectangle, Line, Sprite, Image, Text } from "../mod.ts";
-import { WorldOptions } from './types.ts';
+import type { WorldOptions, KeyEvent} from './types.ts';
+import { 
+    Entity, 
+    Rectangle, 
+    Line, 
+    Sprite, 
+    Image, 
+    Text, 
+    AtlasSprite 
+} from "../mod.ts";
 
 
 export abstract class World extends Canvas {
@@ -91,6 +99,22 @@ export abstract class World extends Canvas {
                         height: entity.height,
                     },
                 );
+            } else if (entity instanceof AtlasSprite) {
+                this.copy(
+                    entity.texture,
+                    {
+                        x: Math.round(entity.frame.x),
+                        y: Math.round(entity.frame.y),
+                        width: Math.round(entity.frame.width),
+                        height: Math.round(entity.frame.height),
+                    },
+                    {
+                        x: Math.round(entity.x),
+                        y: Math.round(entity.y),
+                        width: Math.round(entity.frame.width),
+                        height: Math.round(entity.frame.height),
+                    },
+                );
             }
 
         }
@@ -99,7 +123,7 @@ export abstract class World extends Canvas {
         Deno.sleepSync(10);
 
     }
-    public keyDown(event: any): void {
+    public keyDown(_e: KeyEvent): void {
         return;
     }
     public abstract setup(): void;

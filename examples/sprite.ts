@@ -1,8 +1,8 @@
-import { World, Sprite, Keys, KeyEvent } from '../mod.ts';
+import { World, Sprite } from '../mod.ts';
 
 
 class Game extends World {
-    public test = new Sprite(this, "assets/sample.png", 200, 100, 307, 127,{rows:1,cols:4},0);
+    public test = new Sprite(this, "assets/sample.png", 200, 100, 307, 127,{rows:1,cols:4});
     
     public setup() {
         this.addChild(this.test);

@@ -1,4 +1,4 @@
 export { Entity } from './Entity.ts';
 export { Rectangle, Point, Line } from './geometry/mod.ts';
-export { Sprite, Image } from './sprites/mod.ts';
+export { Sprite, Image, Atlas, AtlasSprite } from './sprites/mod.ts';
 export { Text } from "./text/mod.ts";
