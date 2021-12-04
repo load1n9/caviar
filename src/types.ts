@@ -32,3 +32,10 @@ export interface spriteConfig {
     cols: number,
     rows: number,
 }
+
+export interface PixelTexture {
+    data: string[];
+    palette?: string[];
+    pixelWidth?: number;
+    pixelHeight?: number;
+}
