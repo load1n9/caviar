@@ -17,6 +17,11 @@ export {
   Text,
   TextureSprite,
 } from "./src/entities/mod.ts";
+export {
+  GravityForce,
+  NormalForce
+} from "./src/physics/mod.ts"
+export { Vector } from "./src/math/mod.ts";
 export { Keys } from "./src/utils/Keycodes.ts";
 export type { 
     KeyEvent,
@@ -24,5 +29,6 @@ export type {
     spriteConfig,
     Frame,
     RGBA,
-    WorldOptions 
+    WorldOptions,
+    WorldPhysicsOptions
 } from "./src/types.ts";

@@ -11,6 +11,10 @@ export interface WorldOptions {
     flags: null
 }
 
+export interface WorldPhysicsOptions {
+    gravity: number,
+}
+
 export type RGBA = [number, number, number, number];
 
 export interface KeyEvent {
