@@ -1,5 +1,5 @@
 import { Keys, PICO8, TextureSprite, World } from "../mod.ts";
-import type { KeyEvent, MouseDownEvent } from "../mod.ts";
+import type { KeyEvent } from "../mod.ts";
 
 class Game extends World {
   public test = new TextureSprite(this, 10, 10, {

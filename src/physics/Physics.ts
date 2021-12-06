@@ -1,4 +1,4 @@
-import { PhysicsEntity } from "../entities/physics/PhysicsSprite.ts";
+//import { PhysicsEntity } from "../entities/physics/PhysicsSprite.ts";
 
 export interface Force {
     update(dt: number): number
@@ -7,7 +7,7 @@ export interface Force {
 
 export class GravityForce implements Force {
     constructor(
-        public entity: PhysicsEntity,
+        public entity: any,//PhysicsEntity,
         public a: number
     ) {}
     
@@ -20,7 +20,7 @@ export class GravityForce implements Force {
 // https://www.toppr.com/guides/physics-formulas/normal-force-formula/
 export class NormalForce implements Force {
     constructor(
-        public entity: PhysicsEntity,
+        public entity: any,//PhysicsEntity,
         public g: number
     ) {}
     
@@ -28,5 +28,6 @@ export class NormalForce implements Force {
         if (this.entity.dx === 0) {
             return 0;
         }
+        return 0;
     }
 }

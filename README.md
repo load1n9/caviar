@@ -19,20 +19,21 @@
 ## game engine built on top of  [deno_sdl2](https://github.com/littledivy/deno_sdl2)
 
 ### Usage
+
+#### image
 ```typescript
-import { World, Rectangle } from '../mod.ts';
+import { World, Image, } from 'https://deno.land/x/caviar/mod.ts';
 
 
 class Game extends World {
-    public test = new Rectangle(100, 100, 100, 100, "#00ff00");
+    public test = new Image(this, "https://deno.land/x/caviar/assets/caviar.png", 200, 100, 414, 197);
     
     public setup() {
         this.addChild(this.test);
     }
     public draw() {
-        this.test.setX(this.test.x + 5);
+        
     }
-
 }
 
 const test = new Game({
@@ -46,6 +47,71 @@ const test = new Game({
     minimized: false,
     maximized: false,
     flags: null,
+});
+
+await test.start();
+```
+#### pixel texture
+```typescript
+import { Keys, PICO8, TextureSprite, World } from 'https://deno.land/x/caviar/mod.ts';
+import type { KeyEvent, MouseDownEvent } from 'https://deno.land/x/caviar/mod.ts';
+
+class Game extends World {
+  public test = new TextureSprite(this, 10, 10, {
+    data: [
+      "..9..9..",
+      "..9999..",
+      ".AAAAAA.",
+      ".A1F1FA.",
+      ".AFFFFA.",
+      ".FEEEEAA",
+      ".EEEEEEA",
+      "..E..E..",
+    ],
+    pixelWidth: 32,
+    pixelHeight: 32,
+    palette: PICO8,
+  });
+
+  public setup() {
+    this.addChild(this.test);
+  }
+  public draw() {
+    
+  }
+  public keyDown(key: KeyEvent) {
+    switch (key.keycode) {
+      case Keys.ARROWUP: {
+        this.test.setY(this.test.y - 10);
+        break;
+      }
+      case Keys.ARROWDOWN: {
+        this.test.setY(this.test.y + 10);
+        break;
+      }
+      case Keys.ARROWLEFT: {
+        this.test.setX(this.test.x - 10);
+        break;
+      }
+      case Keys.ARROWRIGHT: {
+        this.test.setX(this.test.x + 10);
+        break;
+      }
+    }
+  }
+}
+
+const test = new Game({
+  title: "test",
+  width: 800,
+  height: 600,
+  centered: true,
+  fullscreen: false,
+  hidden: false,
+  resizable: true,
+  minimized: false,
+  maximized: false,
+  flags: null,
 });
 
 await test.start();
