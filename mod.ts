@@ -16,6 +16,7 @@ export {
   Sprite,
   Text,
   TextureSprite,
+  Group
 } from "./src/entities/mod.ts";
 export {
   GravityForce,
