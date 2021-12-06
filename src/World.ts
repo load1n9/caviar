@@ -41,6 +41,12 @@ export abstract class World extends Canvas {
   public addChild(e: Entity) {
     this.entities.push(e);
   }
+
+  public killChild(e: Entity): void {
+    const index = this.entities.indexOf(e);
+    if (index < -1) return;
+    this.entities.splice(index, 1);
+  }
   private _draw() {
     this.setDrawColor(0, 0, 0, 255);
     this.clear();
