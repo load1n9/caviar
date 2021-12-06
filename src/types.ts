@@ -24,6 +24,13 @@ export interface KeyEvent {
     mod: number,
     repeat: boolean
 }
+export interface MouseDownEvent {
+    x: number;
+    y: number;
+    clicks: number;
+    which: number;
+    button: number;
+}
 
 export interface Frame {
     x: number,

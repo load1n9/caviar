@@ -25,6 +25,7 @@ export { Vector } from "./src/math/mod.ts";
 export { Keys } from "./src/utils/Keycodes.ts";
 export type { 
     KeyEvent,
+    MouseDownEvent,
     PixelTexture,
     spriteConfig,
     Frame,

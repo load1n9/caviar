@@ -1,5 +1,5 @@
 import { Keys, PICO8, TextureSprite, World } from "../mod.ts";
-import type { KeyEvent } from "../mod.ts";
+import type { KeyEvent, MouseDownEvent } from "../mod.ts";
 
 class Game extends World {
   public test = new TextureSprite(this, 10, 10, {
@@ -22,6 +22,7 @@ class Game extends World {
     this.addChild(this.test);
   }
   public draw() {
+    
   }
   public keyDown(key: KeyEvent) {
     switch (key.keycode) {

@@ -1,5 +1,5 @@
 import { Canvas } from "../deps.ts";
-import type { KeyEvent, WorldOptions } from "./types.ts";
+import type { KeyEvent, MouseDownEvent, WorldOptions } from "./types.ts";
 import {
   AtlasSprite,
   Entity,
@@ -32,6 +32,9 @@ export abstract class World extends Canvas {
           break;
         case "key_down":
           this.keyDown(event);
+          break;
+        case "mouse_button_down":
+          this.mouseDown(event);
           break;
         default:
           break;
@@ -159,6 +162,10 @@ export abstract class World extends Canvas {
   public keyDown(_e: KeyEvent): void {
     return;
   }
+  public mouseDown(_e: MouseDownEvent): void {
+    return;
+  }
+
   public abstract setup(): void;
   public abstract draw(): void;
 }
