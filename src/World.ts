@@ -27,6 +27,9 @@ export abstract class World extends Canvas {
     this.setup();
     for await (const event of this) {
       switch (event.type) {
+        case "mouse_button_down":
+          this.mouseDown(event);
+          break;
         case "draw":
           this._draw();
           break;
@@ -35,9 +38,6 @@ export abstract class World extends Canvas {
           break;
         case "key_down":
           this.keyDown(event);
-          break;
-        case "mouse_button_down":
-          this.mouseDown(event);
           break;
         default:
           break;

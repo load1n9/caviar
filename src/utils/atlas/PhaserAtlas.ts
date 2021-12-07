@@ -1,3 +1,5 @@
+import { Frame } from "../../types.ts";
+
 interface IPhaserFrame {
     filename: string,
     rotated: boolean,
@@ -37,7 +39,7 @@ interface IPhaserAtlas {
     }
 }
 export class PhaserAtlas {
-    public frames: any = {};
+    public frames: { [key:string] : Frame } = {};
     public width: number;
     public height: number;
     public imgUrl: string;
