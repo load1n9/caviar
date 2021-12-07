@@ -1,0 +1,33 @@
+{
+	"textures": [
+		{
+			"image": "assets/godot.png",
+			"size": {
+				"w": 416,
+				"h": 418
+			},
+			"sprites": [
+				{
+					"filename": "sprite1",
+					"region": {
+						"x": 1,
+						"y": 1,
+						"w": 414,
+						"h": 416
+					},
+					"margin": {
+						"x": 7,
+						"y": 0,
+						"w": 7,
+						"h": 5
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:b4b15e3e376936a0baa8bdcd87da2032:c362ddbbcf14acdd3fbdd8e677f71d43:6fad5c7d6e5d0cbcf7a6c336385847cc$"
+	}
+}
