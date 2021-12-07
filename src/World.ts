@@ -10,10 +10,12 @@ import {
   Sprite,
   Text,
   TextureSprite,
+  Animation,
 } from "../mod.ts";
 import { hexToRGBA } from "./utils/mod.ts";
 
 export abstract class World extends Canvas {
+  public FPS = 100;
   public entities: Array<Entity> = [];
   public params: WorldOptions;
   constructor(params: WorldOptions) {
@@ -52,6 +54,7 @@ export abstract class World extends Canvas {
     this.entities.splice(index, 1);
   }
   private _draw() {
+    this._fps()();
     this.setDrawColor(0, 0, 0, 255);
     this.clear();
     for (const entity of this.entities) {
@@ -62,6 +65,19 @@ export abstract class World extends Canvas {
     Deno.sleepSync(10);
   }
 
+  public _fps() {
+    let start = performance.now();
+    let frames = 0;
+    return () => {
+      frames++;
+      if ((performance.now() - start) >= 1000) {
+        start = performance.now();
+        frames = 0;
+      }
+  
+      Deno.sleepSync(1 / this.FPS * 1000);
+    }
+  }
   private _render(entity: Entity) {
     if (entity instanceof Rectangle) {
       this.setDrawColor(
@@ -138,6 +154,9 @@ export abstract class World extends Canvas {
           height: Math.round(entity.frame.height),
         },
       );
+    } else if (entity instanceof Animation) {
+        this._render(new AtlasSprite(this, entity.x, entity.y, entity.atlas, entity.frames[entity.currentFrame]));
+        entity.currentFrame = (entity.currentFrame + 1) % entity.frames.length;
     } else if (entity instanceof TextureSprite) {
       for (let y = 0; y < entity.data.length; y++) {
         const row = entity.data[y];

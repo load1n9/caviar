@@ -2,6 +2,7 @@ import { World, Sprite } from '../mod.ts';
 
 
 class Game extends World {
+    public FPS = 5;
     public test = new Sprite(this, "assets/sample.png", 200, 100, 307, 127,{rows:1,cols:4});
     
     public setup() {
