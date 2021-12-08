@@ -4,6 +4,8 @@ export {
   Arne16,
   Atlas,
   AtlasSprite,
+  Audio,
+  Button,
   C64,
   CGA,
   Entity,
@@ -18,7 +20,6 @@ export {
   Sprite,
   Text,
   TextureSprite,
-  Button
 } from "./src/entities/mod.ts";
 export { GravityForce, NormalForce } from "./src/physics/mod.ts";
 export { Vector } from "./src/math/mod.ts";

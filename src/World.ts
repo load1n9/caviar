@@ -1,7 +1,10 @@
 import { Canvas } from "../deps.ts";
 import type { KeyEvent, MouseDownEvent, WorldOptions } from "./types.ts";
 import {
+  Animation,
   AtlasSprite,
+  Audio,
+  Button,
   Entity,
   Group,
   Image,
@@ -10,8 +13,6 @@ import {
   Sprite,
   Text,
   TextureSprite,
-  Animation,
-  Button
 } from "../mod.ts";
 import { hexToRGBA } from "./utils/mod.ts";
 
@@ -75,9 +76,9 @@ export abstract class World extends Canvas {
         start = performance.now();
         frames = 0;
       }
-  
+
       Deno.sleepSync(1 / this.FPS * 1000);
-    }
+    };
   }
   private _render(entity: Entity) {
     if (entity instanceof Rectangle) {
@@ -156,8 +157,16 @@ export abstract class World extends Canvas {
         },
       );
     } else if (entity instanceof Animation) {
-        this._render(new AtlasSprite(this, entity.x, entity.y, entity.atlas, entity.frames[entity.currentFrame]));
-        entity.currentFrame = (entity.currentFrame + 1) % entity.frames.length;
+      this._render(
+        new AtlasSprite(
+          this,
+          entity.x,
+          entity.y,
+          entity.atlas,
+          entity.frames[entity.currentFrame],
+        ),
+      );
+      entity.currentFrame = (entity.currentFrame + 1) % entity.frames.length;
     } else if (entity instanceof TextureSprite) {
       for (let y = 0; y < entity.data.length; y++) {
         const row = entity.data[y];
@@ -184,10 +193,15 @@ export abstract class World extends Canvas {
       }
     } else if (entity instanceof Group) {
       for (const child of entity.children) {
-          this._render(child);
+        this._render(child);
       }
     } else if (entity instanceof Button) {
-      this._render(entity.child)
+      this._render(entity.child);
+    } else if (entity instanceof Audio) {
+      if (!entity.playing) {
+        this.playMusic(entity.src);
+        entity.playing = true;
+      }
     }
   }
   public keyDown(_e: KeyEvent): void {
