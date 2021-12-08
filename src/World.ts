@@ -11,6 +11,7 @@ import {
   Text,
   TextureSprite,
   Animation,
+  Button
 } from "../mod.ts";
 import { hexToRGBA } from "./utils/mod.ts";
 
@@ -28,7 +29,7 @@ export abstract class World extends Canvas {
     for await (const event of this) {
       switch (event.type) {
         case "mouse_button_down":
-          this.mouseDown(event);
+          this._mouseDown(event);
           break;
         case "draw":
           this._draw();
@@ -185,10 +186,27 @@ export abstract class World extends Canvas {
       for (const child of entity.children) {
           this._render(child);
       }
+    } else if (entity instanceof Button) {
+      this._render(entity.child)
     }
   }
   public keyDown(_e: KeyEvent): void {
     return;
+  }
+  private _mouseDown(e: MouseDownEvent) {
+    for (const entity of this.entities) {
+      if (entity instanceof Button) {
+        if (
+          e.x >= entity.x &&
+          e.x <= entity.child.x + entity.child.width &&
+          e.y >= entity.child.y &&
+          e.y <= entity.child.y + entity.child.height
+        ) {
+          entity.onClick();
+        }
+      }
+    }
+    this.mouseDown(e);
   }
   public mouseDown(_e: MouseDownEvent): void {
     return;
