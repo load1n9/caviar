@@ -13,16 +13,20 @@ import {
   Sprite,
   Text,
   TextureSprite,
+  Scene
 } from "../mod.ts";
 import { hexToRGBA } from "./utils/mod.ts";
 
-export abstract class World extends Canvas {
+export class World extends Canvas {
   public FPS = 100;
-  public entities: Array<Entity> = [];
   public params: WorldOptions;
-  constructor(params: WorldOptions) {
+  public scenes: Array<typeof Scene>;
+  public currentScene: Scene;
+  constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     super(params);
     this.params = params;
+    this.scenes = scenes;
+    this.currentScene = new this.scenes[0](this);
   }
 
   public async start() {
@@ -46,20 +50,11 @@ export abstract class World extends Canvas {
       }
     }
   }
-  public addChild(e: Entity) {
-    this.entities.push(e);
-  }
-
-  public killChild(e: Entity): void {
-    const index = this.entities.indexOf(e);
-    if (index < -1) return;
-    this.entities.splice(index, 1);
-  }
   private _draw() {
     this._fps()();
     this.setDrawColor(0, 0, 0, 255);
     this.clear();
-    for (const entity of this.entities) {
+    for (const entity of this.currentScene.entities) {
       this._render(entity);
     }
     this.draw();
@@ -67,6 +62,10 @@ export abstract class World extends Canvas {
     Deno.sleepSync(10);
   }
 
+
+  public setFPS(fps: number): void {
+    this.FPS = fps;
+  }
   public _fps() {
     let start = performance.now();
     let frames = 0;
@@ -159,7 +158,7 @@ export abstract class World extends Canvas {
     } else if (entity instanceof Animation) {
       this._render(
         new AtlasSprite(
-          this,
+          this.currentScene,
           entity.x,
           entity.y,
           entity.atlas,
@@ -204,28 +203,22 @@ export abstract class World extends Canvas {
       }
     }
   }
-  public keyDown(_e: KeyEvent): void {
-    return;
-  }
-  private _mouseDown(e: MouseDownEvent) {
-    for (const entity of this.entities) {
-      if (entity instanceof Button) {
-        if (
-          e.x >= entity.x &&
-          e.x <= entity.child.x + entity.child.width &&
-          e.y >= entity.child.y &&
-          e.y <= entity.child.y + entity.child.height
-        ) {
-          entity.onClick();
-        }
-      }
-    }
-    this.mouseDown(e);
-  }
-  public mouseDown(_e: MouseDownEvent): void {
-    return;
+  public keyDown(e: KeyEvent): void {
+    this.currentScene.keyDown(e);
   }
 
-  public abstract setup(): void;
-  public abstract draw(): void;
+  public setScene(scene: number): void {
+    this.currentScene = new this.scenes[scene](this);
+    this.setup();
+  }
+  private _mouseDown(e: MouseDownEvent) {
+    this.currentScene._mouseDown(e);
+  }
+  public setup(): void {
+    this.currentScene.setup();
+
+  }
+  public draw(): void {
+    this.currentScene.draw();
+  }
 }

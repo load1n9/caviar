@@ -1,5 +1,4 @@
 import { Entity } from '../mod.ts';
-// import { World } from '../../../mod.ts';
 import { Frame } from '../../types.ts';
 import { PhaserAtlas, atlas } from './../../utils/mod.ts';
 export class Atlas extends Entity {

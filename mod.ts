@@ -1,4 +1,5 @@
 export { World } from "./src/World.ts";
+export { Scene } from "./src/scenes/mod.ts";
 export {
   Animation,
   Arne16,

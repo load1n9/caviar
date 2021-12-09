@@ -1,5 +1,5 @@
 import { Entity } from '../mod.ts';
-import { World } from '../../../mod.ts';
+import { Scene } from '../../../mod.ts';
 import { PixelTexture } from "../../types.ts";
 import { Arne16 } from "./palettes/mod.ts";
 export class TextureSprite extends Entity {
@@ -9,7 +9,7 @@ export class TextureSprite extends Entity {
     public pixelHeight: number;
     public width: number;
     public height: number;
-    constructor(_world: World, x: number, y: number, texture: PixelTexture) {
+    constructor(_scene: Scene, x: number, y: number, texture: PixelTexture) {
         super(x, y);
             this.data = texture.data,
             this.palette = texture.palette || Arne16,

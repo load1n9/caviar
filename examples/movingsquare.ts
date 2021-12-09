@@ -1,7 +1,7 @@
-import { World, Rectangle } from '../mod.ts';
+import { World, Scene, Rectangle } from '../mod.ts';
 
 
-class Game extends World {
+class Game extends Scene {
     public test = new Rectangle(100, 100, 100, 100, "#00ff00");
     
     public setup() {
@@ -13,7 +13,7 @@ class Game extends World {
 
 }
 
-const test = new Game({
+const test = new World({
     title: "test",
     width: 800,
     height: 600,
@@ -24,6 +24,6 @@ const test = new Game({
     minimized: false,
     maximized: false,
     flags: null,
-});
+}, [Game]);
 
 await test.start();

@@ -1,5 +1,5 @@
 import { Entity } from '../mod.ts';
-import { World } from '../../../mod.ts';
+import { Scene } from '../../../mod.ts';
 import { spriteConfig, Frame } from '../../types.ts';
 import { generateFrames } from "../../utils/mod.ts";
 export class Sprite extends Entity {
@@ -10,7 +10,7 @@ export class Sprite extends Entity {
     public frames: Array<Frame>;
     public frame: Frame;
     constructor(
-        world: World,
+        scene: Scene,
         texture: string,
         x: number,
         y: number,
@@ -22,8 +22,8 @@ export class Sprite extends Entity {
         super(x, y);
         this.width = width;
         this.height = height;
-        this.surface = world.loadSurface(texture);
-        this.texture = world.createTextureFromSurface(this.surface);
+        this.surface = scene.world.loadSurface(texture);
+        this.texture = scene.world.createTextureFromSurface(this.surface);
         this.frames = generateFrames(this.width, this.height, rows, cols);
         this.frame = this.frames[frame];
 
