@@ -1,7 +1,7 @@
-import { World, Sprite } from '../mod.ts';
+import { World, Scene, Sprite } from '../mod.ts';
 
 
-class Game extends World {
+class Game extends Scene {
     public FPS = 5;
     public test = new Sprite(this, "assets/sample.png", 200, 100, 307, 127,{rows:1,cols:4});
     
@@ -13,7 +13,7 @@ class Game extends World {
     }
 }
 
-const test = new Game({
+const test = new World({
     title: "test",
     width: 800,
     height: 600,
@@ -24,6 +24,6 @@ const test = new Game({
     minimized: false,
     maximized: false,
     flags: null,
-});
+}, [Game]);
 
 await test.start();

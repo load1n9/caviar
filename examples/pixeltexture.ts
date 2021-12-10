@@ -1,7 +1,7 @@
-import { Keys, PICO8, TextureSprite, World } from "../mod.ts";
+import { Keys, PICO8, TextureSprite, Scene, World } from "../mod.ts";
 import type { KeyEvent } from "../mod.ts";
 
-class Game extends World {
+class Game extends Scene {
   public test = new TextureSprite(this, 10, 10, {
     data: [
       "..9..9..",
@@ -46,7 +46,7 @@ class Game extends World {
   }
 }
 
-const test = new Game({
+const test = new World({
   title: "test",
   width: 800,
   height: 600,
@@ -57,6 +57,6 @@ const test = new Game({
   minimized: false,
   maximized: false,
   flags: null,
-});
+}, [Game]);
 
 await test.start();

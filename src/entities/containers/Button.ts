@@ -1,13 +1,13 @@
-import { Entity, Sprite, World } from '../../../mod.ts';
+import { Entity, Sprite, Scene } from '../../../mod.ts';
 
 export class Button extends Entity {
     public child: Sprite;
-    public world: World;
+    public scene: Scene;
 
-    constructor(world: World, child: Sprite) {
+    constructor(scene: Scene, child: Sprite) {
         super(child.x,child.y);
         this.child = child;
-        this.world = world;
+        this.scene = scene;
     }
 
     public setX(x: number) {

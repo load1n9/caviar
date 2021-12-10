@@ -1,7 +1,7 @@
-import { World, AtlasSprite, Atlas } from '../mod.ts';
+import { World, Scene, AtlasSprite, Atlas } from '../mod.ts';
 
 
-class Game extends World {
+class Game extends Scene {
     public test = new Atlas('assets/pixi.json');
     public setup() {
         const test = new AtlasSprite(this, 45, 45, this.test, 'skully.png');
@@ -12,7 +12,7 @@ class Game extends World {
     }
 }
 
-const test = new Game({
+const test = new World ({
     title: "test",
     width: 800,
     height: 600,
@@ -23,6 +23,6 @@ const test = new Game({
     minimized: false,
     maximized: false,
     flags: null,    
-});
+}, [Game]);
 
 await test.start();

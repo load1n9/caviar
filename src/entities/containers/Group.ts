@@ -1,12 +1,12 @@
-import { Entity, World } from '../../../mod.ts';
+import { Entity, Scene } from '../../../mod.ts';
 
 export class Group extends Entity {
     public children: Array<Entity> = [];
-    public world: World;
+    public scene: Scene;
 
-    constructor(world: World, x: number, y: number) {
+    constructor(scene: Scene, x: number, y: number) {
         super(x,y);
-        this.world = world;
+        this.scene = scene;
     }
 
     public addChild(child: Entity) {

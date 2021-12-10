@@ -1,7 +1,7 @@
-import { World, Animation, Atlas } from '../mod.ts';
+import { World, Scene, Animation, Atlas } from '../mod.ts';
 
 
-class Game extends World {
+class Game extends Scene {
     public test = new Atlas('assets/klutzy.json');
     public setup() {
         const test = new Animation(this, 45, 45, this.test, [
@@ -21,7 +21,7 @@ class Game extends World {
     }
 }
 
-const test = new Game({
+const test = new World({
     title: "test",
     width: 800,
     height: 600,
@@ -32,6 +32,6 @@ const test = new Game({
     minimized: false,
     maximized: false,
     flags: null,    
-});
+}, [Game]);
 
 await test.start();

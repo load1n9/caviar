@@ -22,11 +22,11 @@
 
 #### image
 ```typescript
-import { World, Image, } from 'https://deno.land/x/caviar/mod.ts';
+import { World, Image, Scene } from 'https://deno.land/x/caviar/mod.ts';
 
 
-class Game extends World {
-    public test = new Image(this, "https://deno.land/x/caviar/assets/caviar.png", 200, 100, 414, 197);
+class Game extends Scene {
+    public test = new Image(this, "assets/caviar.png", 200, 100, 414, 197);
     
     public setup() {
         this.addChild(this.test);
@@ -36,7 +36,7 @@ class Game extends World {
     }
 }
 
-const test = new Game({
+const test = new World({
     title: "test",
     width: 800,
     height: 600,
@@ -47,16 +47,16 @@ const test = new Game({
     minimized: false,
     maximized: false,
     flags: null,
-});
+}, [Game]);
 
 await test.start();
 ```
 #### pixel texture
 ```typescript
-import { Keys, PICO8, TextureSprite, World } from 'https://deno.land/x/caviar/mod.ts';
+import { Keys, PICO8, TextureSprite, Scene, World } from 'https://deno.land/x/caviar/mod.ts';
 import type { KeyEvent, MouseDownEvent } from 'https://deno.land/x/caviar/mod.ts';
 
-class Game extends World {
+class Game extends Scene {
   public test = new TextureSprite(this, 10, 10, {
     data: [
       "..9..9..",
@@ -101,7 +101,7 @@ class Game extends World {
   }
 }
 
-const test = new Game({
+const test = new World({
   title: "test",
   width: 800,
   height: 600,
@@ -112,7 +112,9 @@ const test = new Game({
   minimized: false,
   maximized: false,
   flags: null,
-});
+}, [Game]);
+
+await test.start();
 
 await test.start();
 ```

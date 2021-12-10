@@ -1,7 +1,7 @@
-import { World, Image, Keys, KeyEvent } from '../mod.ts';
+import { World, Scene, Image, Keys, KeyEvent } from '../mod.ts';
 
 
-class Game extends World {
+class Game extends Scene {
     public test = new Image(this, "assets/caviar.png", 200, 100, 414, 197);
     
     public setup() {
@@ -34,7 +34,7 @@ class Game extends World {
 
 }
 
-const test = new Game({
+const test = new World({
     title: "test",
     width: 800,
     height: 600,
@@ -45,6 +45,6 @@ const test = new Game({
     minimized: false,
     maximized: false,
     flags: null,
-});
+}, [Game]);
 
 await test.start();
