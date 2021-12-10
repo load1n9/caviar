@@ -15,6 +15,8 @@ export interface WorldPhysicsOptions {
     gravity: number,
 }
 
+
+
 export type RGBA = [number, number, number, number];
 
 export interface KeyEvent {
@@ -30,6 +32,15 @@ export interface MouseDownEvent {
     clicks: number;
     which: number;
     button: number;
+}
+
+export interface MouseMotionEvent {
+    which: number;
+    x: number;
+    y: number;
+    xrel: number;
+    yrel: number;
+    state: number;
 }
 
 export interface Frame {

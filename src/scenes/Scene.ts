@@ -1,5 +1,5 @@
 import { Entity, World, Button } from "../../mod.ts";
-import type { MouseDownEvent, KeyEvent } from "../types.ts";
+import type { MouseDownEvent, MouseMotionEvent, KeyEvent } from "../types.ts";
 export class Scene {
     public entities: Array<Entity> = [];
 
@@ -32,7 +32,11 @@ export class Scene {
         }
         this.mouseDown(e);
       }
+    public _mouseMotion(e: MouseMotionEvent) {
+      this.mouseMotion(e)
+    }
     public mouseDown(_e: MouseDownEvent): void {}
+    public mouseMotion(_e: MouseMotionEvent): void {}
     public setup(): void {}
     public draw(): void {}
     public keyDown(_e: KeyEvent): void {}

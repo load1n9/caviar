@@ -1,9 +1,9 @@
 import { Canvas } from "../deps.ts";
-import { Scene, Renderer, Entity } from "../mod.ts"
-import type { KeyEvent, MouseDownEvent, WorldOptions } from "./types.ts";
+import { Scene, Renderer } from "../mod.ts"
+import type { KeyEvent, MouseDownEvent, MouseMotionEvent, WorldOptions } from "./types.ts";
 
 export class World extends Canvas {
-  public FPS = 100;
+  public FPS = 500;
   public params: WorldOptions;
   public scenes: Array<typeof Scene>;
   public currentScene: Scene;
@@ -20,6 +20,9 @@ export class World extends Canvas {
     this.setup();
     for await (const event of this) {
       switch (event.type) {
+        case "mouse_motion":
+          this._mouseMotion(event);
+        break;
         case "mouse_button_down":
           this._mouseDown(event);
           break;
@@ -70,12 +73,24 @@ export class World extends Canvas {
     this.currentScene.keyDown(e);
   }
 
-  public setScene(scene: number): void {
-    this.currentScene = new this.scenes[scene](this);
+  public setScene(scene: number | string): void {
+    if (typeof scene === 'string') {
+      for (const s of this.scenes) {
+        if (s.name === scene) {
+          this.currentScene = new s(this);
+          break;
+        }
+      }
+    } else {
+      this.currentScene = new this.scenes[scene](this);
+    }
     this.setup();
   }
   private _mouseDown(e: MouseDownEvent) {
     this.currentScene._mouseDown(e);
+  }
+  private _mouseMotion(e: MouseMotionEvent) {
+    this.currentScene._mouseMotion(e);
   }
   public setup(): void {
     this.currentScene.setup();

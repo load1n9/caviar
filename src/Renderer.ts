@@ -16,8 +16,9 @@ import {
 import { hexToRGBA } from "./utils/mod.ts";
 
 export class Renderer {
-    constructor(public world: World) {}
 
+    constructor(public world: World) {}
+    
     public render(entity: Entity) {
         if (entity instanceof Rectangle) {
             this.world.setDrawColor(

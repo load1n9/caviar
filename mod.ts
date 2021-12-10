@@ -30,6 +30,7 @@ export type {
   Frame,
   KeyEvent,
   MouseDownEvent,
+  MouseMotionEvent,
   PixelTexture,
   RGBA,
   spriteConfig,
