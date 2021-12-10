@@ -1,5 +1,5 @@
 import { Canvas } from "../deps.ts";
-import { Scene, Renderer } from "../mod.ts"
+import { Scene, Renderer, Plugin } from "../mod.ts"
 import type { KeyEvent, MouseDownEvent, MouseMotionEvent, WorldOptions } from "./types.ts";
 
 export class World extends Canvas {
@@ -8,6 +8,7 @@ export class World extends Canvas {
   public scenes: Array<typeof Scene>;
   public currentScene: Scene;
   public renderer: Renderer;
+  public plugins: {[key: string] : typeof Plugin} | undefined;
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     super(params);
     this.params = params;
@@ -85,6 +86,15 @@ export class World extends Canvas {
       this.currentScene = new this.scenes[scene](this);
     }
     this.setup();
+  }
+  public loadPlugin(name: string, plugin: typeof Plugin): void {
+    if (this.plugins === undefined) {
+      this.plugins = {};
+    }
+    this.plugins[name] = plugin;
+  }
+  public usePlugin(name: string): Plugin | boolean {
+    return this.plugins === undefined ? false : new this.plugins[name](this);
   }
   private _mouseDown(e: MouseDownEvent) {
     this.currentScene._mouseDown(e);
