@@ -1,8 +1,7 @@
-import { World } from "../mod.ts";
-export class Plugin {
+export abstract class Plugin {
     public name = "";
     public description = "";
     public version = "";
     public author = "";
-    constructor(public world: World) {}
+    constructor(world: any) {}
 }

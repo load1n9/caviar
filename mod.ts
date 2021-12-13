@@ -1,7 +1,7 @@
+export { Plugin } from "./src/Plugin.ts";
 export { World } from "./src/World.ts";
 export { Renderer } from "./src/Renderer.ts";
 export { Scene } from "./src/scenes/mod.ts";
-export { Plugin } from "./src/Plugin.ts";
 export {
   Animation,
   Arne16,

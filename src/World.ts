@@ -8,7 +8,7 @@ export class World extends Canvas {
   public scenes: Array<typeof Scene>;
   public currentScene: Scene;
   public renderer: Renderer;
-  public plugins: {[key: string] : typeof Plugin} | undefined;
+  public plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     super(params);
     this.params = params;
@@ -87,14 +87,11 @@ export class World extends Canvas {
     }
     this.setup();
   }
-  public loadPlugin(name: string, plugin: typeof Plugin): void {
-    if (this.plugins === undefined) {
-      this.plugins = {};
-    }
+  public loadPlugin(name: string, plugin: any): void {
     this.plugins[name] = plugin;
   }
-  public usePlugin(name: string): Plugin | boolean {
-    return this.plugins === undefined ? false : new this.plugins[name](this);
+  public usePlugin(name: string): Plugin {
+    return new this.plugins[name](this);
   }
   private _mouseDown(e: MouseDownEvent) {
     this.currentScene._mouseDown(e);
