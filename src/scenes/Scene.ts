@@ -1,5 +1,6 @@
 import { Entity, World, Button } from "../../mod.ts";
 import type { MouseDownEvent, MouseMotionEvent, KeyEvent } from "../types.ts";
+
 export class Scene {
     public entities: Array<Entity> = [];
 

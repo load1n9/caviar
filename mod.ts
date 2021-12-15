@@ -26,6 +26,8 @@ export {
   Sprite,
   Text,
   TextureSprite,
+  PhysicsEntity,
+  Collider
 } from "./src/entities/mod.ts";
 export { GravityForce, NormalForce } from "./src/physics/mod.ts";
 export { Vector } from "./src/math/mod.ts";
