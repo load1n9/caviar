@@ -34,7 +34,7 @@ export class Body {
     public allowGravity = true;
     public gravity = new Vector();
     public bounce = new Vector();
-    public worldBounce = null;
+    public worldBounce: any = null;
     public boundsRectangle: Rectangle;
     public onWorldBounds = false;
     public onCollide = false;
@@ -57,7 +57,6 @@ export class Body {
     public customSeparateX = false;
     public customSeparateY = false;
     public overlapX = 0;
-    public overlapY = 0;
     public overlapY = 0;
     public overlapR = 0;
     public embedded = false;
@@ -214,7 +213,7 @@ export class Body {
             this.angle = Math.atan2(vy, vx);
             this.speed = Math.sqrt(vx * vx + vy * vy);
             if (this.collideWorldBounds && this.checkWorldBounds() && this.onWorldBounds) {
-                this.scene.emit(Events.WORLD_BOUNDS, this, this.blocked.up, this.blocked.down, this.blocked.left, this.blocked.right);
+                // this.scene.emit(Events.WORLD_BOUNDS, this, this.blocked.up, this.blocked.down, this.blocked.left, this.blocked.right);
             }
         }
         this._dx = this.position.x - this.prev.x;
@@ -277,7 +276,7 @@ export class Body {
     public checkWorldBounds(): boolean {
         let pos = this.position;
         let bounds = this.boundsRectangle;
-        let check = this.world.checkCollision;
+        let check = this.scene.checkCollision;
 
         let bx = (this.worldBounce) ? -this.worldBounce.x : -this.bounce.x;
         let by = (this.worldBounce) ? -this.worldBounce.y : -this.bounce.y;
@@ -289,7 +288,7 @@ export class Body {
             this.velocity.x *= bx;
             this.blocked.left = true;
             wasSet = true;
-        } else if (this.right > bounds : bounds.right && check.right) {
+        } else if (this.right > bounds.right && check.right) {
             pos.x = bounds.right - this.width;
             this.velocity.x *= bx;
             this.blocked.right = true;
@@ -382,7 +381,7 @@ export class Body {
 
         if (setBounceX || setBounceY) {
             if (!this.worldBounce) {
-                this.worldBounce = new Vector2();
+                this.worldBounce = new Vector();
             }
 
             if (setBounceX) {

@@ -1,12 +1,12 @@
 import { Entity, PhysicsEntity, Scene, World, Rectangle, Collider, Vector } from "../../../mod.ts";
 import type { MouseDownEvent, MouseMotionEvent, KeyEvent } from "../../types.ts";
-import { CustomSet } from "../../utils/mod.ts";
+import { CustomSet, RTree } from "../../utils/mod.ts";
 
 export class PhysicsScene extends Scene {
   public entities: Array<PhysicsEntity> = [];
-  public colliders: Array<Colliders> = [];
+  public colliders: Array<Collider> = [];
   public gravity = new Vector(0, 0);
-  public bounds = new Rectangle(0, 0, this.world.params.width, this.world.params.height);
+  public bounds: Rectangle;
   public checkCollision = {
     up: true,
     down: true,
@@ -23,23 +23,25 @@ export class PhysicsScene extends Scene {
   private _total = 0;
   public maxEntries = 16;
   public useTree = true;
-  public tree = 
+  public tree = new RTree(this.maxEntries);
+  public staticTree = new RTree(this.maxEntries);
+  public treeMinMax = { minX: 0, minY: 0, maxX: 0, maxY: 0 };
 
-  constructor(
-    public world: World
-  ) { }
+  constructor( world: World ) { 
+    super(world)
+    this.bounds = new Rectangle(0, 0, world.params.width, world.params.height)
+  }
 
-  public setBounds(x, y, width, height): void {
+  public setBounds(x: number, y: number, width: number, height: number): void {
     this.bounds = new Rectangle(x, y, width, height);
   }
 
   public addCollider(
     e1: PhysicsEntity,
     e2: PhysicsEntity,
-    collideCallback: (e1: PhysicsEntity, e2: PhysicsEntity) => void | null,
+    collideCallback: any = null,
     callbackContext: any = this
   ): void {
-    if (collideCallback === undefined) collideCallback = null;
     if (callbackContext === undefined) callbackContext = collideCallback;
     this.colliders.push(new Collider(this, false, e1, e2, this.collideCallback, callbackContext));
   }

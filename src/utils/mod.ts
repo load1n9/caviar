@@ -5,3 +5,4 @@ export { generateFrames } from "./Frames.ts";
 export { PerlinNoise } from "./Perlin.ts";
 export { CustomSet } from "./Set.ts";
 export { QuickSelect } from "./QuickSelect.ts";
+export { RTree } from "./RTree.ts";
