@@ -3,12 +3,12 @@ import { World, Scene, ParticleSystem } from '../mod.ts';
 
 class Game extends Scene {
     public test = new ParticleSystem(this, {
-        density: 10,
+        density: 80,
         particleSize: 10,
-        startingX: 30,
+        startingX: 100,
         startingY: 30,
         gravity: 0.25,
-        maxLife: 100,
+        maxLife: 50,
     });
     
     public setup() {

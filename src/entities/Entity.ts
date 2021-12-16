@@ -2,6 +2,8 @@ export abstract class Entity {
     public x: number;
     public y: number;
     public z: number | undefined;
+    public width = 0;
+    public height = 0;
 
     constructor(x: number, y: number) {
         this.x = x;

@@ -1,4 +1,6 @@
 import { PhysicsScene, Vector, Rectangle } from "../../../mod.ts";
+import { PhysicsEntity } from "./mod.ts";
+import { CONST } from "./const.ts";
 
 interface Transform {
     x: number;
@@ -17,6 +19,8 @@ export class Body {
     public enable = true;
     public isCircle = false;
     public radius = 0;
+    public angle = 0;
+    public facing = CONST.FACING_NONE;
     public position: Vector;
     public allowRotation = false;
     public center: Vector;
@@ -44,13 +48,12 @@ export class Body {
     public angularDrag = 0;
     public maxAngular = 1000;
     public mass = 1;
-    public angle = 0;
+    public rotation: number;
+    public preRotation: number;
     public speed = 0;
-    public facing = null;
     public immovable = false;
     public pushable = true;
     public moves = true;
-    public preRotation = 0;
     public customSeparateX = false;
     public customSeparateY = false;
     public prev: Vector;
@@ -58,7 +61,7 @@ export class Body {
     private _dy = 0;
     private _tx = 0;
     private _ty = 0;
-    private _bounds = new Rectangle(0, 0, 0, 0);
+    private _bounds = new Rectangle(0, 0, 0, 0, "#000000");
     constructor(scene: PhysicsScene, entity: PhysicsEntity) {
         this.width = entity.width;
         this.halfWidth = Math.round(Math.abs(this.width / 2));
@@ -66,6 +69,8 @@ export class Body {
         this.halfHeight = Math.round(Math.abs(this.height / 2));
         this.scene = scene;
         this.entity = entity;
+        this.rotation = this.entity.angle;
+        this.preRotation = this.entity.angle;
         this.transform = {
             x: this.entity.x,
             y: this.entity.y,
@@ -145,8 +150,8 @@ export class Body {
         this._dy = this.position.y - this.prev.y;
     }
     public postUpdate(): void {
-        let dx = this.position.x - this.prevFrame.x;
-        let dy = this.position.y - this.prevFrame.y;
+        let dx = this.position.x;
+        let dy = this.position.y;
 
         if (this.moves) {
             let mx = this.deltaMax.x;
@@ -209,5 +214,8 @@ export class Body {
     }
     public deltaY(){
         return this._dy;
+    }
+    public deltaZ() {
+        return this.rotation - this.preRotation;
     }
 }
