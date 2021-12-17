@@ -1,15 +1,15 @@
 import { Canvas } from "../deps.ts";
-import { Scene, Renderer, Plugin } from "../mod.ts"
+import { Scene, Renderer, PhysicsScene, Plugin } from "../mod.ts"
 import type { KeyEvent, MouseDownEvent, MouseMotionEvent, WorldOptions } from "./types.ts";
 
 export class World extends Canvas {
   public FPS = 500;
   public params: WorldOptions;
-  public scenes: Array<typeof Scene>;
+  public scenes: Array<typeof Scene | typeof PhysicsScene>;
   public currentScene: Scene;
   public renderer: Renderer;
   public plugins: any = {};
-  constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
+  constructor(params: WorldOptions, scenes: Array<typeof Scene | typeof PhysicsScene>) {
     super(params);
     this.params = params;
     this.scenes = scenes;
@@ -46,7 +46,11 @@ export class World extends Canvas {
     this.setDrawColor(0, 0, 0, 255);
     this.clear();
     for (const entity of this.currentScene.entities) {
-      this.renderer.render(entity);
+      if (this.currentScene instanceof PhysicsScene) {
+        this.renderer.renderPhysics(entity);
+      } else {
+        this.renderer.render(entity);
+      }
     }
     this.draw();
     this.present();
@@ -104,6 +108,7 @@ export class World extends Canvas {
 
   }
   public draw(): void {
+    this.currentScene.tick();
     this.currentScene.draw();
   }
 }

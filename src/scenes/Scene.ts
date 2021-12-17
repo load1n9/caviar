@@ -36,6 +36,7 @@ export class Scene {
     public _mouseMotion(e: MouseMotionEvent) {
       this.mouseMotion(e)
     }
+    public tick(): void {}
     public mouseDown(_e: MouseDownEvent): void {}
     public mouseMotion(_e: MouseMotionEvent): void {}
     public setup(): void {}

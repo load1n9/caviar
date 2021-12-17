@@ -1,1 +1,1 @@
-// export { PhysicsEntity } from "./PhysicsEntity.ts";
+export { PhysicsRectangle } from "./Rectangle.ts";

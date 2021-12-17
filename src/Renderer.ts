@@ -8,6 +8,7 @@ import {
   Image,
   Line,
   ParticleSystem,
+  PhysicsRectangle,
   Rectangle,
   Sprite,
   Text,
@@ -152,6 +153,19 @@ export class Renderer {
           particle.settings.particleSize,
         );
       }
+    }
+  }
+  public renderPhysics(entity: Entity): void {
+    if (entity instanceof PhysicsRectangle) {
+      entity.x = entity.body.position.x;
+      entity.y = entity.body.position.y;
+      this.world.setDrawColor(
+        entity.fill[0],
+        entity.fill[1],
+        entity.fill[2],
+        entity.fill[3],
+      );
+      this.world.fillRect(entity.x, entity.y, entity.width, entity.height);
     }
   }
 }

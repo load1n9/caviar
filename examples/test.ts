@@ -1,10 +1,11 @@
-import { World, PhysicsScene } from '../mod.ts';
+import { World, PhysicsScene, PhysicsRectangle } from '../mod.ts';
 
 
 class Game extends PhysicsScene {
-
+    public test: any;
     public setup() {
-        
+        this.test = new PhysicsRectangle(this, 400, 200, 100, 100, "#00ff00");
+        this.addChild(this.test);
     }
     public draw() {
         

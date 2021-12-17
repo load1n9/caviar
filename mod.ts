@@ -3,6 +3,7 @@ export { World } from "./src/World.ts";
 export { Renderer } from "./src/Renderer.ts";
 export { Scene, PhysicsScene } from "./src/scenes/mod.ts";
 export {
+  Entity,
   Animation,
   Arne16,
   Atlas,
@@ -12,7 +13,7 @@ export {
   Button,
   C64,
   CGA,
-  Entity,
+  PhysicsRectangle, 
   Group,
   Image,
   JMP,
@@ -26,7 +27,6 @@ export {
   Sprite,
   Text,
   TextureSprite,
-  // PhysicsEntity,
 } from "./src/entities/mod.ts";
 export { GravityForce, NormalForce } from "./src/physics/mod.ts";
 export { Vector, TransformMatrix } from "./src/math/mod.ts";
