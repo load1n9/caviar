@@ -4,6 +4,9 @@ import type { RGBA } from "../../types.ts";
 import { hexToRGBA } from '../../utils/mod.ts';
 
 
+interface Config {
+    isStatic: boolean
+}
 export class PhysicsRectangle extends Entity {
     public width: number;
     public height: number;
@@ -15,7 +18,7 @@ export class PhysicsRectangle extends Entity {
     public fill: RGBA;
     public body: any;
 
-    constructor(_scene: PhysicsScene, x: number, y: number, width: number, height: number, fill: string | RGBA) {
+    constructor(_scene: PhysicsScene, x: number, y: number, width: number, height: number, fill: string | RGBA,  config: Config = { isStatic: false }) {
         super(x,y);
         this.width = width;
         this.height = height;
@@ -25,7 +28,7 @@ export class PhysicsRectangle extends Entity {
         this.down = y + height;
         this.bottom = y + height;
         this.fill = typeof fill === 'string' ? hexToRGBA(fill) : fill;
-        this.body = Matter.Bodies.rectangle(x, y, width, height);
+        this.body = Matter.Bodies.rectangle(x, y, width, height, config);
     }
 
     public setFill(c: RGBA | string): void {
