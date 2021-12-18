@@ -157,8 +157,8 @@ export class Renderer {
   }
   public renderPhysics(entity: Entity): void {
     if (entity instanceof PhysicsRectangle) {
-      entity.x = entity.body.position.x;
-      entity.y = entity.body.position.y;
+      entity.x = Math.round(entity.body.position.x);
+      entity.y = Math.round(entity.body.position.y);
       this.world.setDrawColor(
         entity.fill[0],
         entity.fill[1],
