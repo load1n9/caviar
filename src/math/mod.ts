@@ -7,4 +7,5 @@ export { Clamp } from "./Clamp.ts";
 export { FuzzyEqual } from "./FuzzyEqual.ts";
 export { MATH_CONST } from "./const.ts";
 export { Vector } from "./vector/mod.ts";
+export type { IVectorLike } from "./vector/mod.ts";
 export { TransformMatrix } from "./matrices/mod.ts";

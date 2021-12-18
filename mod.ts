@@ -28,8 +28,8 @@ export {
   Text,
   TextureSprite,
 } from "./src/entities/mod.ts";
-export { GravityForce, NormalForce } from "./src/physics/mod.ts";
 export { Vector, TransformMatrix } from "./src/math/mod.ts";
+export type { IVectorLike } from "./src/math/mod.ts";
 export { Keys } from "./src/utils/Keycodes.ts";
 export type {
   Frame,
