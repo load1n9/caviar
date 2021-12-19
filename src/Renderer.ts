@@ -158,12 +158,7 @@ export class Renderer {
       entity.update();
       for (const particle of entity.particles) {
         this.world.setDrawColor(255, 255, 255, 255);
-        this.world.fillRect(
-          Math.round(particle.x),
-          Math.round(particle.y),
-          particle.settings.particleSize,
-          particle.settings.particleSize,
-        );
+        this.render(new Circle(Math.round(particle.x), Math.round(particle.y), particle.settings.particleSize, particle.settings.fill))
       }
     }
   }
