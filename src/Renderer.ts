@@ -7,6 +7,7 @@ import {
   Group,
   Image,
   Line,
+  Circle,
   ParticleSystem,
   PhysicsRectangle,
   Rectangle,
@@ -29,6 +30,16 @@ export class Renderer {
         entity.fill[3],
       );
       this.world.fillRect(entity.x, entity.y, entity.width, entity.height);
+    } else if (entity instanceof Circle) {
+      this.world.setDrawColor(
+        entity.fill[0],
+        entity.fill[1],
+        entity.fill[2],
+        entity.fill[3],
+      );
+      for (const point of entity.points) {
+        this.world.drawPoint(point.x, point.y);
+      }
     } else if (entity instanceof Line) {
       this.world.drawLine(entity.p1, entity.p2);
     } else if (entity instanceof Image) {
@@ -157,8 +168,8 @@ export class Renderer {
   }
   public renderPhysics(entity: Entity): void {
     if (entity instanceof PhysicsRectangle) {
-      entity.x = Math.round(entity.body.position.x);
-      entity.y = Math.round(entity.body.position.y);
+      entity.x = Math.round(entity.body.position.x-(entity.width/2));
+      entity.y = Math.round(entity.body.position.y-(entity.height/2));
       this.world.setDrawColor(
         entity.fill[0],
         entity.fill[1],

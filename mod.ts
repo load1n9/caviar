@@ -1,9 +1,8 @@
 export { Plugin } from "./src/Plugin.ts";
 export { World } from "./src/World.ts";
 export { Renderer } from "./src/Renderer.ts";
-export { Scene, PhysicsScene } from "./src/scenes/mod.ts";
+export { PhysicsScene, Scene } from "./src/scenes/mod.ts";
 export {
-  Entity,
   Animation,
   Arne16,
   Atlas,
@@ -13,7 +12,8 @@ export {
   Button,
   C64,
   CGA,
-  PhysicsRectangle, 
+  Circle,
+  Entity,
   Group,
   Image,
   JMP,
@@ -21,6 +21,7 @@ export {
   MSX,
   Particle,
   ParticleSystem,
+  PhysicsRectangle,
   PICO8,
   Point,
   Rectangle,
@@ -28,7 +29,7 @@ export {
   Text,
   TextureSprite,
 } from "./src/entities/mod.ts";
-export { Vector, TransformMatrix } from "./src/math/mod.ts";
+export { TransformMatrix, Vector } from "./src/math/mod.ts";
 export type { IVectorLike } from "./src/math/mod.ts";
 export { Keys } from "./src/utils/Keycodes.ts";
 export type {
