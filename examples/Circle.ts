@@ -8,7 +8,6 @@ class Game extends Scene {
         this.addChild(this.test);
     }
     public draw() {
-        this.test.setX(this.test.x + 5);
     }
 
 }
