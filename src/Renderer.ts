@@ -31,6 +31,7 @@ export class Renderer {
       );
       this.world.fillRect(entity.x, entity.y, entity.width, entity.height);
     } else if (entity instanceof Circle) {
+      entity.update();
       this.world.setDrawColor(
         entity.fill[0],
         entity.fill[1],

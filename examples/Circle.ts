@@ -2,7 +2,7 @@ import { World, Scene, Circle } from '../mod.ts';
 
 
 class Game extends Scene {
-    public test = new Circle(100, 100, 200, "#00ff00");
+    public test = new Circle(300, 300, 40, "#00ff00");
     
     public setup() {
         this.addChild(this.test);
