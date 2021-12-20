@@ -32,14 +32,14 @@ export class Renderer {
       );
       this.world.fillRect(entity.x, entity.y, entity.width, entity.height);
     } else if (entity instanceof Polygon) {
-      this.world.setDrawColor(
-        entity.fill[0],
-        entity.fill[1],
-        entity.fill[2],
-        entity.fill[3],
-      );
       for (const line of entity.lines) {
-        this.render(line);
+        this.world.setDrawColor(
+          entity.fill[0],
+          entity.fill[1],
+          entity.fill[2],
+          entity.fill[3],
+        );
+        this.world.drawLine({x: line.p1.x, y: line.p1.y}, {x: line.p2.x, y: line.p2.y})
       }
     } else if (entity instanceof Circle) {
       entity.update();

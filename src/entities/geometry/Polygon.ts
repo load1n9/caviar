@@ -16,11 +16,11 @@ export class Polygon extends Entity {
   public createOutline() {
     for (const point of this.points) {
       const i = this.points.indexOf(point);
-      this.lines.push(
-        i < this.points.length - 1
-          ? new Line(point, this.points[i - 1])
-          : new Line(point, this.points[0]),
-      );
+        this.lines.push(
+          i < this.points.length - 1
+            ? new Line(point, this.points[i + 1])
+            : new Line(point, this.points[0]),
+        );
     }
   }
 }

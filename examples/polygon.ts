@@ -2,11 +2,15 @@ import { World, Scene, Polygon, Point } from '../mod.ts';
 
 
 class Game extends Scene {
-    public test = new Polygon(300, 300, [
+    public test = new Polygon(100, 100, [
         new Point(40, 50),
+        new Point(60, 30),
+        new Point(80, 50),
+        new Point(100, 70),
         new Point(80, 90),
-        new Point(80, 130),
-        new Point(120, 130)
+        new Point(60, 110),
+        new Point(40, 90),
+        new Point(20, 70)
     ], "#00ff00");
     
     public setup() {
