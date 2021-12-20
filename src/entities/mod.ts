@@ -1,5 +1,5 @@
 export { Entity } from "./Entity.ts";
-export { Line, Point, Rectangle, Circle } from "./geometry/mod.ts";
+export { Line, Point, Rectangle, Circle, Polygon } from "./geometry/mod.ts";
 export { Animation, Atlas, AtlasSprite, Image, Sprite } from "./sprites/mod.ts";
 export { Text } from "./text/mod.ts";
 export { Audio } from "./audio/mod.ts";

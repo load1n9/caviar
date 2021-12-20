@@ -24,6 +24,7 @@ export {
   PhysicsRectangle,
   PICO8,
   Point,
+  Polygon,
   Rectangle,
   Sprite,
   Text,

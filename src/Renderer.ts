@@ -12,6 +12,7 @@ import {
   PhysicsRectangle,
   Rectangle,
   Sprite,
+  Polygon,
   Text,
   TextureSprite,
   World,
@@ -30,6 +31,16 @@ export class Renderer {
         entity.fill[3],
       );
       this.world.fillRect(entity.x, entity.y, entity.width, entity.height);
+    } else if (entity instanceof Polygon) {
+      this.world.setDrawColor(
+        entity.fill[0],
+        entity.fill[1],
+        entity.fill[2],
+        entity.fill[3],
+      );
+      for (const line of entity.lines) {
+        this.render(line);
+      }
     } else if (entity instanceof Circle) {
       entity.update();
       this.world.setDrawColor(
@@ -42,7 +53,7 @@ export class Renderer {
         this.world.drawPoint(point.x, point.y);
       }
     } else if (entity instanceof Line) {
-      this.world.drawLine(entity.p1, entity.p2);
+      this.world.drawLine({x: entity.p1.x, y: entity.p1.y}, {x: entity.p2.x, y: entity.p2.y});
     } else if (entity instanceof Image) {
       this.world.copy(
         entity.texture,
