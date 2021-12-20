@@ -6,16 +6,12 @@ export class Circle extends Entity {
   public fill: RGBA;
   public radius: number;
   public points: Array<Point> = [];
-  public prevX = Infinity;
-  public prevY = Infinity;
+  public prevX: number;
+  public prevY: number;
   constructor(x: number, y: number, radius: number, fill: RGBA | string) {
     super(x, y);
     this.fill = typeof fill === 'string' ? hexToRGBA(fill) : fill;
     this.radius = radius;
-  }
-  public update() {
-    if (this.prevX === this.x && this.prevY === this.y) return;
-    this.points = [];
     for (let w = 0; w < this.radius * 2; w++) {
       for (let h = 0; h < this.radius * 2; h++) {
         const dx = this.radius - w;
@@ -25,6 +21,15 @@ export class Circle extends Entity {
         }
       }
     }
+    this.prevX = this.x;
+    this.prevY = this.y;
+  }
+  public update() {
+    if (this.prevX === this.x && this.prevY === this.y) return;
+    this.points.forEach((p: Point) => {
+      p.setX(p.x + (this.x - this.prevX))
+      p.setY(p.y + (this.y - this.prevY))
+    })
     this.prevX = this.x;
     this.prevY = this.y;
   }
