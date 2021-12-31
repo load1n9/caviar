@@ -1,3 +1,3 @@
-export { Canvas } from "./sdl2/mod.ts";
-export type { Rectangle } from "./sdl2/mod.ts";
+export { Canvas } from "./sdl/mod.ts";
+export type { Rectangle } from "./sdl/mod.ts";
 export {default as Matter} from 'https://cdn.skypack.dev/matter-js';
