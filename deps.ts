@@ -1,3 +1,3 @@
-export { Canvas } from "https://deno.land/x/sdl2/src/canvas.ts";
-export type { Rectangle } from "https://deno.land/x/sdl2/src/canvas.ts";
+export { Canvas } from "./sdl2/mod.ts";
+export type { Rectangle } from "./sdl2/mod.ts";
 export {default as Matter} from 'https://cdn.skypack.dev/matter-js';
