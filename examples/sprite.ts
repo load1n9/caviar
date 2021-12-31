@@ -1,4 +1,4 @@
-import { World, Scene, Sprite } from '../mod.ts';
+import { World, Scene, Sprite } from 'https://deno.land/x/caviar@1.1.5/mod.ts';
 
 
 class Game extends Scene {
