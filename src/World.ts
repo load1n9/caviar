@@ -1,16 +1,19 @@
-import { Canvas } from "../deps.ts";
-import { Scene, Renderer, PhysicsScene, Plugin } from "../mod.ts"
-import type { KeyEvent, MouseDownEvent, MouseMotionEvent, WorldOptions } from "./types.ts";
+import { Plugin, Renderer, Scene } from "../mod.ts";
+import type {
+  KeyEvent,
+  MouseDownEvent,
+  MouseMotionEvent,
+  WorldOptions,
+} from "./types.ts";
 
-export class World extends Canvas {
+export class World {
   public FPS = 500;
   public params: WorldOptions;
-  public scenes: Array<typeof Scene | typeof PhysicsScene>;
+  public scenes: Array<typeof Scene>;
   public currentScene: Scene;
   public renderer: Renderer;
   public plugins: any = {};
-  constructor(params: WorldOptions, scenes: Array<typeof Scene | typeof PhysicsScene>) {
-    super(params);
+  constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     this.params = params;
     this.scenes = scenes;
     this.currentScene = new this.scenes[0](this);
@@ -19,44 +22,23 @@ export class World extends Canvas {
 
   public async start() {
     this.setup();
-    for await (const event of this) {
-      switch (event.type) {
-        case "mouse_motion":
-          this._mouseMotion(event);
-        break;
-        case "mouse_button_down":
-          this._mouseDown(event);
-          break;
-        case "draw":
-          this._draw();
-          break;
-        case "quit":
-          this.quit();
-          break;
-        case "key_down":
-          this.keyDown(event);
-          break;
-        default:
-          break;
-      }
-    }
+    await this.renderer.start();
+    setInterval(this._draw, 50);
   }
-  private _draw() {
-    this._fps()();
-    this.setDrawColor(0, 0, 0, 255);
-    this.clear();
-    for (const entity of this.currentScene.entities) {
-      if (this.currentScene instanceof PhysicsScene) {
-        this.renderer.renderPhysics(entity);
-      } else {
+  public _draw() {
+    // this._fps()();
+    // this.renderer.updateEvents();
+    // this.renderer.swapBuffers();
+    // this.renderer.ctx?.clearColor(255,255,255,1);
+    if (this.currentScene.entities.length > 0) {
+      for (const entity of this.currentScene.entities) {
         this.renderer.render(entity);
       }
     }
     this.draw();
-    this.present();
+    // this.present();
     Deno.sleepSync(10);
   }
-
 
   public setFPS(fps: number): void {
     this.FPS = fps;
@@ -79,7 +61,7 @@ export class World extends Canvas {
   }
 
   public setScene(scene: number | string): void {
-    if (typeof scene === 'string') {
+    if (typeof scene === "string") {
       for (const s of this.scenes) {
         if (s.name === scene) {
           this.currentScene = new s(this);
@@ -97,15 +79,14 @@ export class World extends Canvas {
   public usePlugin(name: string): Plugin {
     return new this.plugins[name](this);
   }
-  private _mouseDown(e: MouseDownEvent) {
+  public _mouseDown(e: MouseDownEvent) {
     this.currentScene._mouseDown(e);
   }
-  private _mouseMotion(e: MouseMotionEvent) {
+  public _mouseMotion(e: MouseMotionEvent) {
     this.currentScene._mouseMotion(e);
   }
   public setup(): void {
     this.currentScene.setup();
-
   }
   public draw(): void {
     this.currentScene.tick();

@@ -1,14 +1,9 @@
 export interface WorldOptions {
-    title: string,
-    width: number,
-    height: number,
-    centered: boolean,
-    fullscreen: boolean,
-    hidden: boolean,
-    resizable: boolean,
-    minimized: boolean,
-    maximized: boolean,
-    flags: null
+  title: string;
+  width: number;
+  height: number;
+  visible?: boolean;
+  resizable?: boolean;
 }
 
 export interface WorldPhysicsOptions {

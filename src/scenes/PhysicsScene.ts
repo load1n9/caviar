@@ -1,4 +1,4 @@
-import { PhysicsRectangle, Entity, World, Scene } from "../../mod.ts";
+import { Entity, World, Scene } from "../../mod.ts";
 import { Matter } from "../../deps.ts";
 
 

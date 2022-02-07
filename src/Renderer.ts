@@ -1,189 +1,89 @@
+import { Canvas, WebGL2RenderingContext } from "../deps.ts";
+
 import {
-  Animation,
-  AtlasSprite,
-  Audio,
-  Button,
+  // Animation,
+  // AtlasSprite,
+  // Audio,
+  // Button,
   Entity,
-  Group,
-  Image,
-  Line,
-  Circle,
-  ParticleSystem,
-  PhysicsRectangle,
+  // Group,
+  // Image,
+  // Line,
+  // Circle,
+  // ParticleSystem,
+  // PhysicsRectangle,
   Rectangle,
-  Sprite,
-  Polygon,
-  Text,
-  TextureSprite,
+  // Sprite,
+  // Polygon,
+  // Text,
+  // TextureSprite,
   World,
 } from "../mod.ts";
-import { hexToRGBA } from "./utils/mod.ts";
 
-export class Renderer {
-  constructor(public world: World) {}
+// import { hexToRGBA } from "./utils/mod.ts";
 
+export class Renderer extends Canvas {
+  public ctx:  WebGL2RenderingContext | null;
+  constructor(public world: World)  {
+    super(world.params);
+    this.ctx = this.getContext('webgl');
+
+  }
+
+  // deno-lint-ignore require-await
+  async start() {
+    // for await (const event of this) {
+    //   switch (event.type) {
+    //     case "mouse_motion":
+    //       this.world._mouseMotion(event);
+    //     break;
+    //     case "mouse_button_down":
+    //       this.world._mouseDown(event);
+    //       break;
+    //     case "draw":
+    //       this.world._draw();
+    //       break;
+    //     case "quit":
+    //       this.quit();
+    //       break;
+    //     case "key_down":
+    //       this.world.keyDown(event);
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
+  }
+  public update() {
+    this.updateEvents();
+    this.swapBuffers();
+    this.ctx?.clearColor(255,255,255,1);
+    if (this.shouldClose()) {
+      Deno.exit(0);
+    }
+  } 
   public render(entity: Entity) {
     if (entity instanceof Rectangle) {
-      this.world.setDrawColor(
-        entity.fill[0],
-        entity.fill[1],
-        entity.fill[2],
-        entity.fill[3],
-      );
-      this.world.fillRect(entity.x, entity.y, entity.width, entity.height);
-    } else if (entity instanceof Polygon) {
-      for (const line of entity.lines) {
-        this.world.setDrawColor(
-          entity.fill[0],
-          entity.fill[1],
-          entity.fill[2],
-          entity.fill[3],
-        );
-        this.world.drawLine({x: line.p1.x, y: line.p1.y}, {x: line.p2.x, y: line.p2.y})
-      }
-    } else if (entity instanceof Circle) {
-      entity.update();
-      this.world.setDrawColor(
-        entity.fill[0],
-        entity.fill[1],
-        entity.fill[2],
-        entity.fill[3],
-      );
-      for (const point of entity.points) {
-        this.world.drawPoint(point.x, point.y);
-      }
-    } else if (entity instanceof Line) {
-      this.world.drawLine({x: entity.p1.x, y: entity.p1.y}, {x: entity.p2.x, y: entity.p2.y});
-    } else if (entity instanceof Image) {
-      this.world.copy(
-        entity.texture,
-        {
-          x: 0,
-          y: 0,
-          width: entity.width,
-          height: entity.height,
-        },
-        {
-          x: entity.x,
-          y: entity.y,
-          width: entity.width,
-          height: entity.height,
-        },
-      );
-    } else if (entity instanceof Sprite) {
-      this.world.copy(
-        entity.texture,
-        {
-          x: Math.round(entity.frame.x),
-          y: Math.round(entity.frame.y),
-          width: Math.round(entity.frame.width),
-          height: Math.round(entity.frame.height),
-        },
-        {
-          x: Math.round(entity.x),
-          y: Math.round(entity.y),
-          width: Math.round(entity.frame.width),
-          height: Math.round(entity.frame.height),
-        },
-      );
-    } else if (entity instanceof Text) {
-      entity.render(this.world);
-      this.world.copy(
-        entity.texture,
-        {
-          x: 0,
-          y: 0,
-          width: entity.width,
-          height: entity.height,
-        },
-        {
-          x: entity.x,
-          y: entity.y,
-          width: entity.width,
-          height: entity.height,
-        },
-      );
-    } else if (entity instanceof AtlasSprite) {
-      this.world.copy(
-        entity.texture,
-        {
-          x: Math.round(entity.frame.x),
-          y: Math.round(entity.frame.y),
-          width: Math.round(entity.frame.width),
-          height: Math.round(entity.frame.height),
-        },
-        {
-          x: Math.round(entity.x),
-          y: Math.round(entity.y),
-          width: Math.round(entity.frame.width),
-          height: Math.round(entity.frame.height),
-        },
-      );
-    } else if (entity instanceof Animation) {
-      this.render(
-        new AtlasSprite(
-          this.world.currentScene,
-          entity.x,
-          entity.y,
-          entity.atlas,
-          entity.frames[entity.currentFrame],
-        ),
-      );
-      entity.currentFrame = (entity.currentFrame + 1) % entity.frames.length;
-    } else if (entity instanceof TextureSprite) {
-      for (let y = 0; y < entity.data.length; y++) {
-        const row = entity.data[y];
-        for (let x = 0; x < row.length; x++) {
-          const d: string = row[x];
-          if (d !== "." && d !== " ") {
-            const pixelColor = hexToRGBA(
-              entity.palette[parseInt("0x" + d.toUpperCase())],
-            );
-            this.world.setDrawColor(
-              pixelColor[0],
-              pixelColor[1],
-              pixelColor[2],
-              pixelColor[3],
-            );
-            this.world.fillRect(
-              (x * entity.pixelWidth) + entity.x,
-              (y * entity.pixelHeight) + entity.y,
-              entity.pixelWidth,
-              entity.pixelHeight,
-            );
-          }
-        }
-      }
-    } else if (entity instanceof Group) {
-      for (const child of entity.children) {
-        this.render(child);
-      }
-    } else if (entity instanceof Button) {
-      this.render(entity.child);
-    } else if (entity instanceof Audio) {
-      if (!entity.playing) {
-        this.world.playMusic(entity.src);
-        entity.playing = true;
-      }
-    } else if (entity instanceof ParticleSystem) {
-      entity.update();
-      for (const particle of entity.particles) {
-        this.world.setDrawColor(255, 255, 255, 255);
-        this.render(new Circle(Math.round(particle.x), Math.round(particle.y), particle.settings.particleSize, particle.settings.fill))
-      }
+      // this.setDrawColor(
+      //   entity.fill[0],
+      //   entity.fill[1],
+      //   entity.fill[2],
+      //   entity.fill[3],
+      // );
+      // this.fillRect(entity.x, entity.y, entity.width, entity.height);
     }
   }
-  public renderPhysics(entity: Entity): void {
-    if (entity instanceof PhysicsRectangle) {
-      entity.x = Math.round(entity.body.position.x-(entity.width/2));
-      entity.y = Math.round(entity.body.position.y-(entity.height/2));
-      this.world.setDrawColor(
-        entity.fill[0],
-        entity.fill[1],
-        entity.fill[2],
-        entity.fill[3],
-      );
-      this.world.fillRect(entity.x, entity.y, entity.width, entity.height);
-    }
-  }
+  // public renderPhysics(entity: Entity): void {
+  //   if (entity instanceof PhysicsRectangle) {
+  //     entity.x = Math.round(entity.body.position.x-(entity.width/2));
+  //     entity.y = Math.round(entity.body.position.y-(entity.height/2));
+  //     this.setDrawColor(
+  //       entity.fill[0],
+  //       entity.fill[1],
+  //       entity.fill[2],
+  //       entity.fill[3],
+  //     );
+  //     this.fillRect(entity.x, entity.y, entity.width, entity.height);
+  //   }
+  // }
 }
