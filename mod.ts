@@ -4,31 +4,31 @@ export type { Renderer } from "./src/renderers/types.ts";
 export { Scene } from "./src/scenes/mod.ts";
 export {
   // Animation,
-  // Arne16,
+  Arne16,
   // Atlas,
   // AtlasSprite,
   // Audio,
   // BasicParticle,
   // Button,
-  // C64,
-  // CGA,
+  C64,
+  CGA,
   // Circle,
   Entity,
-  // Group,
+  Group,
   // Image,
-  // JMP,
+  JMP,
   // Line,
-  // MSX,
+  MSX,
   // Particle,
   // ParticleSystem,
   // PhysicsRectangle,
-  // PICO8,
+  PICO8,
   // Point,
   // Polygon,
   Rectangle,
   // Sprite,
   // Text,
-  // TextureSprite,
+  TextureSprite,
 } from "./src/entities/mod.ts";
 export { TransformMatrix, Vector } from "./src/math/mod.ts";
 export type { IVectorLike } from "./src/math/mod.ts";
@@ -44,3 +44,5 @@ export type {
   WorldOptions,
   WorldPhysicsOptions,
 } from "./src/types.ts";
+
+export { hexToRGBA } from "./src/utils/mod.ts";

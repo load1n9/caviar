@@ -14,8 +14,8 @@ class Game extends Scene {
         this.test = this.world.usePlugin('perlin');
         this.test.setSeed(0);
 
-        for (let x = 0; x < this.chunkSize; x++) {
-            for (let y = 0; y < this.chunkSize; y++) {
+        for (let x = -20; x < this.chunkSize; x++) {
+            for (let y = -20; y < this.chunkSize; y++) {
                 const tileX = (1 * (this.chunkSize * this.tileSize)) + (x * this.tileSize);
                 const tileY = (1 * (this.chunkSize * this.tileSize)) + (y * this.tileSize);
                 const perlinValue = this.test.perlin2(tileX / 100, tileY / 100);
@@ -32,7 +32,7 @@ class Game extends Scene {
         }
         this.addChild(this.group);
     }
-    public draw() {
+    public update() {
         
     }
 }
@@ -41,13 +41,15 @@ const test = new World({
     title: "test",
     width: 800,
     height: 600,
-    centered: true,
-    fullscreen: false,
-    hidden: false,
+    // centered: true,
+    // fullscreen: false,
+    // hidden: false,
     resizable: true,
-    minimized: false,
-    maximized: false,
-    flags: null,
+    // minimized: false,
+    // maximized: false,
+    // flags: null,
 }, [Game]);
+
+await test.start();
 
 await test.start();

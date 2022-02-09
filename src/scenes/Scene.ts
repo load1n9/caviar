@@ -40,6 +40,6 @@ export class Scene {
     public mouseDown(_e: MouseDownEvent): void {}
     public mouseMotion(_e: MouseMotionEvent): void {}
     public setup(): void {}
-    public draw(): void {}
+    public update(): void {}
     public keyDown(_e: KeyEvent): void {}
 }

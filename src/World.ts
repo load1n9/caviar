@@ -15,6 +15,7 @@ export class World extends Canvas {
   public scenes: Array<typeof Scene>;
   public currentScene: Scene;
   public renderer: Renderer;
+  // deno-lint-ignore no-explicit-any
   public plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     super(params)
@@ -24,6 +25,7 @@ export class World extends Canvas {
     this.renderer = new WebGLRenderer2D(this);
   }
 
+  // deno-lint-ignore require-await
   public async start() {
     this.setup();
     this.renderer.start(this.currentScene.entities)
@@ -74,6 +76,7 @@ export class World extends Canvas {
     }
     this.setup();
   }
+  // deno-lint-ignore no-explicit-any
   public loadPlugin(name: string, plugin: any): void {
     this.plugins[name] = plugin;
   }
@@ -91,6 +94,6 @@ export class World extends Canvas {
   }
   public updateProgramLifeCycle(): void {
     this.currentScene.tick();
-    this.currentScene.draw();
+    this.currentScene.update();
   }
 }

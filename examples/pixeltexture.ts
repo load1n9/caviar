@@ -1,8 +1,7 @@
-import { Keys, PICO8, TextureSprite, Scene, World } from "../mod.ts";
-import type { KeyEvent } from "../mod.ts";
+import { PICO8, TextureSprite, Scene, World } from "../mod.ts";
 
 class Game extends Scene {
-  public test = new TextureSprite(this, 10, 10, {
+  public test = new TextureSprite(this, 0, 0, {
     data: [
       "..9..9..",
       "..9999..",
@@ -21,28 +20,8 @@ class Game extends Scene {
   public setup() {
     this.addChild(this.test);
   }
-  public draw() {
-    
-  }
-  public keyDown(key: KeyEvent) {
-    switch (key.keycode) {
-      case Keys.ARROWUP: {
-        this.test.setY(this.test.y - 10);
-        break;
-      }
-      case Keys.ARROWDOWN: {
-        this.test.setY(this.test.y + 10);
-        break;
-      }
-      case Keys.ARROWLEFT: {
-        this.test.setX(this.test.x - 10);
-        break;
-      }
-      case Keys.ARROWRIGHT: {
-        this.test.setX(this.test.x + 10);
-        break;
-      }
-    }
+  public update() {
+    this.test.setX(this.test.x + 5);
   }
 }
 
@@ -50,13 +29,7 @@ const test = new World({
   title: "test",
   width: 800,
   height: 600,
-  centered: true,
-  fullscreen: false,
-  hidden: false,
   resizable: true,
-  minimized: false,
-  maximized: false,
-  flags: null,
 }, [Game]);
 
 await test.start();

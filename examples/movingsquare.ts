@@ -3,12 +3,15 @@ import { World, Scene, Rectangle } from '../mod.ts';
 
 class Game extends Scene {
     public test = new Rectangle(0, 0, 100, 100, "#00ff00");
+    public test2 = new Rectangle(0, 0, 100, 100, "#00ff00");
     
     public setup() {
         this.addChild(this.test);
+        this.addChild(this.test2);
     }
-    public draw() {
+    public update() {
         this.test.setX(this.test.x + 5);
+        this.test2.setX(this.test2.x + 2);
     }
 
 }
