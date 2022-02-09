@@ -4,12 +4,12 @@ export const vertex2d = `
 attribute vec4 aVertexPosition;
 attribute vec4 aVertexColor;
 
-uniform mat4 uTransformMatrix;
+uniform vec4 uTransformMatrix;
 
 varying lowp vec4 vColor;
 
 void main(void) {
-  gl_Position = aVertexPosition * uTransformMatrix;
+  gl_Position = aVertexPosition + uTransformMatrix;
   vColor = aVertexColor;
 }
 `

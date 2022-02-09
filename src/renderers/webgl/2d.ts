@@ -75,11 +75,11 @@ export class WebGLRenderer2D {
         const color = this.colors.get(rect.fill.toString())!
         setBuffer(this.gl, position, this.location.position, 2)
         setBuffer(this.gl, color, this.location.color, 4)
-        const transform = Matrix4.identity()
-        this.gl.uniformMatrix4fv(
+        const x = rect.x / this.canvas.width
+        const y = rect.y / this.canvas.width
+        this.gl.uniform4fv(
             this.location.transform,
-            false,
-            transform.toFloat32Array()
+            new Float32Array([x, y, 0, 0])
         );
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
     }
