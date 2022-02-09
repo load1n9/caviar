@@ -611,7 +611,7 @@ export const lib = Deno.dlopen(
 );
 
 export function initGL() {
-  console.log(lib)
+  // console.log(lib)
   init((name) =>
     lib.symbols.glfwGetProcAddress(cstr(name)) as Deno.UnsafePointer
   );

@@ -1,6 +1,7 @@
 import { Entity } from "../../mod.ts";
 
 export interface Renderer {
+    start(entities: Entity[]): void
     render(entities: Entity[]): void
 }
 

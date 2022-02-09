@@ -1,18 +1,33 @@
-import { initShaderProgram, programInfo2d, ProgramInfo2d } from "./shader.ts";
-import { WebGL2RenderingContext, WebGLProgram } from "../../../deno_gl/mod.ts";
+import { programInfo2d, ProgramInfo2d } from "./shader.ts";
+import { Canvas, WebGL2RenderingContext, WebGLBuffer, WebGLProgram } from "../../../deno_gl/mod.ts";
 import { fragment2d, vertex2d } from "./shader.ts";
-import { Entity, Rectangle } from "../../../mod.ts";
-import { createBuffer, setBuffer } from "./util.ts";
+import { Entity, Rectangle, RGBA } from "../../../mod.ts";
+import { initShaderProgram, createBuffer, setBuffer } from "./util.ts";
+import { Matrix4 } from "../../../deps.ts";
 
 export class WebGLRenderer2D {
     private program: WebGLProgram
     private gl: WebGL2RenderingContext
     private location: ProgramInfo2d
+    private buffers: Map<string, WebGLBuffer>
+    private colors: Map<string, WebGLBuffer>
 
-    constructor(gl: WebGL2RenderingContext,) {
+    constructor(private canvas: Canvas) {
+        const gl = canvas.getContext("webgl")
+        if (!gl) throw new Error(`Could not request device!`)
         this.gl = gl
+        this.buffers = new Map()
+        this.colors = new Map()
         this.program = initShaderProgram(gl, vertex2d, fragment2d)
         this.location = programInfo2d(gl, this.program)
+    }
+
+    public start(entities: Entity[]) {
+        for (const entity of entities) {
+            if (entity instanceof Rectangle) {
+                this.setupRectangle(entity)
+            }
+        }
     }
 
     public render(entities: Entity[]) {
@@ -26,17 +41,46 @@ export class WebGLRenderer2D {
                 this.renderRectangle(entity)
             }
         }
-
     }
 
-    private renderRectangle(rect: Rectangle) {
-        createBuffer(this.gl, [
+    private setupColor(color: RGBA, vertices: number) {
+        if (this.buffers.has(color.toString())) return
+        const data = []
+        for (let i = 0; i < vertices; i++) {
+            data.push(...color.map(c => c / 255))
+        }
+        const buffer = createBuffer(this.gl, data)
+        this.colors.set(color.toString(), buffer)
+    }
+
+    private setupRectangle(rect: Rectangle) {
+        const data = [
             rect.left, rect.up,    // top left corner
             rect.right, rect.up,   // top right corner
             rect.left, rect.down,  // bottom left corner
             rect.right, rect.down, // bottom right corner
-        ])
-        setBuffer(this.gl, this.location.position, 2, this.gl.FLOAT)
+        ]
+        //TODO: use gmath
+        for (let i = 0; i < data.length; i += 2) {
+            data[i] = data[i] / this.canvas.width
+            data[i + 1] = data[i + 1] / this.canvas.height
+        }
+        const buffer = createBuffer(this.gl, data)
+        this.buffers.set(rect.id, buffer)
+        this.setupColor(rect.fill, 4)
+    }
+
+    private renderRectangle(rect: Rectangle) {
+        const position = this.buffers.get(rect.id)!
+        const color = this.colors.get(rect.fill.toString())!
+        setBuffer(this.gl, position, this.location.position, 2)
+        setBuffer(this.gl, color, this.location.color, 4)
+        const transform = Matrix4.identity()
+        this.gl.uniformMatrix4fv(
+            this.location.transform,
+            false,
+            transform.toFloat32Array()
+        );
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
     }
 }

@@ -1,4 +1,5 @@
 export abstract class Entity {
+    public id: string;
     public x: number;
     public y: number;
     public z: number | undefined;
@@ -6,6 +7,7 @@ export abstract class Entity {
     public height = 0;
 
     constructor(x: number, y: number) {
+        this.id = crypto.randomUUID();
         this.x = x;
         this.y = y;
     }

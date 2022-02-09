@@ -1,4 +1,7 @@
+import { requestAnimationFrame } from "../deno_gl/mod.ts";
+import { Canvas } from "../deps.ts";
 import { Plugin, Renderer, Scene } from "../mod.ts";
+import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
 import type {
   KeyEvent,
   MouseDownEvent,
@@ -6,7 +9,7 @@ import type {
   WorldOptions,
 } from "./types.ts";
 
-export class World {
+export class World extends Canvas {
   public FPS = 500;
   public params: WorldOptions;
   public scenes: Array<typeof Scene>;
@@ -14,30 +17,28 @@ export class World {
   public renderer: Renderer;
   public plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
+    super(params)
     this.params = params;
     this.scenes = scenes;
     this.currentScene = new this.scenes[0](this);
-    this.renderer = new Renderer(this);
+    this.renderer = new WebGLRenderer2D(this);
   }
 
   public async start() {
     this.setup();
-    await this.renderer.start();
-    setInterval(this._draw, 50);
+    this.renderer.start(this.currentScene.entities)
+    requestAnimationFrame(this._draw.bind(this));
   }
   public _draw() {
     // this._fps()();
     // this.renderer.updateEvents();
     // this.renderer.swapBuffers();
-    // this.renderer.ctx?.clearColor(255,255,255,1);
-    if (this.currentScene.entities.length > 0) {
-      for (const entity of this.currentScene.entities) {
-        this.renderer.render(entity);
-      }
-    }
-    this.draw();
-    // this.present();
-    Deno.sleepSync(10);
+    if (this.shouldClose()) return;
+    this.updateEvents()
+    this.swapBuffers();
+    this.updateProgramLifeCycle();
+    this.renderer.render(this.currentScene.entities);
+    requestAnimationFrame(this._draw.bind(this));
   }
 
   public setFPS(fps: number): void {
@@ -88,7 +89,7 @@ export class World {
   public setup(): void {
     this.currentScene.setup();
   }
-  public draw(): void {
+  public updateProgramLifeCycle(): void {
     this.currentScene.tick();
     this.currentScene.draw();
   }
