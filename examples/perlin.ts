@@ -14,8 +14,8 @@ class Game extends Scene {
         this.test = this.world.usePlugin('perlin');
         this.test.setSeed(0);
 
-        for (let x = -20; x < this.chunkSize; x++) {
-            for (let y = -20; y < this.chunkSize; y++) {
+        for (let x = -40; x < this.chunkSize; x++) {
+            for (let y = -40; y < this.chunkSize; y++) {
                 const tileX = (1 * (this.chunkSize * this.tileSize)) + (x * this.tileSize);
                 const tileY = (1 * (this.chunkSize * this.tileSize)) + (y * this.tileSize);
                 const perlinValue = this.test.perlin2(tileX / 100, tileY / 100);

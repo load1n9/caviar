@@ -1,7 +1,7 @@
 import { PICO8, TextureSprite, Scene, World } from "../mod.ts";
 
 class Game extends Scene {
-  public test = new TextureSprite(this, 0, 0, {
+  public test = new TextureSprite(this, -40, -40, {
     data: [
       "..9..9..",
       "..9999..",

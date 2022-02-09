@@ -16,22 +16,77 @@
  </p>
 <hr/>
 
-## game engine built on top of  [deno_sdl2](https://github.com/littledivy/deno_sdl2)
+## game engine built on top of  [deno_gl](https://github.com/DjDeveloperr/deno_gl)
 
 ### Usage
 
-#### image
+#### moving squares
 ```typescript
-import { World, Image, Scene } from 'https://deno.land/x/caviar/mod.ts';
+import { World, Scene, Rectangle } from 'https://deno.land/x/caviar/mod.ts';
 
 
 class Game extends Scene {
-    public test = new Image(this, "assets/caviar.png", 200, 100, 414, 197);
+    public test = new Rectangle(0, 0, 100, 100, "#00ff00");
+    public test2 = new Rectangle(0, 0, 100, 100, "#00ff00");
     
     public setup() {
         this.addChild(this.test);
+        this.addChild(this.test2);
     }
-    public draw() {
+    public update() {
+        this.test.setX(this.test.x + 5);
+        this.test2.setX(this.test2.x + 2);
+    }
+
+}
+
+const test = new World({
+    title: "test",
+    width: 800,
+    height: 600,
+    resizable: true,
+}, [Game]);
+
+await test.start();
+```
+
+#### perlin noise
+```typescript
+import { World, Scene, Group, Rectangle } from 'https://deno.land/x/caviar/mod.ts';
+import { PerlinNoise } from "https://deno.land/x/caviar/src/utils/mod.ts";
+
+class Game extends Scene {
+    public test: any;
+    public chunkSize = 16;
+    public tileSize = 16;
+    public group: Group | undefined;
+    
+    public setup() {
+        this.group = new Group(this, 0,0);
+        this.world.loadPlugin('perlin', PerlinNoise);
+
+        this.test = this.world.usePlugin('perlin');
+        this.test.setSeed(0);
+
+        for (let x = -40; x < this.chunkSize; x++) {
+            for (let y = -40; y < this.chunkSize; y++) {
+                const tileX = (1 * (this.chunkSize * this.tileSize)) + (x * this.tileSize);
+                const tileY = (1 * (this.chunkSize * this.tileSize)) + (y * this.tileSize);
+                const perlinValue = this.test.perlin2(tileX / 100, tileY / 100);
+                if (perlinValue < 0.2) {
+                    this.group.addChild(new Rectangle(tileX, tileY, this.tileSize, this.tileSize, '#ff0000'));
+                }
+                else if (perlinValue >= 0.2 && perlinValue < 0.3) {
+                    this.group.addChild(new Rectangle(tileX, tileY, this.tileSize, this.tileSize, '#00ff00'));
+                }
+                else if (perlinValue >= 0.3) {
+                    this.group.addChild(new Rectangle(tileX, tileY, this.tileSize, this.tileSize, '#0000ff'));
+                }
+            }
+        }
+        this.addChild(this.group);
+    }
+    public update() {
         
     }
 }
@@ -40,16 +95,11 @@ const test = new World({
     title: "test",
     width: 800,
     height: 600,
-    centered: true,
-    fullscreen: false,
-    hidden: false,
     resizable: true,
-    minimized: false,
-    maximized: false,
-    flags: null,
 }, [Game]);
 
 await test.start();
+
 ```
 #### pixel texture
 ```typescript
@@ -113,8 +163,6 @@ const test = new World({
   maximized: false,
   flags: null,
 }, [Game]);
-
-await test.start();
 
 await test.start();
 ```

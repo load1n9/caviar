@@ -8,11 +8,11 @@ import {
 import { fragment2d, vertex2d } from "./shader.ts";
 import {
   Entity,
+  Group,
   hexToRGBA,
   Rectangle,
   RGBA,
   TextureSprite,
-  Group
 } from "../../../mod.ts";
 import { createBuffer, initShaderProgram, setBuffer } from "./util.ts";
 import { Matrix4 } from "../../../deps.ts";
@@ -43,7 +43,10 @@ export class WebGLRenderer2D {
     if (entity instanceof Rectangle) {
       this.setupRectangle(entity);
     } else if (entity instanceof TextureSprite) {
-      this.setupTextureSprite(entity);
+      entity.gen();
+      for (const rect of entity.data) {
+        this.setupRectangle(rect);
+      }
     } else if (entity instanceof Group) {
       for (const child of entity.children) {
         this._start(child);
@@ -65,7 +68,10 @@ export class WebGLRenderer2D {
     if (entity instanceof Rectangle) {
       this.renderRectangle(entity);
     } else if (entity instanceof TextureSprite) {
-      this.renderTextureSprite(entity);
+      entity.gen();
+      for (const rect of entity.data) {
+        this.renderRectangle(rect);
+      }
     } else if (entity instanceof Group) {
       for (const child of entity.children) {
         this._render(child);
@@ -104,30 +110,6 @@ export class WebGLRenderer2D {
     this.setupColor(rect.fill, 4);
   }
 
-  private setupTextureSprite(entity: TextureSprite) {
-    for (let y = 0; y < entity.data.length; y++) {
-      const row = entity.data[y];
-      for (let x = 0; x < row.length; x++) {
-        const d: string = row[x];
-        if (d !== "." && d !== " ") {
-          this.setupRectangle(
-            new Rectangle(
-              // x position
-              (x * entity.pixelWidth) + entity.x,
-              // y position
-              (y * entity.pixelHeight) + entity.y,
-              // width
-              entity.pixelWidth,
-              // height
-              entity.pixelHeight,
-              // fill color
-              hexToRGBA(entity.palette[parseInt("0x" + d.toUpperCase())]),
-            ),
-          );
-        }
-      }
-    }
-  }
   private renderRectangle(rect: Rectangle) {
     const position = this.buffers.get(rect.id)!;
     const color = this.colors.get(rect.fill.toString())!;
@@ -140,29 +122,5 @@ export class WebGLRenderer2D {
       new Float32Array([x, y, 0, 0]),
     );
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
-  }
-  private renderTextureSprite(entity: TextureSprite) {
-    for (let y = 0; y < entity.data.length; y++) {
-      const row = entity.data[y];
-      for (let x = 0; x < row.length; x++) {
-        const d: string = row[x];
-        if (d !== "." && d !== " ") {
-          this.renderRectangle(
-            new Rectangle(
-              // x position
-              (x * entity.pixelWidth) + entity.x,
-              // y position
-              (y * entity.pixelHeight) + entity.y,
-              // width
-              entity.pixelWidth,
-              // height
-              entity.pixelHeight,
-              // fill color
-              hexToRGBA(entity.palette[parseInt("0x" + d.toUpperCase())]),
-            ),
-          );
-        }
-      }
-    }
   }
 }
