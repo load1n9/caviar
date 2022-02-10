@@ -1,4 +1,4 @@
-import { WebGL2RenderingContext, WebGLBuffer, WebGLProgram, WebGLUniformLocation } from "../../../deno_gl/mod.ts";
+import type { WebGL2RenderingContext, WebGLBuffer, WebGLProgram, WebGLShader, WebGLUniformLocation } from "../../../deno_gl/mod.ts";
 
 export function initShaderProgram(gl: WebGL2RenderingContext, vertex: string, fragment: string): WebGLProgram {
     const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vertex);
@@ -20,7 +20,7 @@ export function initShaderProgram(gl: WebGL2RenderingContext, vertex: string, fr
     throw new Error(`Unable to initialize the shader program!`);
 }
 
-function loadShader(gl: WebGL2RenderingContext, type: number, source: string) {
+function loadShader(gl: WebGL2RenderingContext, type: number, source: string): WebGLShader | null {
     const shader = gl.createShader(type);
     if (shader) {
         gl.shaderSource(shader, source);
@@ -42,7 +42,7 @@ export function createBuffer(
     data: number[],
     target: number = gl.ARRAY_BUFFER,
     usage: number = gl.STATIC_DRAW
-) {
+): WebGLBuffer {
     const buffer = gl.createBuffer();
     if (!buffer) throw new Error(`Could not create buffer!`)
     gl.bindBuffer(target, buffer);
@@ -60,7 +60,7 @@ export function setBuffer(
     normalize = false,
     stride = 0,
     offset = 0,
-) {
+): void {
     gl.bindBuffer(target, buffer);
     gl.vertexAttribPointer(
         location,

@@ -44,10 +44,10 @@ void main(void) {
 }
 `
 
-export type ProgramInfo2d = {
-    position: number,
-    color: WebGLUniformLocation,
-    transform: WebGLUniformLocation,
+export interface ProgramInfo2d {
+    position: number;
+    color: WebGLUniformLocation;
+    transform: WebGLUniformLocation;
 }
 
 export function programInfo2d(gl: WebGL2RenderingContext, program: WebGLProgram) {

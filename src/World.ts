@@ -26,12 +26,12 @@ export class World extends Canvas {
   }
 
   // deno-lint-ignore require-await
-  public async start() {
+  public async start(): Promise<void> {
     this.setup();
     this.renderer.start(this.currentScene.entities)
     requestAnimationFrame(this._draw.bind(this));
   }
-  public _draw() {
+  public _draw(): void {
     // this._fps()();
     // this.renderer.updateEvents();
     // this.renderer.swapBuffers();
@@ -46,7 +46,7 @@ export class World extends Canvas {
   public setFPS(fps: number): void {
     this.FPS = fps;
   }
-  public _fps() {
+  public _fps(): () => void {
     let start = performance.now();
     let frames = 0;
     return () => {
@@ -83,10 +83,10 @@ export class World extends Canvas {
   public usePlugin(name: string): Plugin {
     return new this.plugins[name](this);
   }
-  public _mouseDown(e: MouseDownEvent) {
+  public _mouseDown(e: MouseDownEvent): void {
     this.currentScene._mouseDown(e);
   }
-  public _mouseMotion(e: MouseMotionEvent) {
+  public _mouseMotion(e: MouseMotionEvent): void {
     this.currentScene._mouseMotion(e);
   }
   public setup(): void {

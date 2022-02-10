@@ -31,13 +31,13 @@ export class WebGLRenderer2D {
     this.location = programInfo2d(gl, this.program);
   }
 
-  public start(entities: Entity[]) {
+  public start(entities: Entity[]): void {
     this.gl.useProgram(this.program);
     for (const entity of entities) {
       this._start(entity);
     }
   }
-  private _start(entity: Entity) {
+  private _start(entity: Entity): void {
     if (entity instanceof Rectangle) {
       this.setupRectangle(entity);
     } else if (entity instanceof TextureSprite) {
@@ -51,7 +51,7 @@ export class WebGLRenderer2D {
     }
   }
 
-  public render(entities: Entity[]) {
+  public render(entities: Entity[]): void {
     this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height)
@@ -60,7 +60,7 @@ export class WebGLRenderer2D {
       this._render(entity);
     }
   }
-  private _render(entity: Entity) {
+  private _render(entity: Entity): void {
     if (entity instanceof Rectangle) {
       this.renderRectangle(entity);
     } else if (entity instanceof TextureSprite) {
@@ -74,7 +74,7 @@ export class WebGLRenderer2D {
     }
   }
 
-  private setupRectangle(rect: Rectangle) {
+  private setupRectangle(rect: Rectangle): void {
     const data = [
       0, 0,                    // top left corner
       rect.width, 0,           // top right corner
@@ -89,7 +89,7 @@ export class WebGLRenderer2D {
     this.buffers.set(rect.id, buffer);
   }
 
-  private renderRectangle(rect: Rectangle) {
+  private renderRectangle(rect: Rectangle): void {
     const position = this.buffers.get(rect.id);
     if (!position) throw new Error(`State of entity ${rect.id} not yet initialised!`)
     setBuffer(this.gl, position, this.location.position, 2);
@@ -101,7 +101,7 @@ export class WebGLRenderer2D {
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
   }
 
-  private colorNorm(rgba: RGBA) {
+  private colorNorm(rgba: RGBA): Array<number> {
     return rgba.map(c => c / 255)
   }
 }
