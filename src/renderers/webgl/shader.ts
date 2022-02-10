@@ -1,21 +1,21 @@
 import { WebGL2RenderingContext, WebGLProgram, WebGLUniformLocation } from "../../../deno_gl/mod.ts";
 
 export const vertex2d = `
-attribute vec4 aVertexPosition;
-attribute vec4 aVertexColor;
+attribute vec2 aVertexPosition;
 
-uniform vec4 uTransformMatrix;
+uniform vec4 uVertexColor;
+uniform vec2 uTransformMatrix;
 
-varying lowp vec4 vColor;
+varying vec4 vColor;
 
 void main(void) {
-  gl_Position = aVertexPosition + uTransformMatrix;
-  vColor = aVertexColor;
+  gl_Position = vec4(aVertexPosition + uTransformMatrix, 1, 1);
+  vColor = uVertexColor;
 }
 `
 
 export const fragment2d = `
-varying lowp vec4 vColor;
+varying vec4 vColor;
 
 void main(void) {
   gl_FragColor = vColor;
@@ -46,13 +46,14 @@ void main(void) {
 
 export type ProgramInfo2d = {
     position: number,
-    color: number,
+    color: WebGLUniformLocation,
     transform: WebGLUniformLocation,
 }
+
 export function programInfo2d(gl: WebGL2RenderingContext, program: WebGLProgram) {
     return {
         position: gl.getAttribLocation(program, 'aVertexPosition'),
-        color: gl.getAttribLocation(program, 'aVertexColor'),
+        color: gl.getUniformLocation(program, 'uVertexColor')!,
         transform: gl.getUniformLocation(program, 'uTransformMatrix')!,
     }
 }

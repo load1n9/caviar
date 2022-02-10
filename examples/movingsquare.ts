@@ -3,7 +3,7 @@ import { World, Scene, Rectangle } from '../mod.ts';
 
 class Game extends Scene {
     public test = new Rectangle(0, 0, 100, 100, "#00ff00");
-    public test2 = new Rectangle(0, 0, 100, 100, "#00ff00");
+    public test2 = new Rectangle(0, 0, 100, 100, "#ff0000");
     
     public setup() {
         this.addChild(this.test);
