@@ -90,7 +90,8 @@ export class WebGLRenderer2D {
   }
 
   private renderRectangle(rect: Rectangle) {
-    const position = this.buffers.get(rect.id)!;
+    const position = this.buffers.get(rect.id);
+    if (!position) throw new Error(`State of entity ${rect.id} not yet initialised!`)
     setBuffer(this.gl, position, this.location.position, 2);
     const x = rect.x / this.canvas.width * 2
     const y = rect.y / this.canvas.height * -2
