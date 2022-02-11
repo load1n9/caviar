@@ -1,4 +1,4 @@
-import type { WebGL2RenderingContext, WebGLBuffer, WebGLProgram, WebGLShader, WebGLUniformLocation } from "../../../deno_gl/mod.ts";
+import type { WebGL2RenderingContext, WebGLBuffer, WebGLProgram, WebGLShader, Image as HTMLImage } from "../../../deno_gl/mod.ts";
 
 export function initShaderProgram(gl: WebGL2RenderingContext, vertex: string, fragment: string): WebGLProgram {
     const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vertex);
@@ -61,6 +61,7 @@ export function setBuffer(
     stride = 0,
     offset = 0,
 ): void {
+    if (!buffer) throw new Error(`Could not set buffer!`)
     gl.bindBuffer(target, buffer);
     gl.vertexAttribPointer(
         location,
@@ -70,4 +71,33 @@ export function setBuffer(
         stride,
         offset);
     gl.enableVertexAttribArray(location);
+}
+
+export function loadTexture(
+    gl: WebGL2RenderingContext,
+    image: HTMLImage,
+    level = 0,
+    internalFormat = gl.RGBA,
+    border = 0,
+    srcFormat = gl.RGBA,
+    srcType = gl.UNSIGNED_BYTE,
+) {
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, image.width, image.height,
+        border, srcFormat, srcType, image.rawData);
+
+    if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+        gl.generateMipmap(gl.TEXTURE_2D);
+    } else {
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    }
+
+    return texture;
+}
+
+function isPowerOf2(value: number) {
+    return (value & (value - 1)) == 0;
 }

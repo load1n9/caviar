@@ -25,12 +25,13 @@ export class World extends Canvas {
     this.renderer = new WebGLRenderer2D(this);
   }
 
-  // deno-lint-ignore require-await
   public async start(): Promise<void> {
     this.setup();
+    await this.currentScene.loadResources()
     this.renderer.start(this.currentScene.entities)
     requestAnimationFrame(this._draw.bind(this));
   }
+
   public _draw(): void {
     // this._fps()();
     // this.renderer.updateEvents();

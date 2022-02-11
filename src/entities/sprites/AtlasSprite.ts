@@ -12,8 +12,8 @@ export class AtlasSprite  extends Entity {
         super(x, y);
         this.atlas = atlas;
         this.frame = atlas.getFrame(frame);
-        this.surface = scene.world.loadSurface(atlas.imgUrl);
-        this.texture = scene.world.createTextureFromSurface(this.surface);
+        // this.surface = scene.world.loadSurface(atlas.imgUrl);
+        // this.texture = scene.world.createTextureFromSurface(this.surface);
 
     }
 }

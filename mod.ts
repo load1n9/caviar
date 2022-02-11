@@ -15,7 +15,7 @@ export {
   // Circle,
   Entity,
   Group,
-  // Image,
+  Image,
   JMP,
   // Line,
   MSX,

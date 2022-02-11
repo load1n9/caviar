@@ -22,8 +22,8 @@ export class Sprite extends Entity {
         super(x, y);
         this.width = width;
         this.height = height;
-        this.surface = scene.world.loadSurface(texture);
-        this.texture = scene.world.createTextureFromSurface(this.surface);
+        // this.surface = scene.world.loadSurface(texture);
+        // this.texture = scene.world.createTextureFromSurface(this.surface);
         this.frames = generateFrames(this.width, this.height, rows, cols);
         this.frame = this.frames[frame];
 
