@@ -1,1 +1,0 @@
-export { PhysicsRectangle } from "./Rectangle.ts";

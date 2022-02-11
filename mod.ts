@@ -21,7 +21,6 @@ export {
   MSX,
   // Particle,
   // ParticleSystem,
-  // PhysicsRectangle,
   PICO8,
   // Point,
   // Polygon,

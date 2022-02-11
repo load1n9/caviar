@@ -28,7 +28,7 @@ export class WebGLRenderer2D {
   private gl: WebGL2RenderingContext;
   private location: ProgramInfo2d;
   private buffers: Map<string, EntityBuffers>;
-
+  private backgroundColor: Array<number> = [0.0, 0.0, 0.0, 1.0];
   constructor(private canvas: Canvas) {
     const gl = canvas.getContext("webgl");
     if (!gl) throw new Error(`Could not request device!`);
@@ -56,13 +56,21 @@ export class WebGLRenderer2D {
       for (const child of entity.children) {
         this._start(child);
       }
-    } else if (entity instanceof Image || entity instanceof AtlasSprite || entity instanceof Sprite) {
+    } else if (
+      entity instanceof Image || entity instanceof AtlasSprite ||
+      entity instanceof Sprite
+    ) {
       this.setupImage(entity);
     }
   }
 
   public render(entities: Entity[]): void {
-    this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    this.gl.clearColor(
+      this.backgroundColor[0],
+      this.backgroundColor[1],
+      this.backgroundColor[2],
+      this.backgroundColor[3],
+    );
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
@@ -82,7 +90,10 @@ export class WebGLRenderer2D {
       for (const child of entity.children) {
         this._render(child);
       }
-    } else if (entity instanceof Image || entity instanceof AtlasSprite || entity instanceof Sprite) {
+    } else if (
+      entity instanceof Image || entity instanceof AtlasSprite ||
+      entity instanceof Sprite
+    ) {
       this.renderImage(entity);
     }
   }
@@ -121,7 +132,9 @@ export class WebGLRenderer2D {
   }
 
   private setupImage(entity: Image | AtlasSprite): void {
-    const { x, y, width, height } = entity instanceof Image? { x: 0, y: 0, width: entity.width, height: entity.height } : entity.frame;
+    const { x, y, width, height } = entity instanceof Image
+      ? { x: 0, y: 0, width: entity.width, height: entity.height }
+      : entity.frame;
     const data = [
       x,
       y,
@@ -161,7 +174,9 @@ export class WebGLRenderer2D {
     this.gl.uniform1f(this.location.usage, 1);
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
   }
-
+  public setBackground(color: RGBA): void {
+    this.backgroundColor = this.colorNorm(color);
+  }
   private colorNorm(rgba: RGBA): Array<number> {
     return rgba.map((c) => c / 255);
   }
