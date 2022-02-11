@@ -142,6 +142,7 @@ export class WebGLRenderer2D {
     this.gl.bindTexture(this.gl.TEXTURE_2D, buffers.texture);
     this.gl.uniform1i(this.location.sampler, 0);
     this.gl.uniform2fv(this.location.transform, new Float32Array([x, y]));
+    this.gl.uniform1f(this.location.usage, 1);
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
   }
 
