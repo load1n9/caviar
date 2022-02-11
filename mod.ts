@@ -5,8 +5,8 @@ export { Scene } from "./src/scenes/mod.ts";
 export {
   // Animation,
   Arne16,
-  // Atlas,
-  // AtlasSprite,
+  Atlas,
+  AtlasSprite,
   // Audio,
   // BasicParticle,
   // Button,
@@ -26,7 +26,7 @@ export {
   // Point,
   // Polygon,
   Rectangle,
-  // Sprite,
+  Sprite,
   // Text,
   TextureSprite,
 } from "./src/entities/mod.ts";

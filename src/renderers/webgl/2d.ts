@@ -6,15 +6,22 @@ import {
 } from "../../../deno_gl/mod.ts";
 import { fragment2d, vertex2d } from "./shader.ts";
 import {
+  AtlasSprite,
   Entity,
   Group,
+  Image,
   Rectangle,
   RGBA,
+  Sprite,
   TextureSprite,
-  Image
 } from "../../../mod.ts";
-import { createBuffer, initShaderProgram, setBuffer, loadTexture } from "./util.ts";
-import { EntityBuffers, RectangleBuffers, ImageBuffers } from "./types.ts";
+import {
+  createBuffer,
+  initShaderProgram,
+  loadTexture,
+  setBuffer,
+} from "./util.ts";
+import { EntityBuffers, ImageBuffers, RectangleBuffers } from "./types.ts";
 
 export class WebGLRenderer2D {
   private program: WebGLProgram;
@@ -49,7 +56,7 @@ export class WebGLRenderer2D {
       for (const child of entity.children) {
         this._start(child);
       }
-    } else if (entity instanceof Image) {
+    } else if (entity instanceof Image || entity instanceof AtlasSprite || entity instanceof Sprite) {
       this.setupImage(entity);
     }
   }
@@ -57,7 +64,7 @@ export class WebGLRenderer2D {
   public render(entities: Entity[]): void {
     this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height)
+    this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
     for (const entity of entities) {
       this._render(entity);
@@ -75,17 +82,21 @@ export class WebGLRenderer2D {
       for (const child of entity.children) {
         this._render(child);
       }
-    } else if (entity instanceof Image) {
+    } else if (entity instanceof Image || entity instanceof AtlasSprite || entity instanceof Sprite) {
       this.renderImage(entity);
     }
   }
 
   private setupRectangle(entity: Rectangle): void {
     const data = [
-      0, 0,                    // top left corner
-      entity.width, 0,           // top right corner
-      0, entity.height,          // bottom left corner
-      entity.width, entity.height, // bottom right corner
+      0,
+      0, // top left corner
+      entity.width,
+      0, // top right corner
+      0,
+      entity.height, // bottom left corner
+      entity.width,
+      entity.height, // bottom right corner
     ];
     for (let i = 0; i < data.length; i += 2) {
       data[i] = data[i] / this.canvas.width * 2 - 1;
@@ -99,9 +110,9 @@ export class WebGLRenderer2D {
     const buffers = this.buffers.get(entity.id) as RectangleBuffers;
     setBuffer(this.gl, buffers.position, this.location.position, 2);
 
-    const x = entity.x / this.canvas.width * 2
-    const y = entity.y / this.canvas.height * -2
-    const color = this.colorNorm(entity.fill)
+    const x = entity.x / this.canvas.width * 2;
+    const y = entity.y / this.canvas.height * -2;
+    const color = this.colorNorm(entity.fill);
 
     this.gl.uniform1f(this.location.usage, 0);
     this.gl.uniform4fv(this.location.color, new Float32Array(color));
@@ -109,14 +120,18 @@ export class WebGLRenderer2D {
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
   }
 
-  private setupImage(entity: Image): void {
-    const { x, y, width, height } = entity.crop
+  private setupImage(entity: Image | AtlasSprite): void {
+    const { x, y, width, height } = entity instanceof Image? { x: 0, y: 0, width: entity.width, height: entity.height } : entity.frame;
     const data = [
-      x, y,
-      x + width, y,
-      x, y + height,
-      x + width, y + height,
-    ]
+      x,
+      y,
+      x + width,
+      y,
+      x,
+      y + height,
+      x + width,
+      y + height,
+    ];
     for (let i = 0; i < data.length; i += 2) {
       data[i] = data[i] / entity.width;
       data[i + 1] = data[i + 1] / entity.height;
@@ -127,17 +142,17 @@ export class WebGLRenderer2D {
       data[i + 1] = data[i + 1] * entity.height / this.canvas.height * -2 + 1;
     }
     const position = createBuffer(this.gl, data);
-    const texture = loadTexture(this.gl, entity.image)!
+    const texture = loadTexture(this.gl, entity.image)!;
     this.buffers.set(entity.id, { position, texture, coords });
   }
 
-  private renderImage(entity: Image): void {
-    const buffers = this.buffers.get(entity.id) as ImageBuffers
+  private renderImage(entity: Image | AtlasSprite | Sprite): void {
+    const buffers = this.buffers.get(entity.id) as ImageBuffers;
     setBuffer(this.gl, buffers.position, this.location.position, 2);
     setBuffer(this.gl, buffers.coords, this.location.texture, 2);
 
-    const x = entity.x / this.canvas.width * 2
-    const y = entity.y / this.canvas.height * -2
+    const x = entity.x / this.canvas.width * 2;
+    const y = entity.y / this.canvas.height * -2;
 
     this.gl.activeTexture(this.gl.TEXTURE0);
     this.gl.bindTexture(this.gl.TEXTURE_2D, buffers.texture);
@@ -148,6 +163,6 @@ export class WebGLRenderer2D {
   }
 
   private colorNorm(rgba: RGBA): Array<number> {
-    return rgba.map(c => c / 255)
+    return rgba.map((c) => c / 255);
   }
 }

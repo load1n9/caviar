@@ -1,20 +1,30 @@
 import { Entity, Atlas } from "../mod.ts";
 import { Frame } from '../../types.ts';
-export class AtlasSprite  extends Entity {
+import { Image as HTMLImage } from '../../../deno_gl/mod.ts';
 
+export class AtlasSprite  extends Entity {
     public atlas: Atlas;
     public frame: Frame;
-    public url: string;
+    public image: HTMLImage;
+    private _frame: string;
     constructor(atlas: Atlas, x: number, y: number, frame: string) { 
         super(x, y);
         this.atlas = atlas;
+        this._frame = frame;
         this.frame = atlas.getFrame(frame);
-        this.url = atlas.imgUrl;
+        this.image = new HTMLImage;
     }
-    public async load() {
-        if (this.atlas.preloaded) return this;
-        await this.atlas.load();
-        return this;
+    public  load() {
+        return new Promise<AtlasSprite>((res, rej) => {
+            this.image.src = this.atlas.imgUrl
+            this.image.onload = () => {
+                this.width = this.image.width;
+                this.height = this.image.height;
+                this.atlas.preloaded = true;
+                res(this)
+            }
+            this.image.onerror = rej
+        });
     }
     
 }

@@ -1,21 +1,23 @@
 import { Entity } from '../mod.ts';
 import { Frame } from '../../types.ts';
-import { PhaserAtlas, atlas } from './../../utils/mod.ts';
+import { PhaserAtlas, PixiAtlas, GodotAtlas, atlas } from './../../utils/mod.ts';
 import { Image as HTMLImage } from '../../../deno_gl/mod.ts';
 
 export class Atlas extends Entity {
-    public atlas: PhaserAtlas;
+    public atlas: PhaserAtlas | PixiAtlas | GodotAtlas;
     public image: HTMLImage;
     public preloaded = false;
     constructor(
-        atlasUrl: string
+        atlasUrl: string,
+        type: string = "phaser"
     ) {
         super(0, 0);
         this.image = new HTMLImage;
-        this.atlas = atlas(`file:///${Deno.cwd()}/${atlasUrl}`);
+        this.atlas = atlas(`file:///${Deno.cwd()}/${atlasUrl}`, type);
     }
 
     public getFrame(key: string): Frame {
+        console.log(this.atlas.frames)
         return this.atlas.frames[key];
     }
 

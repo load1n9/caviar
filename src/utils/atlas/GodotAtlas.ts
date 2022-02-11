@@ -37,7 +37,7 @@ export class GodotAtlas {
   constructor(data: IGodotAtlas) {
     this.width = data.textures[0].size.w;
     this.height = data.textures[0].size.h;
-    this.imgUrl = data.textures[0].image;
+    this.imgUrl = `file:///${Deno.cwd()}/${data.textures[0].image}`;
     for (const frame of data.textures[0].sprites) {
         this.frames[frame.filename] = {
             x: frame.region.x,

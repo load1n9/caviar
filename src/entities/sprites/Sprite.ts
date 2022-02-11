@@ -10,10 +10,8 @@ export class Sprite extends Entity {
     public url: string;
     public rows: number;
     public cols: number;
-    // deno-lint-ignore no-explicit-any
-    public frames: Array<Frame> | any;
-    // deno-lint-ignore no-explicit-any
-    public frame: Frame | any;
+    public frames: Array<Frame> = [];
+    public frame: Frame = { x: 0, y: 0, width: 0, height: 0 };
     private _frame: number;
     constructor(
         url: string,
@@ -33,7 +31,7 @@ export class Sprite extends Entity {
     }
     public load(): Promise<Sprite> {
         return new Promise<Sprite>((res, rej) => {
-            this.image.src = this.url
+            this.image.src = this.url;
             this.image.onload = () => {
                 this.width = this.image.width;
                 this.height = this.image.height;

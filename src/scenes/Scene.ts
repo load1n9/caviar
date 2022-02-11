@@ -1,7 +1,7 @@
-import { Entity, World, /*Button, */ Image } from "../../mod.ts";
+import { Entity, World, /*Button, */ Image, AtlasSprite, Sprite } from "../../mod.ts";
 import type { MouseDownEvent, MouseMotionEvent, KeyEvent } from "../types.ts";
 
-export type Resource = Image
+export type Resource = Image | AtlasSprite | Sprite;
 
 export class Scene {
   public entities: Array<Entity> = [];
@@ -18,7 +18,7 @@ export class Scene {
 
   public addChild(e: Entity) {
     this.entities.push(e);
-    if (e instanceof Image) {
+    if (e instanceof Image  || e instanceof AtlasSprite || e instanceof Sprite) {
       this._resources.push(e.load())
     }
   }

@@ -2,10 +2,10 @@ import { World, Scene, AtlasSprite, Atlas } from '../mod.ts';
 
 
 class Game extends Scene {
-    public test = new Atlas('assets/godot.json');
+    public test = new Atlas('assets/godot.json', 'godot');
     public setup() {
-        const test = new AtlasSprite(this, 45, 45, this.test, 'sprite1');
-        this.addChild(test);
+        const _test = new AtlasSprite(this.test, 0, 0, 'sprite1');
+        this.addChild(_test);
     }
     public draw() {
         
@@ -16,13 +16,7 @@ const test = new World({
     title: "test",
     width: 800,
     height: 600,
-    centered: true,
-    fullscreen: false,
-    hidden: false,
     resizable: true,
-    minimized: false,
-    maximized: false,
-    flags: null,    
 }, [Game]);
 
 await test.start();

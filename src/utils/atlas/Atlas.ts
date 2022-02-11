@@ -1,12 +1,23 @@
-import { PhaserAtlas, PixiAtlas, GodotAtlas } from './mod.ts';
+import { GodotAtlas, PhaserAtlas, PixiAtlas } from "./mod.ts";
+import { fromFileUrl } from "https://deno.land/std@0.125.0/path/mod.ts";
 
-export function atlas(url: string) {
-    const data = JSON.parse(new TextDecoder('utf-8').decode(Deno.readFileSync(url)));
-    if (data.textures[0].frames) {
-        return new PhaserAtlas(data);
-    } else if (data.textures[0].sprites) {
-        return new GodotAtlas(data);
+export function atlas(
+  url: string,
+  type = "phaser",
+): PhaserAtlas | PixiAtlas | GodotAtlas {
+  const data = JSON.parse(Deno.readTextFileSync(fromFileUrl(url)));
+  switch (type) {
+    case "phaser": {
+      return new PhaserAtlas(data);
     }
-    return new PixiAtlas(data);
-    
+    case "pixi": {
+      return new PixiAtlas(data);
+    }
+    case "godot": {
+      return new GodotAtlas(data);
+    }
+    default: {
+      throw new Error(`Unknown atlas type: ${type}`);
+    }
+  }
 }

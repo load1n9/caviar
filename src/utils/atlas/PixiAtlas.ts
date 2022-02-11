@@ -28,7 +28,7 @@ export class PixiAtlas {
     constructor(data: IPixiAtlas) {
         this.width = data.meta.size.w;
         this.height = data.meta.size.h;
-        this.imgUrl = data.meta.image;
+        this.imgUrl = `file:///${Deno.cwd()}/${data.meta.image}`;
         for (const i in data.frames) {
             const frame = data.frames[i];
             this.frames[i] = {
