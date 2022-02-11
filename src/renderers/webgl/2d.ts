@@ -103,30 +103,31 @@ export class WebGLRenderer2D {
     const y = entity.y / this.canvas.height * -2
     const color = this.colorNorm(entity.fill)
 
+    this.gl.uniform1f(this.location.usage, 0);
     this.gl.uniform4fv(this.location.color, new Float32Array(color));
     this.gl.uniform2fv(this.location.transform, new Float32Array([x, y]));
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
   }
 
   private setupImage(entity: Image): void {
+    const { x, y, width, height } = entity.crop
     const data = [
-      0, 0,                    // top left corner
-      entity.width, 0,           // top right corner
-      0, entity.height,          // bottom left corner
-      entity.width, entity.height, // bottom right corner
-    ];
+      x, y,
+      x + width, y,
+      x, y + height,
+      x + width, y + height,
+    ]
     for (let i = 0; i < data.length; i += 2) {
-      data[i] = data[i] / this.canvas.width * 2 - 1;
-      data[i + 1] = data[i + 1] / this.canvas.height * -2 + 1;
+      data[i] = data[i] / entity.width;
+      data[i + 1] = data[i + 1] / entity.height;
+    }
+    const coords = createBuffer(this.gl, data);
+    for (let i = 0; i < data.length; i += 2) {
+      data[i] = data[i] * entity.width / this.canvas.width * 2 - 1;
+      data[i + 1] = data[i + 1] * entity.height / this.canvas.height * -2 + 1;
     }
     const position = createBuffer(this.gl, data);
     const texture = loadTexture(this.gl, entity.image)!
-    const coords = createBuffer(this.gl, [
-      0.0, 0.0,
-      1.0, 0.0,
-      0.0, 1.0,
-      1.0, 1.0,
-    ]);
     this.buffers.set(entity.id, { position, texture, coords });
   }
 

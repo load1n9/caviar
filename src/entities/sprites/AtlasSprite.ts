@@ -1,19 +1,20 @@
 import { Entity, Atlas } from "../mod.ts";
-import { Scene } from '../../../mod.ts';
 import { Frame } from '../../types.ts';
 export class AtlasSprite  extends Entity {
 
     public atlas: Atlas;
     public frame: Frame;
-    public surface: any;
-    public texture: any;
-
-    constructor(scene: Scene, x: number, y: number, atlas: Atlas, frame: string) { 
+    public url: string;
+    constructor(atlas: Atlas, x: number, y: number, frame: string) { 
         super(x, y);
         this.atlas = atlas;
         this.frame = atlas.getFrame(frame);
-        // this.surface = scene.world.loadSurface(atlas.imgUrl);
-        // this.texture = scene.world.createTextureFromSurface(this.surface);
-
+        this.url = atlas.imgUrl;
     }
+    public async load() {
+        if (this.atlas.preloaded) return this;
+        await this.atlas.load();
+        return this;
+    }
+    
 }

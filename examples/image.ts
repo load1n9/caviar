@@ -3,11 +3,13 @@ import { World, Scene, Image, Keys, KeyEvent } from '../mod.ts';
 
 class Game extends Scene {
     public test = new Image("assets/caviar.png", 0, 0);
+    public test2 = new Image("assets/caviar.png", 0, 0, {x: 100, y: 50, width: 200, height: 100});
     
     public setup() {
-        this.addChild(this.test);
+        // this.addChild(this.test);
+        this.addChild(this.test2);
     }
-    public draw() {
+    public update() {
         
     }
     public keyDown(key: KeyEvent) {
