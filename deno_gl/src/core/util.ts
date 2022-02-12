@@ -51,7 +51,7 @@ export function cstr(str: string) {
 }
 
 export const OS_LIB_PREFIX = Deno.build.os === "windows" ? "" : "lib";
-
+export const OS_LIB_PREFIX_DAWN = Deno.build.os === "windows" ? Deno.build.arch === "x86_64" ? "" : "arm" : "lib";
 export const OS_LIB_SUFFIX = Deno.build.os === "windows"
   ? "dll"
   : Deno.build.os === "darwin"

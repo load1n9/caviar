@@ -16,7 +16,14 @@
  </p>
 <hr/>
 
-## game engine built on top of  [deno_gl](https://github.com/DjDeveloperr/deno_gl)
+## game engine built on top of  [deno_gl](https://github.com/DjDeveloperr/deno_gl) with WebGPU bindings
+
+### Maintainers
+- Loading ([@load1n9](https://github.com/load1n9))
+- CarrotzRule ([@carrotzrule123](https://github.com/CarrotzRule123))
+
+
+<img src="assets/demo.png" width="800rem" /> 
 
 ### Usage
 

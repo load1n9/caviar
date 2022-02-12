@@ -12,7 +12,6 @@ export interface CanvasOptions {
   resizable?: boolean;
 }
 
-
 export class Canvas extends HTMLElement {
   handle: Deno.UnsafePointer;
   #title: string;

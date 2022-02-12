@@ -17,6 +17,9 @@ cause libraries like Tensorflow.js WebGL backend to return values zeroed out.
 1. Make `dist` directory if it doesn't exist.
 2. Download GLFW from [its website](https://www.glfw.org/) and place
    `[lib]glfw3.[so|dll|dylib]` in `dist`.
+3. Download a prebuilt version of Dawn from 
+   [this github repo](https://github.com/cwoffenden/hello-webgpu/tree/main/lib/dawn/bin) 
+   and place `[lib]dawn_native.[so|dll|dylib]` and `[lib]dawn_proc.[so|dll|dylib]` in `dist`.
 
 ## License
 
