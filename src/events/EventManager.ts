@@ -1,5 +1,3 @@
-
-
 export type Event = string | unknown
 
 export type EventHandler<T extends Event = Event> = (data: T) => void;
