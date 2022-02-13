@@ -1,28 +1,39 @@
 export abstract class Entity {
     public id: string;
-    public x: number;
-    public y: number;
-    public z: number | undefined;
+    #x: number;
+    #y: number;
+    #z: number;
     public width = 0;
     public height = 0;
 
     constructor(x: number, y: number) {
         this.id = crypto.randomUUID();
-        this.x = x;
-        this.y = y;
+        this.#x = x;
+        this.#y = y;
+        this.#z = 1;
     }
-    public setX(pos:number) {
-        this.x = pos;
+    public set x(x:number) {
+        this.#x = x;
     }
-    public setY(pos:number) {
-        this.y = pos;
+    public get x(): number {
+        return this.#x;
     }
-    public setZ(pos: number) {
-        this.z = pos;
+    public set y(y:number) {
+        this.#y = y;
     }
+    public get y() {
+        return this.#y;
+    }
+    public set z(z: number) {
+        this.#z = z;
+    }
+    public get z(): number {
+        return this.#z;
+    }
+    
     public setPosition(x:number, y:number, z?:number) {
-        this.setX(x);
-        this.setY(y); 
-        if (z) this.setZ(z);
+        this.#x = x;
+        this.#y = y; 
+        if (z) this.#z = z;
     }
 }

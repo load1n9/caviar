@@ -14,6 +14,7 @@ import {
   RGBA,
   Sprite,
   TextureSprite,
+  EventManager
 } from "../../../mod.ts";
 import {
   createBuffer,
@@ -22,14 +23,14 @@ import {
   setBuffer,
 } from "./util.ts";
 import { EntityBuffers, ImageBuffers, RectangleBuffers } from "./types.ts";
-
 export class WebGLRenderer2D {
   private program: WebGLProgram;
   private gl: WebGL2RenderingContext;
   private location: ProgramInfo2d;
   private buffers: Map<string, EntityBuffers>;
-  private backgroundColor: Array<number> = [0.0, 0.0, 0.0, 1.0];
-  constructor(private canvas: Canvas) {
+  public eventManager: EventManager = new EventManager();
+  private backgroundColor: RGBA = [0.0, 0.0, 0.0, 1.0];
+  constructor(public canvas: Canvas) {
     const gl = canvas.getContext("webgl");
     if (!gl) throw new Error(`Could not request device!`);
     this.gl = gl;
@@ -65,12 +66,16 @@ export class WebGLRenderer2D {
   }
 
   public render(entities: Entity[]): void {
-    this.gl.clearColor(
-      this.backgroundColor[0],
-      this.backgroundColor[1],
-      this.backgroundColor[2],
-      this.backgroundColor[3],
-    );
+    this.gl.clearColor.apply(null, this.backgroundColor);
+    if (this.canvas.getCurrentState().mouseButtonLeft){
+      this.eventManager.emit('mouseDown', { x: this.canvas.getCurrentState().cursorX, y: this.canvas.getCurrentState().cursorY });
+    }
+    this.eventManager.keys.forEach((key) => {
+      // deno-lint-ignore no-explicit-any
+      if ((this.canvas.getCurrentState() as any)[`key${key.toUpperCase()}`]) {
+        this.eventManager.emit('keyDown', key);
+      }
+    });
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
@@ -177,7 +182,7 @@ export class WebGLRenderer2D {
   public setBackground(color: RGBA): void {
     this.backgroundColor = this.colorNorm(color);
   }
-  private colorNorm(rgba: RGBA): Array<number> {
-    return rgba.map((c) => c / 255);
+  private colorNorm(rgba: RGBA): RGBA {
+    return rgba.map((c) => c / 255) as RGBA;
   }
 }

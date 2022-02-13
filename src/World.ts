@@ -1,10 +1,8 @@
 import { requestAnimationFrame } from "../deno_gl/mod.ts";
 import { Canvas } from "../deps.ts";
-import { Plugin, Renderer, Scene } from "../mod.ts";
+import { Plugin, Scene } from "../mod.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
 import type {
-  KeyEvent,
-  MouseDownEvent,
   MouseMotionEvent,
   WorldOptions,
 } from "./types.ts";
@@ -14,7 +12,7 @@ export class World extends Canvas {
   public params: WorldOptions;
   public scenes: Array<typeof Scene>;
   public currentScene: Scene;
-  public renderer: Renderer;
+  public renderer: WebGLRenderer2D;
   // deno-lint-ignore no-explicit-any
   public plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
@@ -30,6 +28,11 @@ export class World extends Canvas {
     await this.currentScene.loadResources()
     this.renderer.start(this.currentScene.entities)
     requestAnimationFrame(this._draw.bind(this));
+    // deno-lint-ignore no-explicit-any
+    this.renderer.eventManager.on('keyDown', (event: any) => this.keyDown(event));
+    // deno-lint-ignore no-explicit-any
+    this.renderer.eventManager.on('mouseDown', (event: any) => this._mouseDown(event));
+
   }
 
   public _draw(): void {
@@ -60,7 +63,8 @@ export class World extends Canvas {
       Deno.sleepSync(1 / this.FPS * 1000);
     };
   }
-  public keyDown(e: KeyEvent): void {
+  // deno-lint-ignore no-explicit-any
+  public keyDown(e: any): void {
     this.currentScene.keyDown(e);
   }
 
@@ -84,7 +88,8 @@ export class World extends Canvas {
   public usePlugin(name: string): Plugin {
     return new this.plugins[name](this);
   }
-  public _mouseDown(e: MouseDownEvent): void {
+  // deno-lint-ignore no-explicit-any
+  public _mouseDown(e: any): void {
     this.currentScene._mouseDown(e);
   }
   public _mouseMotion(e: MouseMotionEvent): void {
@@ -96,5 +101,11 @@ export class World extends Canvas {
   public updateProgramLifeCycle(): void {
     this.currentScene.tick();
     this.currentScene.update();
+  }
+  public get mouseX(): number {
+    return this.renderer.canvas.getCurrentState().cursorX;
+  }
+  public get mouseY(): number {
+    return this.renderer.canvas.getCurrentState().cursorY;
   }
 }

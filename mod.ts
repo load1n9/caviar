@@ -2,6 +2,7 @@ export { Plugin } from "./src/Plugin.ts";
 export { World } from "./src/World.ts";
 export type { Renderer } from "./src/renderers/types.ts";
 export { Scene } from "./src/scenes/mod.ts";
+export { EventManager } from "./src/events/EventManager.ts";
 export {
   // Animation,
   Arne16,
@@ -9,21 +10,17 @@ export {
   AtlasSprite,
   // Audio,
   // BasicParticle,
-  // Button,
+  Button,
   C64,
   CGA,
-  // Circle,
   Entity,
   Group,
   Image,
   JMP,
-  // Line,
   MSX,
   // Particle,
   // ParticleSystem,
   PICO8,
-  // Point,
-  // Polygon,
   Rectangle,
   Sprite,
   // Text,

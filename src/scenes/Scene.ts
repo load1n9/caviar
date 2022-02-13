@@ -1,4 +1,4 @@
-import { Entity, World, /*Button, */ Image, AtlasSprite, Sprite } from "../../mod.ts";
+import { Entity, World, Button, Image, AtlasSprite, Sprite } from "../../mod.ts";
 import type { MouseDownEvent, MouseMotionEvent, KeyEvent } from "../types.ts";
 
 export type Resource = Image | AtlasSprite | Sprite;
@@ -7,7 +7,6 @@ export class Scene {
   public entities: Array<Entity> = [];
   private _resources: Promise<Resource>[] = []
   public resources: Resource[] = []
-
   constructor(
     public world: World
   ) { }
@@ -30,7 +29,7 @@ export class Scene {
   }
 
   public _mouseDown(e: MouseDownEvent) {
-    for (const _entity of this.entities) {
+    for (const entity of this.entities) {
       // if (entity instanceof Button) {
       //   if (
       //     e.x >= entity.x &&
@@ -46,6 +45,15 @@ export class Scene {
   }
   public _mouseMotion(e: MouseMotionEvent) {
     this.mouseMotion(e)
+  }
+  public setKeys(_keys: Array<string>): void { 
+    this.world.renderer.eventManager.keys = _keys;
+  }
+  public get mouseX() {
+    return this.world.mouseX;
+  }
+  public get mouseY() {
+    return this.world.mouseY;
   }
   public tick(): void { }
   public mouseDown(_e: MouseDownEvent): void { }
