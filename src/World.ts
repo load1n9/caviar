@@ -1,5 +1,4 @@
-import { requestAnimationFrame } from "https://deno.land/x/daybreak@v0.0.2/mod.ts";
-import { Canvas } from "../deps.ts";
+import { Canvas, requestAnimationFrame } from "../deps.ts";
 import { Plugin, Scene } from "../mod.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
 import type {

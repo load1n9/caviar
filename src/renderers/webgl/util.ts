@@ -1,4 +1,4 @@
-import type { WebGL2RenderingContext, WebGLBuffer, WebGLProgram, WebGLShader, Image as HTMLImage } from "https://deno.land/x/daybreak@v0.0.2/mod.ts";
+import type { WebGL2RenderingContext, WebGLBuffer, WebGLProgram, WebGLShader, Image as HTMLImage } from "../../../deps.ts";
 
 export function initShaderProgram(gl: WebGL2RenderingContext, vertex: string, fragment: string): WebGLProgram {
     const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vertex);

@@ -1,7 +1,7 @@
 import { Entity } from '../mod.ts';
 import { Frame } from '../../types.ts';
 import { PhaserAtlas, PixiAtlas, GodotAtlas, atlas } from './../../utils/mod.ts';
-import { Image as HTMLImage } from 'https://deno.land/x/daybreak@v0.0.2/mod.ts';
+import { Image as HTMLImage } from '../../../deps.ts';
 
 export class Atlas extends Entity {
     public atlas: PhaserAtlas | PixiAtlas | GodotAtlas;

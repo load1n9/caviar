@@ -1,6 +1,6 @@
 import { Entity, Atlas } from "../mod.ts";
 import { Frame } from '../../types.ts';
-import { Image as HTMLImage } from 'https://deno.land/x/daybreak@v0.0.2/mod.ts';
+import { Image as HTMLImage } from '../../../deps.ts';
 
 export class AtlasSprite  extends Entity {
     public atlas: Atlas;

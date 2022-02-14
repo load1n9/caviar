@@ -3,7 +3,7 @@ import {
   Canvas,
   WebGL2RenderingContext,
   WebGLProgram,
-} from "https://deno.land/x/daybreak@v0.0.2/mod.ts";
+} from "../../../deps.ts";
 import { fragment2d, vertex2d } from "./shader.ts";
 import {
   AtlasSprite,
@@ -160,7 +160,8 @@ export class WebGLRenderer2D {
       data[i + 1] = data[i + 1] * entity.height / this.canvas.height * -2 + 1;
     }
     const position = createBuffer(this.gl, data);
-    const texture = loadTexture(this.gl, entity.image)!;
+    // deno-lint-ignore no-explicit-any
+    const texture = loadTexture(this.gl, (entity as any).image)!;
     this.buffers.set(entity.id, { position, texture, coords });
   }
 
