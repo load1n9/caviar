@@ -16,7 +16,7 @@
  </p>
 <hr/>
 
-## game engine built on top of  [deno_gl](https://github.com/DjDeveloperr/deno_gl) with WebGPU bindings
+## game engine built on top of  [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings
 
 ### Maintainers
 - Loading ([@load1n9](https://github.com/load1n9))
@@ -175,3 +175,6 @@ await test.start();
 ```
 ### License
 MIT
+
+### Tools
+- [Caviar CLI](https://github.com/load1n9/caviar-cli) cli tool to generate caviar projects

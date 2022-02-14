@@ -1,4 +1,4 @@
-import { WebGLBuffer, WebGLTexture } from "../../../deno_gl/mod.ts";
+import { WebGLBuffer, WebGLTexture } from "https://deno.land/x/daybreak@v0.0.2/mod.ts";
 
 export type EntityBuffers = RectangleBuffers | ImageBuffers
 

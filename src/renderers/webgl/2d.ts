@@ -3,7 +3,7 @@ import {
   Canvas,
   WebGL2RenderingContext,
   WebGLProgram,
-} from "../../../deno_gl/mod.ts";
+} from "https://deno.land/x/daybreak@v0.0.2/mod.ts";
 import { fragment2d, vertex2d } from "./shader.ts";
 import {
   AtlasSprite,

@@ -4,12 +4,9 @@ export type { Renderer } from "./src/renderers/types.ts";
 export { Scene } from "./src/scenes/mod.ts";
 export { EventManager } from "./src/events/EventManager.ts";
 export {
-  // Animation,
   Arne16,
   Atlas,
   AtlasSprite,
-  // Audio,
-  // BasicParticle,
   Button,
   C64,
   CGA,
@@ -18,12 +15,9 @@ export {
   Image,
   JMP,
   MSX,
-  // Particle,
-  // ParticleSystem,
   PICO8,
   Rectangle,
   Sprite,
-  // Text,
   TextureSprite,
 } from "./src/entities/mod.ts";
 export { TransformMatrix, Vector } from "./src/math/mod.ts";

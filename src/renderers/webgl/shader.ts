@@ -1,4 +1,4 @@
-import { WebGL2RenderingContext, WebGLProgram, WebGLUniformLocation } from "../../../deno_gl/mod.ts";
+import { WebGL2RenderingContext, WebGLProgram, WebGLUniformLocation } from "https://deno.land/x/daybreak@v0.0.2/mod.ts";
 
 export const vertex2d = `
 attribute vec2 aVertexPosition;
