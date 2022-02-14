@@ -1,5 +1,5 @@
-import { Entity } from '../mod.ts';
-import { Scene, Rectangle, hexToRGBA } from '../../../mod.ts';
+import { Entity } from "../mod.ts";
+import { hexToRGBA, Rectangle, Scene } from "../../../mod.ts";
 import { PixelTexture } from "../../types.ts";
 import { Arne16 } from "./palettes/mod.ts";
 export class TextureSprite extends Entity {
@@ -17,12 +17,16 @@ export class TextureSprite extends Entity {
     this.palette = texture.palette || Arne16,
       this.pixelWidth = texture.pixelWidth || 1;
     this.pixelHeight = texture.pixelHeight || this.pixelWidth;
-    this.width = Math.floor(Math.abs(this.texture.data[0].length * this.pixelWidth));
-    this.height = Math.floor(Math.abs(this.texture.data.length * this.pixelHeight));
+    this.width = Math.floor(
+      Math.abs(this.texture.data[0].length * this.pixelWidth),
+    );
+    this.height = Math.floor(
+      Math.abs(this.texture.data.length * this.pixelHeight),
+    );
     this.setup();
   }
   public setup() {
-    this.data = []
+    this.data = [];
     for (let y = 0; y < this.texture.data.length; y++) {
       const row = this.texture.data[y];
       for (let x = 0; x < row.length; x++) {
@@ -48,30 +52,29 @@ export class TextureSprite extends Entity {
   }
 
   public setX(x: number) {
-    let k = 0
-    this.x = x
+    this.x = x;
+    let k = 0;
     for (let j = 0; j < this.texture.data.length; j++) {
       const row = this.texture.data[j];
       for (let i = 0; i < row.length; i++) {
         if (row[i] !== "." && row[i] !== " ") {
-          const pixel = this.data[k]
-          pixel.x = (i * this.pixelWidth) + this.x
-          k += 1
+          const pixel = this.data[k];
+          pixel.x = (i * this.pixelWidth) + this.x;
+          k += 1;
         }
       }
     }
   }
-
-  public setY(x: number) {
-    let k = 0
-    this.x = x
+  public setY(y: number) {
+    this.y = y;
+    let k = 0;
     for (let j = 0; j < this.texture.data.length; j++) {
       const row = this.texture.data[j];
       for (let i = 0; i < row.length; i++) {
         if (row[i] !== "." && row[i] !== " ") {
-          const pixel = this.data[k]
-          pixel.y = (j * this.pixelWidth) + this.y
-          k += 1
+          const pixel = this.data[k];
+          pixel.y = (j * this.pixelWidth) + this.y;
+          k += 1;
         }
       }
     }

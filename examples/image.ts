@@ -1,4 +1,4 @@
-import { World, Scene, Image, Keys, KeyEvent } from '../mod.ts';
+import { World, Scene, Image } from '../mod.ts';
 
 
 class Game extends Scene {
@@ -8,7 +8,7 @@ class Game extends Scene {
         this.addChild(this.test);
     }
     public update() {
-        
+        this.test.x += 1;
     }
     public keyDown(key: any) {
         console.log(key)
@@ -18,8 +18,8 @@ class Game extends Scene {
 
 const test = new World({
     title: "test",
-    width: 800,
-    height: 600,
+    width: 1800,
+    height: 1600,
     resizable: true,
 }, [Game]);
 

@@ -21,7 +21,7 @@ class Game extends Scene {
     this.addChild(this.test);
   }
   public update() {
-    this.test.setX(this.test.x + 5);
+    this.test.setX(this.test.x +10);
   }
 }
 
