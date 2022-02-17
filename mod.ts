@@ -19,6 +19,7 @@ export {
   Rectangle,
   Sprite,
   TextureSprite,
+  FrameBuffer,
 } from "./src/entities/mod.ts";
 export { TransformMatrix, Vector } from "./src/math/mod.ts";
 export type { IVectorLike } from "./src/math/mod.ts";

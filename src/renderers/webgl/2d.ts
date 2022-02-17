@@ -14,7 +14,8 @@ import {
   RGBA,
   Sprite,
   TextureSprite,
-  EventManager
+  EventManager,
+FrameBuffer
 } from "../../../mod.ts";
 import {
   createBuffer,
@@ -62,6 +63,8 @@ export class WebGLRenderer2D {
       entity instanceof Sprite
     ) {
       this.setupImage(entity);
+    } else if (entity instanceof FrameBuffer) {
+        this.setupFrameBuffer(entity);
     }
   }
 
@@ -97,7 +100,7 @@ export class WebGLRenderer2D {
       }
     } else if (
       entity instanceof Image || entity instanceof AtlasSprite ||
-      entity instanceof Sprite
+      entity instanceof Sprite || entity instanceof FrameBuffer
     ) {
       this.renderImage(entity);
     }
@@ -136,6 +139,32 @@ export class WebGLRenderer2D {
     this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
   }
 
+  private setupFrameBuffer(entity: FrameBuffer): void {
+    const { x, y, width, height } = { x: 0, y: 0, width: entity.width, height: entity.height };
+    const data = [
+      x,
+      y,
+      x + width,
+      y,
+      x,
+      y + height,
+      x + width,
+      y + height,
+    ];
+    for (let i = 0; i < data.length; i += 2) {
+      data[i] = data[i] / entity.width;
+      data[i + 1] = data[i + 1] / entity.height;
+    }
+    const coords = createBuffer(this.gl, data);
+    for (let i = 0; i < data.length; i += 2) {
+      data[i] = data[i] * entity.width / this.canvas.width * 2 - 1;
+      data[i + 1] = data[i + 1] * entity.height / this.canvas.height * -2 + 1;
+    }
+    const position = createBuffer(this.gl, data);
+    // deno-lint-ignore no-explicit-any
+    const texture = loadTexture(this.gl, (entity as any))!;
+    this.buffers.set(entity.id, { position, texture, coords });
+  }
   private setupImage(entity: Image | AtlasSprite): void {
     const { x, y, width, height } = entity instanceof Image
       ? { x: 0, y: 0, width: entity.width, height: entity.height }
@@ -165,7 +194,7 @@ export class WebGLRenderer2D {
     this.buffers.set(entity.id, { position, texture, coords });
   }
 
-  private renderImage(entity: Image | AtlasSprite | Sprite): void {
+  private renderImage(entity: Image | AtlasSprite | Sprite | FrameBuffer): void {
     const buffers = this.buffers.get(entity.id) as ImageBuffers;
     setBuffer(this.gl, buffers.position, this.location.position, 2);
     setBuffer(this.gl, buffers.coords, this.location.texture, 2);

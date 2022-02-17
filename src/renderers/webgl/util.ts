@@ -1,4 +1,5 @@
 import type { WebGL2RenderingContext, WebGLBuffer, WebGLProgram, WebGLShader, Image as HTMLImage } from "../../../deps.ts";
+import { FrameBuffer } from "../../../mod.ts";
 
 export function initShaderProgram(gl: WebGL2RenderingContext, vertex: string, fragment: string): WebGLProgram {
     const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vertex);
@@ -75,7 +76,7 @@ export function setBuffer(
 
 export function loadTexture(
     gl: WebGL2RenderingContext,
-    image: HTMLImage,
+    image: HTMLImage | FrameBuffer,
     level = 0,
     internalFormat = gl.RGBA,
     border = 0,
