@@ -100,8 +100,14 @@ export class WebGLRenderer2D {
       }
     } else if (
       entity instanceof Image || entity instanceof AtlasSprite ||
-      entity instanceof Sprite || entity instanceof FrameBuffer
+      entity instanceof Sprite 
     ) {
+      this.renderImage(entity);
+    } else if (entity instanceof FrameBuffer) {
+      // deno-lint-ignore no-explicit-any
+      if (loadTexture(this.gl, (entity as any))! !== (this.buffers.get(entity.id) as any).texture) {
+        this.setupFrameBuffer(entity);
+      }
       this.renderImage(entity);
     }
   }
