@@ -7,12 +7,11 @@ class Game extends Scene {
   public test = new FrameBuffer(this.world, buffer);
 
   public setup() {
-    this.setKeys(['a']);
     this.addChild(this.test);
   }
-  // deno-lint-ignore no-explicit-any
-  public keyDown(_key: any) {
-    this.test.rawData = this.test.rawData.fill(Math.floor(Math.random() * 255), 300000, 1200000)
+  public update() {
+    this.test.rawData[Math.floor(Math.random()* this.test.rawData.length-1)] = Math.floor(Math.random()*255)
+    this.test.setBuffer(this.test.rawData);
   }
 }
 
@@ -22,5 +21,5 @@ const test = new World({
   height: 600,
   resizable: true,
 }, [Game]);
-
+test.setFPS(10)
 await test.start();

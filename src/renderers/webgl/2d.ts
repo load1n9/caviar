@@ -104,8 +104,7 @@ export class WebGLRenderer2D {
     ) {
       this.renderImage(entity);
     } else if (entity instanceof FrameBuffer) {
-      // deno-lint-ignore no-explicit-any
-      if (loadTexture(this.gl, (entity as any))! !== (this.buffers.get(entity.id) as any).texture) {
+      if (entity.requestStart) {
         this.setupFrameBuffer(entity);
       }
       this.renderImage(entity);
@@ -146,6 +145,7 @@ export class WebGLRenderer2D {
   }
 
   private setupFrameBuffer(entity: FrameBuffer): void {
+    entity.requestStart = false;
     const { x, y, width, height } = { x: 0, y: 0, width: entity.width, height: entity.height };
     const data = [
       x,

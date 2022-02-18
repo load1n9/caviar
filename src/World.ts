@@ -35,7 +35,7 @@ export class World extends Canvas {
   }
 
   public _draw(): void {
-    // this._fps()();
+    this._fps()();
     // this.renderer.updateEvents();
     // this.renderer.swapBuffers();
     if (this.shouldClose()) return;
