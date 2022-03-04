@@ -1,6 +1,6 @@
 
 <p align="center">
- <img src="assets/caviar.svg" width="80rem" /> 
+ <img src="./assets/caviar.svg" width="81rem" /> 
 </p>
 <br/>
 <p align="center">
@@ -16,14 +16,16 @@
  </p>
 <hr/>
 
-## game engine built on top of  [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support
+## game engine built on top of  [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support 
 
 ### Maintainers
 - Loading ([@load1n9](https://github.com/load1n9))
 - CarrotzRule ([@carrotzrule123](https://github.com/CarrotzRule123))
 
 
-<img src="assets/demo.png" width="800rem" /> 
+<img src="./assets/demo.png" width="800rem" /> 
+
+
 
 ### Usage
 
