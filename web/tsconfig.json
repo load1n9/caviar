@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outFile": "./dist/main.js",
+    "lib": ["DOM", "dom.iterable", "ESNext", "deno.window"],
+    "typeRoots": ["./node_modules/@webgpu/types", "./node_modules/@types"],
+    "types": ["@webgpu/types"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true
+  }
+}
