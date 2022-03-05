@@ -2,5 +2,5 @@
 
 # TODO
 
-# fix atlas loading
-# fix pixel textures
+[] fix atlas loading
+[] fix pixel textures
