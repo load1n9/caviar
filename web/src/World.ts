@@ -22,6 +22,7 @@ export class World {
     this.canvas.width = this.params.width;
     this.canvas.height = this.params.height;
     document.body.appendChild(this.canvas);
+    document.body.style.margin = "0"
     this.currentScene = new this.scenes[0](this);
     this.renderer = new GPURenderer(this);
   }

@@ -18,11 +18,10 @@ export class GPURenderer {
   #pipeline?: GPURenderPipeline;
   #canvas: HTMLCanvasElement;
   #context?: RenderingContext;
-  #bindGroup: GPUBindGroup;
+  #layout: GPUBindGroupLayout;
 
   #buffers: Map<string, EntityBuffers> = new Map();
   #backgroundColor: RGBA = [0.0, 0.0, 0.0, 1.0];
-  #uniforms?: Uniforms2D;
 
   eventManager: EventManager = new EventManager();
 
@@ -51,12 +50,9 @@ export class GPURenderer {
       size: presentationSize,
     });
 
-    this.#uniforms = new Uniforms2D(device);
-    const bindGroupLayout = this.#device.createBindGroupLayout(
-      bindGroupLayout2d,
-    );
+    this.#layout = this.#device.createBindGroupLayout(bindGroupLayout2d);
     const pipeLineLayout = this.#device.createPipelineLayout({
-      bindGroupLayouts: [bindGroupLayout],
+      bindGroupLayouts: [this.#layout],
     });
     const module = this.#device.createShaderModule({ code: shader2d });
     this.#pipeline = createRenderPipeline(
@@ -65,10 +61,10 @@ export class GPURenderer {
       pipeLineLayout,
       presentationFormat,
     );
-    this.#bindGroup = this.#device.createBindGroup({
-      layout: bindGroupLayout,
-      entries: [{ binding: 0, resource: { buffer: this.#uniforms.buffer } }],
-    });
+    // this.#bindGroup = this.#device.createBindGroup({
+    //   layout: bindGroupLayout,
+    //   entries: [{ binding: 0, resource: { buffer: this.#uniforms.buffer } }],
+    // });
   }
 
   start(entities: Entity[]) {
@@ -94,7 +90,6 @@ export class GPURenderer {
       ],
     });
     renderPass.setPipeline(this.#pipeline);
-    renderPass.setBindGroup(0, this.#bindGroup);
     for (const entity of entities) {
       if (entity instanceof Rectangle) {
         this.#renderRectangle(entity, renderPass);
@@ -125,7 +120,12 @@ export class GPURenderer {
       size: 32,
     });
     this.#device.queue.writeBuffer(position, 0, new Float32Array(data));
-    this.#buffers.set(entity.id, { position });
+    const uniforms = new Uniforms2D(this.#device)
+    const bindGroup = this.#device.createBindGroup({
+      layout: this.#layout,
+      entries: [{ binding: 0, resource: { buffer: uniforms.buffer } }],
+    })
+    this.#buffers.set(entity.id, { position, bindGroup,uniforms });
   }
 
   #renderRectangle(entity: Rectangle, renderPass: GPURenderPassEncoder): void {
@@ -134,8 +134,9 @@ export class GPURenderer {
     renderPass.setVertexBuffer(0, buffers.position);
     const x = (entity.x / this.#canvas.width) * 2;
     const y = (entity.y / this.#canvas.height) * -2;
-    this.#uniforms.setPosition(this.#device, x, y);
-    this.#uniforms.setColor(this.#device, entity.fill);
+    buffers.uniforms.setPosition(this.#device, x, y);
+    buffers.uniforms.setColor(this.#device, entity.fill);
+    renderPass.setBindGroup(0, buffers.bindGroup);
     renderPass.draw(4, 1);
   }
 
