@@ -1,25 +1,39 @@
-import { Entity, World, Button, Image, AtlasSprite, Sprite } from "../../mod.ts";
-import type { MouseDownEvent, MouseMotionEvent, KeyEvent } from "../types.ts";
+import {
+  AtlasSprite,
+  Button,
+  Entity,
+  Image,
+  Sprite,
+  World,
+} from "../../mod.ts";
+import type { KeyEvent, MouseDownEvent, MouseMotionEvent } from "../types.ts";
 
 export type Resource = Image | AtlasSprite | Sprite;
 
 export class Scene {
   public entities: Array<Entity> = [];
-  private _resources: Promise<Resource>[] = []
-  public resources: Resource[] = []
+  #resources: Promise<Resource>[] = [];
+  public resources: Resource[] = [];
   constructor(
-    public world: World
-  ) { }
+    public world: World,
+  ) {}
 
   public async loadResources() {
-    await Promise.all(this._resources);
+    await Promise.all(this.#resources);
   }
 
-  public addChild(e: Entity) {
-    this.entities.push(e);
-    if (e instanceof Image  || e instanceof AtlasSprite || e instanceof Sprite) {
-      this._resources.push(e.load())
+  public addChild(e: Entity | Entity[]): void {
+    if (e instanceof Array) {
+      for (const entity of e) {
+        this.addChild(entity);
+      }
+    } else {
+      this.entities.push(e);
+      if (e instanceof Image || e instanceof AtlasSprite || e instanceof Sprite) {
+        this.#resources.push(e.load());
+      }
     }
+    
   }
 
   public killChild(e: Entity): void {
@@ -44,9 +58,9 @@ export class Scene {
     this.mouseDown(e);
   }
   public _mouseMotion(e: MouseMotionEvent) {
-    this.mouseMotion(e)
+    this.mouseMotion(e);
   }
-  public setKeys(_keys: Array<string>): void { 
+  public setKeys(_keys: Array<string>): void {
     this.world.renderer.eventManager.keys = _keys;
   }
   public get mouseX() {
@@ -55,10 +69,10 @@ export class Scene {
   public get mouseY() {
     return this.world.mouseY;
   }
-  public tick(): void { }
-  public mouseDown(_e: MouseDownEvent): void { }
-  public mouseMotion(_e: MouseMotionEvent): void { }
-  public setup(): void { }
-  public update(): void { }
-  public keyDown(_e: KeyEvent): void { }
+  public tick(): void {}
+  public mouseDown(_e: MouseDownEvent): void {}
+  public mouseMotion(_e: MouseMotionEvent): void {}
+  public setup(): void {}
+  public update(): void {}
+  public keyDown(_e: KeyEvent): void {}
 }

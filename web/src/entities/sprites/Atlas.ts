@@ -3,10 +3,10 @@ import { Frame } from '../../types.ts';
 import { PhaserAtlas, PixiAtlas, GodotAtlas, atlas } from './../../utils/atlas/mod.ts';
 
 export class Atlas extends Entity {
-    public atlas: PhaserAtlas | PixiAtlas | GodotAtlas;
-    public bitmap: ImageBitmap
-    public image: HTMLImageElement;
-    public preloaded = false;
+    atlas: PhaserAtlas | PixiAtlas | GodotAtlas;
+    bitmap: ImageBitmap
+    image: HTMLImageElement;
+    preloaded = false;
     constructor(
         atlasUrl: string,
         type: string = "phaser"
@@ -16,14 +16,14 @@ export class Atlas extends Entity {
         this.atlas = atlas(atlasUrl, type);
     }
 
-    public getFrame(key: string): Frame {
+    getFrame(key: string): Frame {
         return this.atlas.frames[key];
     }
 
-    public get imgUrl(): string {
+    get imgUrl(): string {
         return this.atlas.imgUrl;
     }
-    public load(): Promise<Atlas> {
+    load(): Promise<Atlas> {
         return new Promise<Atlas>((res, rej) => {
             this.image.src = this.atlas.imgUrl
             this.image.onload = () => {

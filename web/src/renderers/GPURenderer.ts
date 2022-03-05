@@ -1,6 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { Entity } from "../entities/Entity.ts";
-import { AtlasSprite, Image, Rectangle, TextureSprite } from "../../mod.ts";
+import {
+  AtlasSprite,
+  Group,
+  Image,
+  Rectangle,
+  TextureSprite,
+} from "../../mod.ts";
 import { RGBA } from "../types.ts";
 import { World } from "../World.ts";
 import {
@@ -86,6 +92,8 @@ export class GPURenderer {
         for (const rect of entity.data) {
           this.#setupRectangle(rect);
         }
+      } else if (entity instanceof Group) {
+        this.start(entity.children);
       }
     }
   }
@@ -105,6 +113,12 @@ export class GPURenderer {
       ],
     });
     renderPass.setPipeline(this.#pipeline);
+    this.#render(entities, renderPass);
+    // @ts-ignore  end is being weird
+    renderPass.end();
+    this.#device.queue.submit([encoder.finish()]);
+  }
+  #render(entities: Entity[], renderPass: GPURenderPassEncoder): void {
     for (const entity of entities) {
       if (entity instanceof Rectangle) {
         this.#renderRectangle(entity, renderPass);
@@ -114,11 +128,10 @@ export class GPURenderer {
         for (const rect of entity.data) {
           this.#renderRectangle(rect, renderPass);
         }
+      } else if (entity instanceof Group) {
+        this.#render(entity.children, renderPass);
       }
     }
-    // @ts-ignore  end is being weird
-    renderPass.end();
-    this.#device.queue.submit([encoder.finish()]);
   }
 
   #setupRectangle(entity: Rectangle): void {
@@ -194,7 +207,10 @@ export class GPURenderer {
     this.#buffers.set(entity.id, { position, texture, coords, uniforms });
   }
 
-  #renderImage(entity: Image | AtlasSprite, renderPass: GPURenderPassEncoder): void {
+  #renderImage(
+    entity: Image | AtlasSprite,
+    renderPass: GPURenderPassEncoder,
+  ): void {
     const buffers = this.#buffers.get(entity.id) as ImageBuffers;
     renderPass.setVertexBuffer(0, buffers.position);
     renderPass.setVertexBuffer(1, buffers.coords);

@@ -5,13 +5,13 @@ import { Arne16 } from "./Palettes.ts";
 import { hexToRGBA } from "../../utils/HexToRGBA.ts";
 
 export class TextureSprite extends Entity {
-  public data: Rectangle[];
-  public texture: PixelTexture;
-  public palette: string[];
-  public pixelWidth: number;
-  public pixelHeight: number;
-  declare public width: number;
-  declare public height: number;
+  data: Rectangle[];
+  texture: PixelTexture;
+  palette: string[];
+  pixelWidth: number;
+  pixelHeight: number;
+  declare width: number;
+  declare height: number;
   constructor(_scene: Scene, x: number, y: number, texture: PixelTexture) {
     super(x, y);
     this.texture = texture;
@@ -27,7 +27,7 @@ export class TextureSprite extends Entity {
     );
     this.setup();
   }
-  public setup() {
+  setup() {
     this.data = [];
     for (let y = 0; y < this.texture.data.length; y++) {
       const row = this.texture.data[y];

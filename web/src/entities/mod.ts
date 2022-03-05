@@ -5,3 +5,4 @@ export * from "./textures/Palettes.ts";
 export { TextureSprite } from "./textures/TextureSprite.ts";
 export { Atlas } from "./sprites/Atlas.ts";
 export { AtlasSprite } from "./sprites/AtlasSprite.ts";
+export { Group } from "./containers/Group.ts";

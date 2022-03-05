@@ -85,7 +85,9 @@ export class World extends Canvas {
     this.plugins[name] = plugin;
   }
   public usePlugin(name: string): Plugin {
-    return new this.plugins[name](this);
+    const plug = new this.plugins[name](this);
+    plug.onStart();
+    return plug;
   }
   // deno-lint-ignore no-explicit-any
   public _mouseDown(e: any): void {

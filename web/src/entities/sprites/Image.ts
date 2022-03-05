@@ -1,9 +1,9 @@
 import { Entity } from "../Entity.ts";
 
 export class Image extends Entity {
-    public bitmap: ImageBitmap
-    public image: HTMLImageElement;
-    public url: string;
+    bitmap: ImageBitmap
+    image: HTMLImageElement;
+    url: string;
 
     constructor(
         url: string,
@@ -17,7 +17,7 @@ export class Image extends Entity {
         this.url = url;
     }
 
-    public load() {
+    load() {
         return new Promise<Image>((res, rej) => {
             this.image.src = this.url
             this.image.onload = () => {

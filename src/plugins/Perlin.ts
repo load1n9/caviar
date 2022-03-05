@@ -1,4 +1,6 @@
+// deno-lint-ignore-file no-explicit-any
 import { World, Plugin } from "../../mod.ts";
+
 class Grad {
     constructor(
         public x: number, 
@@ -56,10 +58,13 @@ export class PerlinNoise extends Plugin {
         this.gradP = new Array(512);
         this.setSeed(0);
     }
+    public onStart() {
+        console.log("Using Perlin Noise Caviar Plugin")
+    }
 
     public setSeed(seed: number): void {
-        let perm = this.perm;
-        let gradP = this.gradP;
+        const perm = this.perm;
+        const gradP = this.gradP;
 
         if (seed > 0 && seed < 1) {
             seed *= 65536;
@@ -84,31 +89,31 @@ export class PerlinNoise extends Plugin {
     }
 
     public simplex2(xin: number, yin: number){
-        let perm = this.perm;
-        let gradP = this.gradP;
+        const perm = this.perm;
+        const gradP = this.gradP;
 
-        let n0, n1, n2;
-        let s = (xin + yin) * F2; 
+        let n0: any, n1: any, n2: any;
+        const s = (xin + yin) * F2; 
         let i = Math.floor(xin + s);
         let j = Math.floor(yin + s);
-        let t = (i + j) * G2;
-        let x0 = xin - i + t; 
-        let y0 = yin - j + t;
-        let i1, j1;
+        const t = (i + j) * G2;
+        const x0 = xin - i + t; 
+        const y0 = yin - j + t;
+        let i1: any, j1: any;
         if (x0 > y0) { 
             i1 = 1; j1 = 0;
         } else {    
             i1 = 0; j1 = 1;
         }
-        let x1 = x0 - i1 + G2; 
-        let y1 = y0 - j1 + G2;
-        let x2 = x0 - 1 + 2 * G2; 
-        let y2 = y0 - 1 + 2 * G2;
+        const x1 = x0 - i1 + G2; 
+        const y1 = y0 - j1 + G2;
+        const x2 = x0 - 1 + 2 * G2; 
+        const y2 = y0 - 1 + 2 * G2;
         i &= 255;
         j &= 255;
-        let gi0 = gradP[i + perm[j]];
-        let gi1 = gradP[i + i1 + perm[j + j1]];
-        let gi2 = gradP[i + 1 + perm[j + 1]];
+        const gi0 = gradP[i + perm[j]];
+        const gi1 = gradP[i + i1 + perm[j + j1]];
+        const gi2 = gradP[i + 1 + perm[j + 1]];
         let t0 = 0.5 - x0 * x0 - y0 * y0;
         if (t0 < 0) {
             n0 = 0;
@@ -134,23 +139,23 @@ export class PerlinNoise extends Plugin {
     }
 
     public simplex3(xin: number, yin: number, zin: number) {
-        let perm = this.perm;
-        let gradP = this.gradP;
+        const perm = this.perm;
+        const gradP = this.gradP;
 
-        let n0, n1, n2, n3; 
+        let n0: any, n1: any, n2: any, n3: any; 
 
-        let s = (xin + yin + zin) * F3;
+        const s = (xin + yin + zin) * F3;
         let i = Math.floor(xin + s);
         let j = Math.floor(yin + s);
         let k = Math.floor(zin + s);
 
-        let t = (i + j + k) * G3;
-        let x0 = xin - i + t; 
-        let y0 = yin - j + t;
-        let z0 = zin - k + t;
+        const t = (i + j + k) * G3;
+        const x0 = xin - i + t; 
+        const y0 = yin - j + t;
+        const z0 = zin - k + t;
 
-        let i1, j1, k1; 
-        let i2, j2, k2; 
+        let i1: any, j1: any, k1: any; 
+        let i2: any, j2: any, k2: any; 
         if (x0 >= y0) {
             if (y0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
             else if (x0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; }
@@ -160,25 +165,25 @@ export class PerlinNoise extends Plugin {
             else if (x0 < z0) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; }
             else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
         }
-        let x1 = x0 - i1 + G3; 
-        let y1 = y0 - j1 + G3;
-        let z1 = z0 - k1 + G3;
+        const x1 = x0 - i1 + G3; 
+        const y1 = y0 - j1 + G3;
+        const z1 = z0 - k1 + G3;
 
-        let x2 = x0 - i2 + 2 * G3; 
-        let y2 = y0 - j2 + 2 * G3;
-        let z2 = z0 - k2 + 2 * G3;
+        const x2 = x0 - i2 + 2 * G3; 
+        const y2 = y0 - j2 + 2 * G3;
+        const z2 = z0 - k2 + 2 * G3;
 
-        let x3 = x0 - 1 + 3 * G3;
-        let y3 = y0 - 1 + 3 * G3;
-        let z3 = z0 - 1 + 3 * G3;
+        const x3 = x0 - 1 + 3 * G3;
+        const y3 = y0 - 1 + 3 * G3;
+        const z3 = z0 - 1 + 3 * G3;
 
         i &= 255;
         j &= 255;
         k &= 255;
-        let gi0 = gradP[i + perm[j + perm[k]]];
-        let gi1 = gradP[i + i1 + perm[j + j1 + perm[k + k1]]];
-        let gi2 = gradP[i + i2 + perm[j + j2 + perm[k + k2]]];
-        let gi3 = gradP[i + 1 + perm[j + 1 + perm[k + 1]]];
+        const gi0 = gradP[i + perm[j + perm[k]]];
+        const gi1 = gradP[i + i1 + perm[j + j1 + perm[k + k1]]];
+        const gi2 = gradP[i + i2 + perm[j + j2 + perm[k + k2]]];
+        const gi3 = gradP[i + 1 + perm[j + 1 + perm[k + 1]]];
 
         let t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
         if (t0 < 0) {
@@ -213,18 +218,18 @@ export class PerlinNoise extends Plugin {
     }
 
     public perlin2(x: number, y: number) {
-        let perm = this.perm;
-        let gradP = this.gradP;
+        const perm = this.perm;
+        const gradP = this.gradP;
 
         let X = Math.floor(x), Y = Math.floor(y);
         x = x - X; y = y - Y;
         X = X & 255; Y = Y & 255;
-        let n00 = gradP[X + perm[Y]].dot2(x, y);
-        let n01 = gradP[X + perm[Y + 1]].dot2(x, y - 1);
-        let n10 = gradP[X + 1 + perm[Y]].dot2(x - 1, y);
-        let n11 = gradP[X + 1 + perm[Y + 1]].dot2(x - 1, y - 1);
+        const n00 = gradP[X + perm[Y]].dot2(x, y);
+        const n01 = gradP[X + perm[Y + 1]].dot2(x, y - 1);
+        const n10 = gradP[X + 1 + perm[Y]].dot2(x - 1, y);
+        const n11 = gradP[X + 1 + perm[Y + 1]].dot2(x - 1, y - 1);
 
-        let u = fade(x);
+        const u = fade(x);
 
         return lerp(
             lerp(n00, n10, u),
@@ -233,25 +238,25 @@ export class PerlinNoise extends Plugin {
     }
 
     public perlin3(x: number, y: number, z: number): number {
-        let perm = this.perm;
-        let gradP = this.gradP;
+        const perm = this.perm;
+        const gradP = this.gradP;
 
         let X = Math.floor(x), Y = Math.floor(y), Z = Math.floor(z);
         x = x - X; y = y - Y; z = z - Z;
         X = X & 255; Y = Y & 255; Z = Z & 255;
 
-        let n000 = gradP[X + perm[Y + perm[Z]]].dot3(x, y, z);
-        let n001 = gradP[X + perm[Y + perm[Z + 1]]].dot3(x, y, z - 1);
-        let n010 = gradP[X + perm[Y + 1 + perm[Z]]].dot3(x, y - 1, z);
-        let n011 = gradP[X + perm[Y + 1 + perm[Z + 1]]].dot3(x, y - 1, z - 1);
-        let n100 = gradP[X + 1 + perm[Y + perm[Z]]].dot3(x - 1, y, z);
-        let n101 = gradP[X + 1 + perm[Y + perm[Z + 1]]].dot3(x - 1, y, z - 1);
-        let n110 = gradP[X + 1 + perm[Y + 1 + perm[Z]]].dot3(x - 1, y - 1, z);
-        let n111 = gradP[X + 1 + perm[Y + 1 + perm[Z + 1]]].dot3(x - 1, y - 1, z - 1);
+        const n000 = gradP[X + perm[Y + perm[Z]]].dot3(x, y, z);
+        const n001 = gradP[X + perm[Y + perm[Z + 1]]].dot3(x, y, z - 1);
+        const n010 = gradP[X + perm[Y + 1 + perm[Z]]].dot3(x, y - 1, z);
+        const n011 = gradP[X + perm[Y + 1 + perm[Z + 1]]].dot3(x, y - 1, z - 1);
+        const n100 = gradP[X + 1 + perm[Y + perm[Z]]].dot3(x - 1, y, z);
+        const n101 = gradP[X + 1 + perm[Y + perm[Z + 1]]].dot3(x - 1, y, z - 1);
+        const n110 = gradP[X + 1 + perm[Y + 1 + perm[Z]]].dot3(x - 1, y - 1, z);
+        const n111 = gradP[X + 1 + perm[Y + 1 + perm[Z + 1]]].dot3(x - 1, y - 1, z - 1);
 
-        let u = fade(x);
-        let v = fade(y);
-        let w = fade(z);
+        const u = fade(x);
+        const v = fade(y);
+        const w = fade(z);
 
         return lerp(
             lerp(
