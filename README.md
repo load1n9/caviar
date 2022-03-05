@@ -1,6 +1,6 @@
 
 <p align="center">
- <img src="./assets/caviar.svg" width="81rem" /> 
+ <img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/caviar.svg" width="81rem" /> 
 </p>
 <br/>
 <p align="center">
@@ -23,9 +23,9 @@
 - CarrotzRule ([@carrotzrule123](https://github.com/CarrotzRule123))
 
 
-<img src="./assets/demo.png" width="800rem" /> 
+<img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/demo.png" width="800rem" /> 
 
-
+### [Running In the Browser](https://github.com/load1n9/caviar/tree/main/web)
 
 ### Usage
 
