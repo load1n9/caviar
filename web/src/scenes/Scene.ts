@@ -1,4 +1,5 @@
 import { Entity, Image, World /*AtlasSprite, Sprite*/ } from "../../mod.ts";
+import { RGBA } from "../types.ts";
 
 export type Resource = Image /*| AtlasSprite | Sprite*/;
 
@@ -13,7 +14,9 @@ export class Scene {
   public async loadResources() {
     await Promise.all(this._resources);
   }
-
+  public setKeys(_keys: Array<string>): void {
+    this.world.keyManager.setKeys(_keys);
+  }
   public addChild(e: Entity | Array<Entity>): void {
     if (e instanceof Array) {
       this.entities.push(...e);
@@ -63,6 +66,9 @@ export class Scene {
   public _mouseMotion(e: any) {
     this.mouseMotion(e);
   }
+  public setBackground(color: string | RGBA): void {
+    this.world.renderer.setBackground(color);
+  }
   public tick(): void {}
   // deno-lint-ignore no-explicit-any
   public mouseDown(_e: any): void {}
@@ -70,6 +76,7 @@ export class Scene {
   public mouseMotion(_e: any): void {}
   public setup(): void {}
   public update(): void {}
-  // deno-lint-ignore no-explicit-any
-  public keyDown(_e: any): void {}
+  public keyDown(e: string): boolean {
+    return this.world.keyManager.isDown(e);
+  }
 }

@@ -1,4 +1,5 @@
 import { Plugin, Scene } from "../mod.ts";
+import { KeyManager } from "./events/KeyManager.ts";
 import { GPURenderer } from "./renderers/GPURenderer.ts";
 import { printBanner } from "./utils/mod.ts";
 
@@ -13,6 +14,7 @@ export class World {
   currentScene: Scene;
   renderer: GPURenderer;
   canvas: HTMLCanvasElement;
+  keyManager: KeyManager;
   // deno-lint-ignore no-explicit-any
   plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
@@ -25,6 +27,7 @@ export class World {
     document.body.style.margin = "0"
     this.currentScene = new this.scenes[0](this);
     this.renderer = new GPURenderer(this);
+    this.keyManager = new KeyManager(this);
   }
 
   async start(): Promise<void> {
@@ -45,8 +48,7 @@ export class World {
   setFPS(fps: number): void {
     this.FPS = fps;
   }
-  // deno-lint-ignore no-explicit-any
-  keyDown(e: any): void {
+  keyDown(e: string): void {
     this.currentScene.keyDown(e);
   }
 

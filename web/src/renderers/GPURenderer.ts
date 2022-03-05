@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { Entity } from "../entities/Entity.ts";
-import { Rectangle, Image } from "../../mod.ts";
+import { AtlasSprite, Image, Rectangle, TextureSprite } from "../../mod.ts";
 import { RGBA } from "../types.ts";
 import { World } from "../World.ts";
 import {
@@ -10,7 +10,12 @@ import {
   Textures2D,
   Uniforms2D,
 } from "./shader2d.ts";
-import { EntityBuffers, ImageBuffers, Layouts, RectangleBuffers } from "./types.ts";
+import {
+  EntityBuffers,
+  ImageBuffers,
+  Layouts,
+  RectangleBuffers,
+} from "./types.ts";
 import { EventManager } from "../events/EventManager.ts";
 import { hexToRGBA } from "../utils/HexToRGBA.ts";
 import { createBuffer, loadTexture } from "./util.ts";
@@ -59,20 +64,28 @@ export class GPURenderer {
     });
     const module = this.#device.createShaderModule({ code: shader2d });
     this.#pipeline = createRenderPipeline(this.#device, module, layout, format);
-    this.#sampler = device.createSampler({})
+    this.#sampler = device.createSampler({});
     this.#emptyBuffer = device.createBuffer({
       size: 32,
       usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
-    })
-    this.#emptyTexture = Textures2D.empty(device, this.#layouts.texture, this.#sampler)
+    });
+    this.#emptyTexture = Textures2D.empty(
+      device,
+      this.#layouts.texture,
+      this.#sampler,
+    );
   }
 
   start(entities: Entity[]) {
     for (const entity of entities) {
       if (entity instanceof Rectangle) {
         this.#setupRectangle(entity);
-      } else if (entity instanceof Image) {
+      } else if (entity instanceof Image || entity instanceof AtlasSprite) {
         this.#setupImage(entity);
+      } else if (entity instanceof TextureSprite) {
+        for (const rect of entity.data) {
+          this.#setupRectangle(rect);
+        }
       }
     }
   }
@@ -95,8 +108,12 @@ export class GPURenderer {
     for (const entity of entities) {
       if (entity instanceof Rectangle) {
         this.#renderRectangle(entity, renderPass);
-      } else if (entity instanceof Image) {
+      } else if (entity instanceof Image || entity instanceof AtlasSprite) {
         this.#renderImage(entity, renderPass);
+      } else if (entity instanceof TextureSprite) {
+        for (const rect of entity.data) {
+          this.#renderRectangle(rect, renderPass);
+        }
       }
     }
     // @ts-ignore  end is being weird
@@ -119,8 +136,8 @@ export class GPURenderer {
       data[i] = (data[i] / this.#canvas.width) * 2 - 1;
       data[i + 1] = (data[i + 1] / this.#canvas.height) * -2 + 1;
     }
-    const position = createBuffer(this.#device, new Float32Array(data))
-    const uniforms = new Uniforms2D(this.#device, this.#layouts.uniform)
+    const position = createBuffer(this.#device, new Float32Array(data));
+    const uniforms = new Uniforms2D(this.#device, this.#layouts.uniform);
     this.#buffers.set(entity.id, { position, uniforms });
   }
 
@@ -138,11 +155,14 @@ export class GPURenderer {
     renderPass.draw(4, 1);
   }
 
-  #setupImage(entity: Image): void {
+  #setupImage(entity: Image | AtlasSprite): void {
     // const { x, y, width, height } = entity instanceof Image
     //   ? { x: 0, y: 0, width: entity.width, height: entity.height }
     //   : entity.frame;
-    const x = 0, y = 0, { width, height } = entity
+    const x = entity instanceof Image ? 0 : entity.frame.x;
+    const y = entity instanceof Image ? 0 : entity.frame.y;
+    const { width, height } = entity instanceof Image ? entity : entity.frame;
+
     const data = [
       x,
       y,
@@ -157,19 +177,24 @@ export class GPURenderer {
       data[i] = data[i] / entity.width;
       data[i + 1] = data[i + 1] / entity.height;
     }
-    const coords = createBuffer(this.#device, new Float32Array(data))
+    const coords = createBuffer(this.#device, new Float32Array(data));
     for (let i = 0; i < data.length; i += 2) {
       data[i] = data[i] * entity.width / this.#canvas.width * 2 - 1;
       data[i + 1] = data[i + 1] * entity.height / this.#canvas.height * -2 + 1;
     }
-    const position = createBuffer(this.#device, new Float32Array(data))
+    const position = createBuffer(this.#device, new Float32Array(data));
     const tex2d = loadTexture(this.#device, entity.bitmap);
-    const uniforms = new Uniforms2D(this.#device, this.#layouts.uniform)
-    const texture = new Textures2D(this.#device, this.#layouts.texture, tex2d, this.#sampler)
+    const uniforms = new Uniforms2D(this.#device, this.#layouts.uniform);
+    const texture = new Textures2D(
+      this.#device,
+      this.#layouts.texture,
+      tex2d,
+      this.#sampler,
+    );
     this.#buffers.set(entity.id, { position, texture, coords, uniforms });
   }
 
-  #renderImage(entity: Image, renderPass: GPURenderPassEncoder): void {
+  #renderImage(entity: Image | AtlasSprite, renderPass: GPURenderPassEncoder): void {
     const buffers = this.#buffers.get(entity.id) as ImageBuffers;
     renderPass.setVertexBuffer(0, buffers.position);
     renderPass.setVertexBuffer(1, buffers.coords);
