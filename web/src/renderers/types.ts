@@ -1,17 +1,27 @@
-import { Uniforms2D } from "./shader2d.ts";
+import { Textures2D, Uniforms2D } from "./shader2d.ts";
 
-export type EntityBuffers = RectangleBuffers
+export type Layouts = {
+    uniform: GPUBindGroupLayout
+    texture: GPUBindGroupLayout
+}
+
+export type EntityBuffers = RectangleBuffers | ImageBuffers
 
 export type RectangleBuffers = {
-    bindGroup: GPUBindGroup,
     uniforms: Uniforms2D,
     
     position: GPUBuffer
 }
 
-// export type ImageBuffers = {
-//     // bindGroup: GPUBindGroup,
-//     position: GPUBuffer,
-//     texture: GPUTexture,
-//     coords: GPUBuffer,
-// }
+export type ImageBuffers = {
+    uniforms: Uniforms2D,
+    texture: Textures2D,
+
+    position: GPUBuffer,
+    coords: GPUBuffer,
+}
+
+export enum Usage {
+    Geometry,
+    Texture,
+}

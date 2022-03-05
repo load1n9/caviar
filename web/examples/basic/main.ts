@@ -1,13 +1,13 @@
-import { World, Scene, Rectangle } from "../../mod.ts";
+import { World, Scene, Rectangle, Image } from "../../mod.ts";
 class Test extends Scene {
     public test = new Rectangle(0, 0, 100, 100, "#00ff00");
-    public test2 = new Rectangle(100, 0, 100, 100, "#ff0000");
+    public test2 = new Image("./deno_logo.png", 0, 100);
     
     public setup() {
-        this.addChild([this.test, this.test2]);
+        this.addChild([this.test2]);
+        this.addChild([this.test]);
     }
     public update() {
-        this.test2.x += 1;
     }
 }
 const world = new World({

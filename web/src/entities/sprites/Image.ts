@@ -1,8 +1,7 @@
 import { Entity } from "../Entity.ts";
 
 export class Image extends Entity {
-    public width: number;
-    public height: number
+    public bitmap: ImageBitmap
     public image: HTMLImageElement;
     public url: string;
 
@@ -24,7 +23,10 @@ export class Image extends Entity {
             this.image.onload = () => {
                 this.width = this.image.width;
                 this.height = this.image.height;
-                res(this)
+                createImageBitmap(this.image).then(img => {
+                    this.bitmap = img
+                    res(this)
+                })
             }
             this.image.onerror = rej
         })
