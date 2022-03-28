@@ -119,18 +119,22 @@ export class GPURenderer {
     this.#device.queue.submit([encoder.finish()]);
   }
   #render(entities: Entity[], renderPass: GPURenderPassEncoder): void {
-    for (const entity of entities) {
-      if (entity instanceof Rectangle) {
-        this.#renderRectangle(entity, renderPass);
-      } else if (entity instanceof Image || entity instanceof AtlasSprite) {
-        this.#renderImage(entity, renderPass);
-      } else if (entity instanceof TextureSprite) {
-        for (const rect of entity.data) {
-          this.#renderRectangle(rect, renderPass);
+    try {
+      for (const entity of entities) {
+        if (entity instanceof Rectangle) {
+          this.#renderRectangle(entity, renderPass);
+        } else if (entity instanceof Image || entity instanceof AtlasSprite) {
+          this.#renderImage(entity, renderPass);
+        } else if (entity instanceof TextureSprite) {
+          for (const rect of entity.data) {
+            this.#renderRectangle(rect, renderPass);
+          }
+        } else if (entity instanceof Group) {
+          this.#render(entity.children, renderPass);
         }
-      } else if (entity instanceof Group) {
-        this.#render(entity.children, renderPass);
       }
+    } catch (_e: unknown) {
+      this.start(this.world.currentScene.entities);
     }
   }
 

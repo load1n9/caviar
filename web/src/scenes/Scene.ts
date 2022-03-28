@@ -35,6 +35,7 @@ export class Scene {
           Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/
       ) {
         this._resources.push(e.load());
+        
       }
     }
   }
