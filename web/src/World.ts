@@ -1,4 +1,5 @@
 import { Plugin, Scene } from "../mod.ts";
+import { EventManager } from "./events/EventManager.ts";
 import { KeyManager } from "./events/KeyManager.ts";
 import { GPURenderer } from "./renderers/GPURenderer.ts";
 import { printBanner } from "./utils/mod.ts";
@@ -15,6 +16,7 @@ export class World {
   renderer: GPURenderer;
   canvas: HTMLCanvasElement;
   keyManager: KeyManager;
+  eventManager: EventManager;
   // deno-lint-ignore no-explicit-any
   plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
@@ -28,10 +30,11 @@ export class World {
     this.currentScene = new this.scenes[0](this);
     this.renderer = new GPURenderer(this);
     this.keyManager = new KeyManager(this);
+    this.eventManager = new EventManager();
   }
 
   async start(): Promise<void> {
-    printBanner("0.0.1");
+    printBanner("2.3.6");
     await this.renderer.init();
     this.setup();
     await this.currentScene.loadResources()
