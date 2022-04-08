@@ -3,16 +3,16 @@ import { World, Plugin } from "../../mod.ts";
 
 class Grad {
     constructor(
-        public x: number, 
-        public y: number, 
+        public x: number,
+        public y: number,
         public z: number
-    ) {}
+    ) { }
 
-    public dot2(x: number, y: number) {
+    dot2(x: number, y: number) {
         return this.x * x + this.y * y;
     }
 
-    public dot3(x: number, y: number, z: number) {
+    dot3(x: number, y: number, z: number) {
         return this.x * x + this.y * y + this.z * z;
     }
 }
@@ -50,19 +50,19 @@ const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 const lerp = (a: number, b: number, t: number) => (1 - t) * a + t * b;
 
 export class PerlinNoise extends Plugin {
-    public perm: any;
-    public gradP: any;
+    perm: any;
+    gradP: any;
     constructor(world: World) {
         super(world);
         this.perm = new Array(512);
         this.gradP = new Array(512);
         this.setSeed(0);
     }
-    public onStart() {
+    onStart() {
         console.log("Using Perlin Noise Caviar Plugin")
     }
 
-    public setSeed(seed: number): void {
+    setSeed(seed: number): void {
         const perm = this.perm;
         const gradP = this.gradP;
 
@@ -88,26 +88,26 @@ export class PerlinNoise extends Plugin {
         }
     }
 
-    public simplex2(xin: number, yin: number){
+    simplex2(xin: number, yin: number) {
         const perm = this.perm;
         const gradP = this.gradP;
 
         let n0: any, n1: any, n2: any;
-        const s = (xin + yin) * F2; 
+        const s = (xin + yin) * F2;
         let i = Math.floor(xin + s);
         let j = Math.floor(yin + s);
         const t = (i + j) * G2;
-        const x0 = xin - i + t; 
+        const x0 = xin - i + t;
         const y0 = yin - j + t;
         let i1: any, j1: any;
-        if (x0 > y0) { 
+        if (x0 > y0) {
             i1 = 1; j1 = 0;
-        } else {    
+        } else {
             i1 = 0; j1 = 1;
         }
-        const x1 = x0 - i1 + G2; 
+        const x1 = x0 - i1 + G2;
         const y1 = y0 - j1 + G2;
-        const x2 = x0 - 1 + 2 * G2; 
+        const x2 = x0 - 1 + 2 * G2;
         const y2 = y0 - 1 + 2 * G2;
         i &= 255;
         j &= 255;
@@ -119,7 +119,7 @@ export class PerlinNoise extends Plugin {
             n0 = 0;
         } else {
             t0 *= t0;
-            n0 = t0 * t0 * gi0.dot2(x0, y0); 
+            n0 = t0 * t0 * gi0.dot2(x0, y0);
         }
         let t1 = 0.5 - x1 * x1 - y1 * y1;
         if (t1 < 0) {
@@ -138,11 +138,11 @@ export class PerlinNoise extends Plugin {
         return 70 * (n0 + n1 + n2);
     }
 
-    public simplex3(xin: number, yin: number, zin: number) {
+    simplex3(xin: number, yin: number, zin: number) {
         const perm = this.perm;
         const gradP = this.gradP;
 
-        let n0: any, n1: any, n2: any, n3: any; 
+        let n0: any, n1: any, n2: any, n3: any;
 
         const s = (xin + yin + zin) * F3;
         let i = Math.floor(xin + s);
@@ -150,12 +150,12 @@ export class PerlinNoise extends Plugin {
         let k = Math.floor(zin + s);
 
         const t = (i + j + k) * G3;
-        const x0 = xin - i + t; 
+        const x0 = xin - i + t;
         const y0 = yin - j + t;
         const z0 = zin - k + t;
 
-        let i1: any, j1: any, k1: any; 
-        let i2: any, j2: any, k2: any; 
+        let i1: any, j1: any, k1: any;
+        let i2: any, j2: any, k2: any;
         if (x0 >= y0) {
             if (y0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
             else if (x0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; }
@@ -165,11 +165,11 @@ export class PerlinNoise extends Plugin {
             else if (x0 < z0) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; }
             else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
         }
-        const x1 = x0 - i1 + G3; 
+        const x1 = x0 - i1 + G3;
         const y1 = y0 - j1 + G3;
         const z1 = z0 - k1 + G3;
 
-        const x2 = x0 - i2 + 2 * G3; 
+        const x2 = x0 - i2 + 2 * G3;
         const y2 = y0 - j2 + 2 * G3;
         const z2 = z0 - k2 + 2 * G3;
 
@@ -190,7 +190,7 @@ export class PerlinNoise extends Plugin {
             n0 = 0;
         } else {
             t0 *= t0;
-            n0 = t0 * t0 * gi0.dot3(x0, y0, z0); 
+            n0 = t0 * t0 * gi0.dot3(x0, y0, z0);
         }
         let t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
         if (t1 < 0) {
@@ -217,7 +217,7 @@ export class PerlinNoise extends Plugin {
 
     }
 
-    public perlin2(x: number, y: number) {
+    perlin2(x: number, y: number) {
         const perm = this.perm;
         const gradP = this.gradP;
 
@@ -237,7 +237,7 @@ export class PerlinNoise extends Plugin {
             fade(y));
     }
 
-    public perlin3(x: number, y: number, z: number): number {
+    perlin3(x: number, y: number, z: number): number {
         const perm = this.perm;
         const gradP = this.gradP;
 

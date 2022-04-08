@@ -3,13 +3,13 @@ import { hexToRGBA, Rectangle, Scene } from "../../../mod.ts";
 import { PixelTexture } from "../../types.ts";
 import { Arne16 } from "./palettes/mod.ts";
 export class TextureSprite extends Entity {
-  public data: Rectangle[];
-  public texture: PixelTexture;
-  public palette: string[];
-  public pixelWidth: number;
-  public pixelHeight: number;
-  public width: number;
-  public height: number;
+  data: Rectangle[];
+  texture: PixelTexture;
+  palette: string[];
+  pixelWidth: number;
+  pixelHeight: number;
+  width: number;
+  height: number;
   constructor(_scene: Scene, x: number, y: number, texture: PixelTexture) {
     super(x, y);
     this.texture = texture;
@@ -25,7 +25,7 @@ export class TextureSprite extends Entity {
     );
     this.setup();
   }
-  public setup() {
+  setup() {
     this.data = [];
     for (let y = 0; y < this.texture.data.length; y++) {
       const row = this.texture.data[y];
@@ -51,7 +51,7 @@ export class TextureSprite extends Entity {
     }
   }
 
-  public setX(x: number) {
+  setX(x: number) {
     this.x = x;
     let k = 0;
     for (let j = 0; j < this.texture.data.length; j++) {
@@ -65,7 +65,7 @@ export class TextureSprite extends Entity {
       }
     }
   }
-  public setY(y: number) {
+  setY(y: number) {
     this.y = y;
     let k = 0;
     for (let j = 0; j < this.texture.data.length; j++) {

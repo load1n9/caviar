@@ -7,13 +7,13 @@ import type {
 } from "./types.ts";
 
 export class World extends Canvas {
-  public FPS = 500;
-  public params: WorldOptions;
-  public scenes: Array<typeof Scene>;
-  public currentScene: Scene;
-  public renderer: WebGLRenderer2D;
+  FPS = 500;
+  params: WorldOptions;
+  scenes: Array<typeof Scene>;
+  currentScene: Scene;
+  renderer: WebGLRenderer2D;
   // deno-lint-ignore no-explicit-any
-  public plugins: any = {};
+  plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     super(params)
     this.params = params;
@@ -22,7 +22,7 @@ export class World extends Canvas {
     this.renderer = new WebGLRenderer2D(this);
   }
 
-  public async start(): Promise<void> {
+  async start(): Promise<void> {
     this.setup();
     await this.currentScene.loadResources()
     this.renderer.start(this.currentScene.entities)
@@ -34,7 +34,7 @@ export class World extends Canvas {
 
   }
 
-  public _draw(): void {
+  _draw(): void {
     this._fps()();
     // this.renderer.updateEvents();
     // this.renderer.swapBuffers();
@@ -46,10 +46,10 @@ export class World extends Canvas {
     requestAnimationFrame(this._draw.bind(this));
   }
 
-  public setFPS(fps: number): void {
+  setFPS(fps: number): void {
     this.FPS = fps;
   }
-  public _fps(): () => void {
+  _fps(): () => void {
     let start = performance.now();
     let frames = 0;
     return () => {
@@ -63,11 +63,11 @@ export class World extends Canvas {
     };
   }
   // deno-lint-ignore no-explicit-any
-  public keyDown(e: any): void {
+  keyDown(e: any): void {
     this.currentScene.keyDown(e);
   }
 
-  public setScene(scene: number | string): void {
+  setScene(scene: number | string): void {
     if (typeof scene === "string") {
       for (const s of this.scenes) {
         if (s.name === scene) {
@@ -81,32 +81,32 @@ export class World extends Canvas {
     this.setup();
   }
   // deno-lint-ignore no-explicit-any
-  public loadPlugin(name: string, plugin: any): void {
+  loadPlugin(name: string, plugin: any): void {
     this.plugins[name] = plugin;
   }
-  public usePlugin(name: string): Plugin {
+  usePlugin(name: string): Plugin {
     const plug = new this.plugins[name](this);
     plug.onStart();
     return plug;
   }
   // deno-lint-ignore no-explicit-any
-  public _mouseDown(e: any): void {
+  _mouseDown(e: any): void {
     this.currentScene._mouseDown(e);
   }
-  public _mouseMotion(e: MouseMotionEvent): void {
+  _mouseMotion(e: MouseMotionEvent): void {
     this.currentScene._mouseMotion(e);
   }
-  public setup(): void {
+  setup(): void {
     this.currentScene.setup();
   }
-  public updateProgramLifeCycle(): void {
+  updateProgramLifeCycle(): void {
     this.currentScene.tick();
     this.currentScene.update();
   }
-  public get mouseX(): number {
+  get mouseX(): number {
     return this.renderer.canvas.getCurrentState().cursorX;
   }
-  public get mouseY(): number {
+  get mouseY(): number {
     return this.renderer.canvas.getCurrentState().cursorY;
   }
 }

@@ -4,10 +4,10 @@ import { Image as HTMLImage } from '../../../deps.ts';
 
 
 export class Image extends Entity {
-    public width: number;
-    public height: number
-    public image: HTMLImage;
-    public url: string;
+    width: number;
+    height: number
+    image: HTMLImage;
+    url: string;
 
     constructor(
         url: string,
@@ -22,7 +22,7 @@ export class Image extends Entity {
         this.url = `file:///${Deno.cwd()}/${url}`;
     }
 
-    public load() {
+    load() {
         return new Promise<Image>((res, rej) => {
             this.image.src = this.url
             this.image.onload = () => {

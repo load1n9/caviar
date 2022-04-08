@@ -39,10 +39,10 @@ interface IPhaserAtlas {
     }
 }
 export class PhaserAtlas {
-    public frames: { [key:string] : Frame } = {};
-    public width: number;
-    public height: number;
-    public imgUrl: string;
+    frames: { [key:string] : Frame } = {};
+    width: number;
+    height: number;
+    imgUrl: string;
     constructor(data: IPhaserAtlas) {
         this.width = data.textures[0].size.w;
         this.height = data.textures[0].size.h;

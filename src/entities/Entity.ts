@@ -1,10 +1,10 @@
 export abstract class Entity {
-    public id: string;
+    id: string;
     #x: number;
     #y: number;
     #z: number;
-    public width = 0;
-    public height = 0;
+    width = 0;
+    height = 0;
 
     constructor(x: number, y: number) {
         this.id = crypto.randomUUID();
@@ -12,26 +12,26 @@ export abstract class Entity {
         this.#y = y;
         this.#z = 1;
     }
-    public set x(x:number) {
+    set x(x:number) {
         this.#x = x;
     }
-    public get x(): number {
+    get x(): number {
         return this.#x;
     }
-    public set y(y:number) {
+    set y(y:number) {
         this.#y = y;
     }
-    public get y() {
+    get y() {
         return this.#y;
     }
-    public set z(z: number) {
+    set z(z: number) {
         this.#z = z;
     }
-    public get z(): number {
+    get z(): number {
         return this.#z;
     }
     
-    public setPosition(x:number, y:number, z?:number) {
+    setPosition(x:number, y:number, z?:number) {
         this.#x = x;
         this.#y = y; 
         if (z) this.#z = z;

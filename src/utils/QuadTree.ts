@@ -1,5 +1,5 @@
 export class QuadTree {
   constructor() {
-    
+
   }
 }

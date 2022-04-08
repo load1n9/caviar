@@ -13,7 +13,7 @@ interface Settings {
   fill: RGBA | string;
 }
 export class ParticleSystem extends Entity {
-  public particles: Array<Particle> = [];
+  particles: Array<Particle> = [];
   constructor(
     public _scene: Scene,
     public settings: Settings,
@@ -22,7 +22,7 @@ export class ParticleSystem extends Entity {
     super(0, 0);
   }
 
-  public update(): void {
+  update(): void {
     for (let i = 0; i < this.settings.density; i++) {
       if (Math.random() > 0.97) {
         this.particles.push(

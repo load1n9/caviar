@@ -4,10 +4,10 @@ export const generateFrames = (width: number, height: number, rows: number, cols
     for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
             frames.push({
-                x: i * (width/cols),
-                y: j * (height/rows),
+                x: i * (width / cols),
+                y: j * (height / rows),
                 width: width / cols,
-                height: height/rows
+                height: height / rows
             });
         }
     }

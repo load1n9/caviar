@@ -15,8 +15,8 @@ interface IDecomposed {
 }
 
 export class TransformMatrix {
-    public matrix: Float32Array;
-    public decomposedMatrix: IDecomposed;
+    matrix: Float32Array;
+    decomposedMatrix: IDecomposed;
     constructor(a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0) {
         this.matrix = new Float32Array([a, b, c, d, tx, ty, 0, 0, 1]);
         this.decomposedMatrix = {
@@ -28,58 +28,58 @@ export class TransformMatrix {
         };
     }
 
-    public get a(): number {
+    get a(): number {
         return this.matrix[0];
     }
-    public set a(value: number) {
+    set a(value: number) {
         this.matrix[0] = value;
     }
-    public get b(): number {
+    get b(): number {
         return this.matrix[1];
     }
-    public set b(value: number) {
+    set b(value: number) {
         this.matrix[1] = value;
     }
-    public get c(): number {
+    get c(): number {
         return this.matrix[2];
     }
-    public set c(value: number) {
+    set c(value: number) {
         this.matrix[2] = value;
     }
-    public get d(): number {
+    get d(): number {
         return this.matrix[3];
     }
-    public set d(value: number) {
+    set d(value: number) {
         this.matrix[3] = value;
     }
-    public get e(): number {
+    get e(): number {
         return this.matrix[4];
     }
-    public set e(value: number) {
+    set e(value: number) {
         this.matrix[4] = value;
     }
-    public get f(): number {
+    get f(): number {
         return this.matrix[5];
     }
-    public set f(value: number) {
+    set f(value: number) {
         this.matrix[5] = value;
     }
-    public get tx(): number {
+    get tx(): number {
         return this.matrix[4];
     }
-    public set tx(value: number) {
+    set tx(value: number) {
         this.matrix[4] = value;
     }
-    public get ty(): number {
+    get ty(): number {
         return this.matrix[5];
     }
-    public set ty(value: number) {
+    set ty(value: number) {
         this.matrix[5] = value;
     }
-    public get rotation(): number {
+    get rotation(): number {
         return Math.acos(this.a / this.scaleX) * ((Math.atan(-this.c / this.a) < 0) ? -1 : 1);
     }
-    public get rotationNormalized(): number {
+    get rotationNormalized(): number {
         const matrix = this.matrix;
         const a = matrix[0];
         const b = matrix[1];
@@ -94,13 +94,13 @@ export class TransformMatrix {
         return 0;
 
     }
-    public get scaleX(): number {
+    get scaleX(): number {
         return Math.sqrt((this.a * this.a) + (this.b * this.b));
     }
-    public get scaleY(): number {
+    get scaleY(): number {
         return Math.sqrt((this.c * this.c) + (this.d * this.d));
     }
-    public loadIdentity(): TransformMatrix {
+    loadIdentity(): TransformMatrix {
         this.matrix[0] = 1;
         this.matrix[1] = 0;
         this.matrix[2] = 0;
@@ -109,19 +109,19 @@ export class TransformMatrix {
         this.matrix[5] = 0;
         return this;
     }
-    public translate(x: number, y: number): TransformMatrix {
+    translate(x: number, y: number): TransformMatrix {
         this.matrix[4] = this.matrix[0] * x + this.matrix[2] * y + this.matrix[4];
         this.matrix[5] = this.matrix[1] * x + this.matrix[3] * y + this.matrix[5];
         return this;
     }
-    public scale(x: number, y: number): TransformMatrix {
+    scale(x: number, y: number): TransformMatrix {
         this.matrix[0] *= x;
         this.matrix[1] *= x;
         this.matrix[2] *= y;
         this.matrix[3] *= y;
         return this;
     }
-    public rotate(angle: number): TransformMatrix {
+    rotate(angle: number): TransformMatrix {
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
         const a = this.matrix[0];
@@ -134,7 +134,7 @@ export class TransformMatrix {
         this.matrix[3] = b * -sin + d * cos;
         return this;
     }
-    public multiply(rhs: TransformMatrix, out?: TransformMatrix): TransformMatrix {
+    multiply(rhs: TransformMatrix, out?: TransformMatrix): TransformMatrix {
         const matrix = this.matrix;
         const source = rhs.matrix;
         const localA = matrix[0];
@@ -160,7 +160,7 @@ export class TransformMatrix {
         destinationMatrix.f = (sourceE * localB) + (sourceF * localD) + localF;
         return destinationMatrix;
     }
-    public multiplyWithOffset(src: TransformMatrix, offsetX: number, offsetY: number): TransformMatrix {
+    multiplyWithOffset(src: TransformMatrix, offsetX: number, offsetY: number): TransformMatrix {
         const matrix = this.matrix;
         // the matrix your wife told you not to worry about.
         const otherMatrix = src.matrix;
@@ -191,7 +191,7 @@ export class TransformMatrix {
         return this;
     }
 
-    public transform(a: number, b: number, c: number, d: number, tx: number, ty: number): TransformMatrix {
+    transform(a: number, b: number, c: number, d: number, tx: number, ty: number): TransformMatrix {
         const matrix = this.matrix;
         const a0 = matrix[0];
         const b0 = matrix[1];
@@ -209,7 +209,7 @@ export class TransformMatrix {
         return this;
     }
 
-    public transformPoint(x: number, y: number, point: IVectorLike = { x: 0, y: 0 }): IVectorLike {
+    transformPoint(x: number, y: number, point: IVectorLike = { x: 0, y: 0 }): IVectorLike {
         const matrix = this.matrix;
         const a = matrix[0];
         const b = matrix[1];
@@ -222,7 +222,7 @@ export class TransformMatrix {
         return point;
     }
 
-    public invert(): TransformMatrix {
+    invert(): TransformMatrix {
         const matrix = this.matrix;
         const a = matrix[0];
         const b = matrix[1];
@@ -240,7 +240,7 @@ export class TransformMatrix {
         return this;
     }
 
-    public copyFrom(src: TransformMatrix): TransformMatrix {
+    copyFrom(src: TransformMatrix): TransformMatrix {
         const matrix = this.matrix;
         matrix[0] = src.a;
         matrix[1] = src.b;
@@ -251,7 +251,7 @@ export class TransformMatrix {
         return this;
     }
 
-    public copyFromArray(src: number[]): TransformMatrix {
+    copyFromArray(src: number[]): TransformMatrix {
         const matrix = this.matrix;
         matrix[0] = src[0];
         matrix[1] = src[1];
@@ -262,7 +262,7 @@ export class TransformMatrix {
         return this;
     }
 
-    public copyToArray(dest: number[]): number[] {
+    copyToArray(dest: number[]): number[] {
         const matrix = this.matrix;
         dest[0] = matrix[0];
         dest[1] = matrix[1];
@@ -273,7 +273,7 @@ export class TransformMatrix {
         return dest;
     }
 
-    public setTransform(a: number, b: number, c: number, d: number, tx: number, ty: number): TransformMatrix {
+    setTransform(a: number, b: number, c: number, d: number, tx: number, ty: number): TransformMatrix {
         const matrix = this.matrix;
         matrix[0] = a;
         matrix[1] = b;
@@ -284,7 +284,7 @@ export class TransformMatrix {
         return this;
     }
 
-    public decomposeMatrix(): IDecomposed {
+    decomposeMatrix(): IDecomposed {
         const decomposedMatrix = this.decomposedMatrix;
         const matrix = this.matrix;
         const a = matrix[0];
@@ -313,7 +313,7 @@ export class TransformMatrix {
         return decomposedMatrix;
     }
 
-    public applyITRS(x: number, y: number, rotation: number, scaleX: number, scaleY: number): TransformMatrix {
+    applyITRS(x: number, y: number, rotation: number, scaleX: number, scaleY: number): TransformMatrix {
         const matrix = this.matrix;
 
         const radianSin = Math.sin(rotation);
@@ -330,7 +330,7 @@ export class TransformMatrix {
         return this;
     }
 
-    public applyInverse(x: number, y: number, output: Vector = new Vector()): Vector {
+    applyInverse(x: number, y: number, output: Vector = new Vector()): Vector {
         const matrix = this.matrix;
         const a = matrix[0];
         const b = matrix[1];
@@ -344,25 +344,25 @@ export class TransformMatrix {
         return output;
     }
 
-    public getX(x: number, y: number): number {
+    getX(x: number, y: number): number {
         return x * this.a + y * this.c + this.e;
     }
 
-    public getY(x: number, y: number): number {
+    getY(x: number, y: number): number {
         return x * this.b + y * this.d + this.f;
     }
 
-    public getXRound(x: number, y: number, round = false): number {
+    getXRound(x: number, y: number, round = false): number {
         const v = this.getX(x, y);
         return round ? Math.round(v) : v;
     }
 
-    public getYRound(x: number, y: number, round = false): number {
+    getYRound(x: number, y: number, round = false): number {
         const v = this.getY(x, y);
         return round ? Math.round(v) : v;
     }
 
-    public getCSSMatrix(): string {
+    getCSSMatrix(): string {
         return `matrix(${this.matrix[0]}, ${this.matrix[1]}, ${this.matrix[2]}, ${this.matrix[3]}, ${this.matrix[4]}, ${this.matrix[5]})`;
     }
 }

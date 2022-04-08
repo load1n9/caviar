@@ -11,18 +11,18 @@ import type { KeyEvent, MouseDownEvent, MouseMotionEvent } from "../types.ts";
 export type Resource = Image | AtlasSprite | Sprite;
 
 export class Scene {
-  public entities: Array<Entity> = [];
+  entities: Array<Entity> = [];
   #resources: Promise<Resource>[] = [];
-  public resources: Resource[] = [];
+  resources: Resource[] = [];
   constructor(
     public world: World,
-  ) {}
+  ) { }
 
-  public async loadResources() {
+  async loadResources() {
     await Promise.all(this.#resources);
   }
 
-  public addChild(e: Entity | Entity[]): void {
+  addChild(e: Entity | Entity[]): void {
     if (e instanceof Array) {
       for (const entity of e) {
         this.addChild(entity);
@@ -33,16 +33,26 @@ export class Scene {
         this.#resources.push(e.load());
       }
     }
-    
+
   }
 
-  public killChild(e: Entity): void {
-    const index = this.entities.indexOf(e);
-    if (index < -1) return;
-    this.entities.splice(index, 1);
+  killChild(e: Entity | Entity[]): void {
+    if (e instanceof Array) {
+      for (const entity of e) {
+        this.killChild(entity);
+      }
+    } else {
+      const index = this.entities.indexOf(e);
+      if (index < -1) return;
+      this.entities.splice(index, 1);
+    }
+
+  }
+  killAllChildren(): void {
+    this.entities = [];
   }
 
-  public _mouseDown(e: MouseDownEvent) {
+  _mouseDown(e: MouseDownEvent) {
     for (const entity of this.entities) {
       if (entity instanceof Button) {
         if (
@@ -57,22 +67,22 @@ export class Scene {
     }
     this.mouseDown(e);
   }
-  public _mouseMotion(e: MouseMotionEvent) {
+  _mouseMotion(e: MouseMotionEvent) {
     this.mouseMotion(e);
   }
-  public setKeys(_keys: Array<string>): void {
+  setKeys(_keys: Array<string>): void {
     this.world.renderer.eventManager.keys = _keys;
   }
-  public get mouseX() {
+  get mouseX() {
     return this.world.mouseX;
   }
-  public get mouseY() {
+  get mouseY() {
     return this.world.mouseY;
   }
-  public tick(): void {}
-  public mouseDown(_e: MouseDownEvent): void {}
-  public mouseMotion(_e: MouseMotionEvent): void {}
-  public setup(): void {}
-  public update(): void {}
-  public keyDown(_e: KeyEvent): void {}
+  tick(): void { }
+  mouseDown(_e: MouseDownEvent): void { }
+  mouseMotion(_e: MouseMotionEvent): void { }
+  setup(): void { }
+  update(): void { }
+  keyDown(_e: KeyEvent): void { }
 }

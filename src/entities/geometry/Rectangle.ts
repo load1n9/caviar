@@ -2,14 +2,14 @@ import { Entity } from "../mod.ts";
 import type { RGBA } from "../../types.ts";
 import { hexToRGBA } from '../../utils/mod.ts';
 export class Rectangle extends Entity {
-    public width: number;
-    public height: number;
-    public right: number
-    public left: number;
-    public up: number;
-    public down: number;
-    public bottom: number;
-    public fill: RGBA;
+    width: number;
+    height: number;
+    right: number
+    left: number;
+    up: number;
+    down: number;
+    bottom: number;
+    fill: RGBA;
 
     constructor(x: number, y: number, width: number, height: number, fill: RGBA | string) {
         super(x,y);
@@ -23,11 +23,11 @@ export class Rectangle extends Entity {
         this.fill = typeof fill === 'string' ? hexToRGBA(fill) : fill;
     }
 
-    public setFill(c: RGBA | string): void {
+    setFill(c: RGBA | string): void {
         this.fill = typeof c === 'string' ? hexToRGBA(c) : c;
     }
 
-    public setAlpha(a: number): void {
+    setAlpha(a: number): void {
         this.fill[3] = a;
     }
 

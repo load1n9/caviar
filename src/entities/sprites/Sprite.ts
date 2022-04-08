@@ -4,15 +4,15 @@ import { generateFrames } from "../../utils/mod.ts";
 import { Image as HTMLImage } from '../../../deps.ts';
 
 export class Sprite extends Entity {
-    public width: number;
-    public height: number;
-    public image: HTMLImage;
-    public url: string;
-    public rows: number;
-    public cols: number;
-    public frames: Array<Frame> = [];
-    public frame: Frame = { x: 0, y: 0, width: 0, height: 0 };
-    private _frame: number;
+    width: number;
+    height: number;
+    image: HTMLImage;
+    url: string;
+    rows: number;
+    cols: number;
+    frames: Array<Frame> = [];
+    frame: Frame = { x: 0, y: 0, width: 0, height: 0 };
+    #frame: number;
     constructor(
         url: string,
         x: number,
@@ -27,29 +27,29 @@ export class Sprite extends Entity {
         this.height = 0;
         this.rows = rows;
         this.cols = cols;
-        this._frame = _frame;
+        this.#frame = _frame;
     }
-    public load(): Promise<Sprite> {
+    load(): Promise<Sprite> {
         return new Promise<Sprite>((res, rej) => {
             this.image.src = this.url;
             this.image.onload = () => {
                 this.width = this.image.width;
                 this.height = this.image.height;
                 this.frames = generateFrames(this.width, this.height, this.rows, this.cols);
-                this.frame = this.frames[this._frame];
+                this.frame = this.frames[this.#frame];
                 res(this)
             }
             this.image.onerror = rej
         })
     }
 
-    public nextFrame(): void {
+    nextFrame(): void {
         this.frame = this.frames[(this.frames.indexOf(this.frame) + 1) % this.frames.length];
     }
-    public previousFrame(): void {
+    previousFrame(): void {
         this.frame = this.frames[(this.frames.indexOf(this.frame) - 1 + this.frames.length) % this.frames.length];
     }
-    public setFrame(frame: number): void {
+    setFrame(frame: number): void {
         this.frame = this.frames[frame];
     }
 

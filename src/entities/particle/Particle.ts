@@ -12,13 +12,13 @@ interface Settings {
 }
 
 export class Particle {
-    public settings: Settings;
-    public x: number;
-    public y: number;
-    public vx: number;
-    public vy: number;
-    public id: number;
-    public life: number;
+    settings: Settings;
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    id: number;
+    life: number;
     constructor(id: number, settings: Settings) {
         this.id = id;
         this.x = settings.startingX;
@@ -31,7 +31,7 @@ export class Particle {
 
     }
 
-    public update(): void {
+    update(): void {
 
     }
 }

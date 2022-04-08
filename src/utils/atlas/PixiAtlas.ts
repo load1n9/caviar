@@ -21,10 +21,10 @@ interface IPixiAtlas {
     }
 }
 export class PixiAtlas {
-    public frames: { [key:string] : Frame } = {};
-    public width: number;
-    public height: number;
-    public imgUrl: string;
+    frames: { [key:string] : Frame } = {};
+    width: number;
+    height: number;
+    imgUrl: string;
     constructor(data: IPixiAtlas) {
         this.width = data.meta.size.w;
         this.height = data.meta.size.h;

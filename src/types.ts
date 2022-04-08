@@ -1,9 +1,9 @@
 export interface WorldOptions {
-  title: string;
-  width: number;
-  height: number;
-  visible?: boolean;
-  resizable?: boolean;
+    title: string;
+    width: number;
+    height: number;
+    visible?: boolean;
+    resizable?: boolean;
 }
 
 export interface WorldPhysicsOptions {
