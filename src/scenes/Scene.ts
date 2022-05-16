@@ -16,7 +16,7 @@ export class Scene {
   resources: Resource[] = [];
   constructor(
     public world: World,
-  ) { }
+  ) {}
 
   async loadResources() {
     await Promise.all(this.#resources);
@@ -29,11 +29,12 @@ export class Scene {
       }
     } else {
       this.entities.push(e);
-      if (e instanceof Image || e instanceof AtlasSprite || e instanceof Sprite) {
+      if (
+        e instanceof Image || e instanceof AtlasSprite || e instanceof Sprite
+      ) {
         this.#resources.push(e.load());
       }
     }
-
   }
 
   killChild(e: Entity | Entity[]): void {
@@ -46,7 +47,6 @@ export class Scene {
       if (index < -1) return;
       this.entities.splice(index, 1);
     }
-
   }
   killAllChildren(): void {
     this.entities = [];
@@ -79,10 +79,10 @@ export class Scene {
   get mouseY() {
     return this.world.mouseY;
   }
-  tick(): void { }
-  mouseDown(_e: MouseDownEvent): void { }
-  mouseMotion(_e: MouseMotionEvent): void { }
-  setup(): void { }
-  update(): void { }
-  keyDown(_e: KeyEvent): void { }
+  tick(): void {}
+  mouseDown(_e: MouseDownEvent): void {}
+  mouseMotion(_e: MouseMotionEvent): void {}
+  setup(): void {}
+  update(): void {}
+  keyDown(_e: KeyEvent): void {}
 }

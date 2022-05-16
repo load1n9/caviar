@@ -14,8 +14,8 @@ export class TextureSprite extends Entity {
     super(x, y);
     this.texture = texture;
     this.data = [];
-    this.palette = texture.palette || Arne16,
-      this.pixelWidth = texture.pixelWidth || 1;
+    this.palette = texture.palette || Arne16;
+    this.pixelWidth = texture.pixelWidth || 1;
     this.pixelHeight = texture.pixelHeight || this.pixelWidth;
     this.width = Math.floor(
       Math.abs(this.texture.data[0].length * this.pixelWidth),
@@ -43,7 +43,7 @@ export class TextureSprite extends Entity {
               // height
               this.pixelHeight,
               // fill color
-              hexToRGBA(this.palette[parseInt("0x" + d.toUpperCase())]),
+              hexToRGBA(this.palette[Number("0x" + d.toUpperCase())]),
             ),
           );
         }
