@@ -8,13 +8,15 @@ export class KeyManager {
   setKeys(keys: Array<string>) {
     this.listeners = keys;
     // @ts-ignore: typescript is weird
-    window!.addEventListener("keydown", (e: KeyboardEvent) => {
+    // deno-lint-ignore no-window-prefix
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
       if (this.listeners.includes(e.key)) {
         this.keysDown[e.key] = true;
       }
     });
     // @ts-ignore: typescript is weird
-    window!.addEventListener("keyup", (e: KeyboardEvent) => {
+    // deno-lint-ignore no-window-prefix
+    window.addEventListener("keyup", (e: KeyboardEvent) => {
       if (this.listeners.includes(e.key)) {
         this.keysDown[e.key] = false;
       }

@@ -38,7 +38,7 @@ export class World {
   }
 
   async start(): Promise<void> {
-    printBanner("2.3.6");
+    printBanner("2.4.6");
     await this.renderer.init();
     this.setup();
     await this.currentScene.loadResources();
@@ -57,10 +57,7 @@ export class World {
   setFPS(fps: number): void {
     this.FPS = fps;
   }
-  keyDown(e: string): void {
-    this.currentScene.keyDown(e);
-  }
-
+  keyDown = (e: string): boolean => this.currentScene.keyDown(e);
   setScene(scene: number | string): void {
     if (typeof scene === "string") {
       for (const s of this.scenes) {

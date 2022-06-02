@@ -247,12 +247,14 @@ class KeyManager {
     setKeys(keys) {
         this.listeners = keys;
         // @ts-ignore: typescript is weird
+        // deno-lint-ignore no-window-prefix
         window.addEventListener("keydown", (e)=>{
             if (this.listeners.includes(e.key)) {
                 this.keysDown[e.key] = true;
             }
         });
         // @ts-ignore: typescript is weird
+        // deno-lint-ignore no-window-prefix
         window.addEventListener("keyup", (e)=>{
             if (this.listeners.includes(e.key)) {
                 this.keysDown[e.key] = false;
@@ -739,7 +741,7 @@ class World {
         this.eventManager = new EventManager();
     }
     async start() {
-        printBanner("2.3.6");
+        printBanner("2.4.6");
         await this.renderer.init();
         this.setup();
         await this.currentScene.loadResources();
@@ -756,9 +758,8 @@ class World {
     setFPS(fps) {
         this.FPS = fps;
     }
-    keyDown(e) {
-        this.currentScene.keyDown(e);
-    }
+    keyDown = (e)=>this.currentScene.keyDown(e)
+    ;
     setScene(scene) {
         if (typeof scene === "string") {
             for (const s of this.scenes){
