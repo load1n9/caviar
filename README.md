@@ -1,6 +1,5 @@
-
 <p align="center">
- <img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/caviar.svg" width="81rem" /> 
+ <img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/caviar.svg" width="81rem" />
 </p>
 <br/>
 <p align="center">
@@ -16,107 +15,145 @@
  </p>
 <hr/>
 
-## game engine built on top of  [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support 
+## game engine built on top of [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support
 
 ### Maintainers
+
 - Loading ([@load1n9](https://github.com/load1n9))
 - CarrotzRule ([@carrotzrule123](https://github.com/CarrotzRule123))
 
-
-<img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/demo.png" width="800rem" /> 
+<img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/demo.png" width="800rem" />
 
 ### [Running In the Browser](https://github.com/load1n9/caviar/tree/main/web)
 
 ### Usage
 
 #### moving squares
-```typescript
-import { World, Scene, Rectangle } from 'https://deno.land/x/caviar/mod.ts';
 
+```typescript
+import { Rectangle, Scene, World } from "https://deno.land/x/caviar/mod.ts";
 
 class Game extends Scene {
-    public test = new Rectangle(0, 0, 100, 100, "#00ff00");
-    public test2 = new Rectangle(0, 0, 100, 100, "#00ff00");
-    
-    public setup() {
-        this.addChild(this.test);
-        this.addChild(this.test2);
-    }
-    public update() {
-        this.test.setX(this.test.x + 5);
-        this.test2.setX(this.test2.x + 2);
-    }
+  test = new Rectangle(0, 0, 100, 100, "#00ff00");
+  test2 = new Rectangle(0, 0, 100, 100, "#00ff00");
 
+  setup() {
+    this.addChild(this.test);
+    this.addChild(this.test2);
+  }
+  update() {
+    this.test.x += 5;
+    this.test2.x += 2;
+  }
 }
 
 const test = new World({
-    title: "test",
-    width: 800,
-    height: 600,
-    resizable: true,
+  title: "test",
+  width: 800,
+  height: 600,
+  resizable: true,
 }, [Game]);
 
 await test.start();
 ```
 
 #### perlin noise
+
 ```typescript
-import { World, Scene, Group, Rectangle } from 'https://deno.land/x/caviar/mod.ts';
+import {
+  Group,
+  Rectangle,
+  Scene,
+  World,
+} from "https://deno.land/x/caviar/mod.ts";
 import { PerlinNoise } from "https://deno.land/x/caviar/src/utils/mod.ts";
 
 class Game extends Scene {
-    public test: any;
-    public chunkSize = 16;
-    public tileSize = 16;
-    public group: Group | undefined;
-    
-    public setup() {
-        this.group = new Group(this, 0,0);
-        this.world.loadPlugin('perlin', PerlinNoise);
+  test: any;
+  chunkSize = 16;
+  tileSize = 16;
+  group: Group | undefined;
 
-        this.test = this.world.usePlugin('perlin');
-        this.test.setSeed(0);
+  setup() {
+    this.group = new Group(this, 0, 0);
+    this.world.loadPlugin("perlin", PerlinNoise);
 
-        for (let x = -40; x < this.chunkSize; x++) {
-            for (let y = -40; y < this.chunkSize; y++) {
-                const tileX = (1 * (this.chunkSize * this.tileSize)) + (x * this.tileSize);
-                const tileY = (1 * (this.chunkSize * this.tileSize)) + (y * this.tileSize);
-                const perlinValue = this.test.perlin2(tileX / 100, tileY / 100);
-                if (perlinValue < 0.2) {
-                    this.group.addChild(new Rectangle(tileX, tileY, this.tileSize, this.tileSize, '#ff0000'));
-                }
-                else if (perlinValue >= 0.2 && perlinValue < 0.3) {
-                    this.group.addChild(new Rectangle(tileX, tileY, this.tileSize, this.tileSize, '#00ff00'));
-                }
-                else if (perlinValue >= 0.3) {
-                    this.group.addChild(new Rectangle(tileX, tileY, this.tileSize, this.tileSize, '#0000ff'));
-                }
-            }
+    this.test = this.world.usePlugin("perlin");
+    this.test.setSeed(0);
+
+    for (let x = -40; x < this.chunkSize; x++) {
+      for (let y = -40; y < this.chunkSize; y++) {
+        const tileX = (1 * (this.chunkSize * this.tileSize)) +
+          (x * this.tileSize);
+        const tileY = (1 * (this.chunkSize * this.tileSize)) +
+          (y * this.tileSize);
+        const perlinValue = this.test.perlin2(tileX / 100, tileY / 100);
+        if (perlinValue < 0.2) {
+          this.group.addChild(
+            new Rectangle(
+              tileX,
+              tileY,
+              this.tileSize,
+              this.tileSize,
+              "#ff0000",
+            ),
+          );
+        } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
+          this.group.addChild(
+            new Rectangle(
+              tileX,
+              tileY,
+              this.tileSize,
+              this.tileSize,
+              "#00ff00",
+            ),
+          );
+        } else if (perlinValue >= 0.3) {
+          this.group.addChild(
+            new Rectangle(
+              tileX,
+              tileY,
+              this.tileSize,
+              this.tileSize,
+              "#0000ff",
+            ),
+          );
         }
-        this.addChild(this.group);
+      }
     }
-    public update() {
-        
-    }
+    this.addChild(this.group);
+  }
+  update() {
+  }
 }
 
 const test = new World({
-    title: "test",
-    width: 800,
-    height: 600,
-    resizable: true,
+  title: "test",
+  width: 800,
+  height: 600,
+  resizable: true,
 }, [Game]);
 
 await test.start();
-
 ```
+
 #### pixel texture
+
 ```typescript
-import { Keys, PICO8, TextureSprite, Scene, World } from 'https://deno.land/x/caviar/mod.ts';
-import type { KeyEvent, MouseDownEvent } from 'https://deno.land/x/caviar/mod.ts';
+import {
+  Keys,
+  PICO8,
+  Scene,
+  TextureSprite,
+  World,
+} from "https://deno.land/x/caviar/mod.ts";
+import type {
+  KeyEvent,
+  MouseDownEvent,
+} from "https://deno.land/x/caviar/mod.ts";
 
 class Game extends Scene {
-  public test = new TextureSprite(this, 10, 10, {
+  test = new TextureSprite(this, 10, 10, {
     data: [
       "..9..9..",
       "..9999..",
@@ -132,13 +169,12 @@ class Game extends Scene {
     palette: PICO8,
   });
 
-  public setup() {
+  setup() {
     this.addChild(this.test);
   }
-  public draw() {
-    
+  draw() {
   }
-  public keyDown(key: KeyEvent) {
+  keyDown(key: KeyEvent) {
     switch (key.keycode) {
       case Keys.ARROWUP: {
         this.test.setY(this.test.y - 10);
@@ -175,8 +211,12 @@ const test = new World({
 
 await test.start();
 ```
+
 ### License
+
 MIT
 
 ### Tools
-- [Caviar CLI](https://github.com/load1n9/caviar-cli) cli tool to generate caviar projects
+
+- [Caviar CLI](https://github.com/load1n9/caviar-cli) cli tool to generate
+  caviar projects

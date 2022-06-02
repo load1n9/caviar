@@ -1,4 +1,8 @@
-import { WebGL2RenderingContext, WebGLProgram, WebGLUniformLocation } from "../../../deps.ts";
+import {
+  WebGL2RenderingContext,
+  WebGLProgram,
+  WebGLUniformLocation,
+} from "../../../deps.ts";
 
 export const vertex2d = `
 attribute vec2 aVertexPosition;
@@ -21,7 +25,7 @@ void main(void) {
   }
   vShaderUsage = uShaderUsage;
 }
-`
+`;
 
 export const fragment2d = `
 varying vec4 vColor;
@@ -37,7 +41,7 @@ void main(void) {
     gl_FragColor = texture2D(uSampler, vTextureCoord);
   };
 }
-`
+`;
 
 export const vertex3d = `
 attribute vec4 aVertexPosition;
@@ -51,7 +55,7 @@ varying lowp vec4 vColor;
 void main() {
   gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
 }
-`
+`;
 
 export const fragment3d = `
 varying lowp vec4 vColor;
@@ -59,7 +63,7 @@ varying lowp vec4 vColor;
 void main(void) {
   gl_FragColor = vColor;
 }
-`
+`;
 
 export interface ProgramInfo2d {
   position: number;
@@ -71,14 +75,17 @@ export interface ProgramInfo2d {
   usage: WebGLUniformLocation;
 }
 
-export function programInfo2d(gl: WebGL2RenderingContext, program: WebGLProgram) {
+export function programInfo2d(
+  gl: WebGL2RenderingContext,
+  program: WebGLProgram,
+) {
   return {
-    position: gl.getAttribLocation(program, 'aVertexPosition'),
-    texture: gl.getAttribLocation(program, 'aTextureCoord'),
+    position: gl.getAttribLocation(program, "aVertexPosition"),
+    texture: gl.getAttribLocation(program, "aTextureCoord"),
 
-    color: gl.getUniformLocation(program, 'uVertexColor')!,
-    transform: gl.getUniformLocation(program, 'uTransformMatrix')!,
-    sampler: gl.getUniformLocation(program, 'uSampler')!,
-    usage: gl.getUniformLocation(program, 'uShaderUsage')!,
-  }
+    color: gl.getUniformLocation(program, "uVertexColor")!,
+    transform: gl.getUniformLocation(program, "uTransformMatrix")!,
+    sampler: gl.getUniformLocation(program, "uSampler")!,
+    usage: gl.getUniformLocation(program, "uShaderUsage")!,
+  };
 }

@@ -1,18 +1,18 @@
 import { Frame } from "../../types.ts";
 interface IGodotFrame {
-  filename: string,
+  filename: string;
   region: {
-    x: number,
-    y: number,
-    w: number,
-    h: number
-  },
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
   margin: {
-    x: number,
-    y: number,
-    w: number,
-    h: number
-  }
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
 }
 interface IGodotAtlas {
   textures: [{
@@ -39,12 +39,12 @@ export class GodotAtlas {
     this.height = data.textures[0].size.h;
     this.imgUrl = `file:///${Deno.cwd()}/${data.textures[0].image}`;
     for (const frame of data.textures[0].sprites) {
-        this.frames[frame.filename] = {
-            x: frame.region.x,
-            y: frame.region.y,
-            width: frame.region.w,
-            height: frame.region.h
-        }
-    }   
+      this.frames[frame.filename] = {
+        x: frame.region.x,
+        y: frame.region.y,
+        width: frame.region.w,
+        height: frame.region.h,
+      };
+    }
   }
 }

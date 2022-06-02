@@ -2,7 +2,6 @@ import { Entity, Scene } from "../../../mod.ts";
 import { BasicParticle, Particle } from "./mod.ts";
 import type { RGBA } from "../../types.ts";
 
-
 interface Settings {
   density: number;
   particleSize: number;

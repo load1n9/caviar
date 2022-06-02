@@ -1,10 +1,7 @@
 import { Canvas, requestAnimationFrame } from "../deps.ts";
 import { Plugin, Scene } from "../mod.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
-import type {
-  MouseMotionEvent,
-  WorldOptions,
-} from "./types.ts";
+import type { MouseMotionEvent, WorldOptions } from "./types.ts";
 
 export class World extends Canvas {
   FPS = 500;
@@ -15,7 +12,7 @@ export class World extends Canvas {
   // deno-lint-ignore no-explicit-any
   plugins: any = {};
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
-    super(params)
+    super(params);
     this.params = params;
     this.scenes = scenes;
     this.currentScene = new this.scenes[0](this);
@@ -24,14 +21,19 @@ export class World extends Canvas {
 
   async start(): Promise<void> {
     this.setup();
-    await this.currentScene.loadResources()
-    this.renderer.start(this.currentScene.entities)
+    await this.currentScene.loadResources();
+    this.renderer.start(this.currentScene.entities);
     requestAnimationFrame(this._draw.bind(this));
-    // deno-lint-ignore no-explicit-any
-    this.renderer.eventManager.on('keyDown', (event: any) => this.keyDown(event));
-    // deno-lint-ignore no-explicit-any
-    this.renderer.eventManager.on('mouseDown', (event: any) => this._mouseDown(event));
-
+    this.renderer.eventManager.on(
+      "keyDown",
+      // deno-lint-ignore no-explicit-any
+      (event: any) => this.keyDown(event),
+    );
+    this.renderer.eventManager.on(
+      "mouseDown",
+      // deno-lint-ignore no-explicit-any
+      (event: any) => this._mouseDown(event),
+    );
   }
 
   _draw(): void {
@@ -39,7 +41,7 @@ export class World extends Canvas {
     // this.renderer.updateEvents();
     // this.renderer.swapBuffers();
     if (this.shouldClose()) return;
-    this.updateEvents()
+    this.updateEvents();
     this.swapBuffers();
     this.updateProgramLifeCycle();
     this.renderer.render(this.currentScene.entities);

@@ -1,13 +1,13 @@
 import { WebGLBuffer, WebGLTexture } from "../../../deps.ts";
 
-export type EntityBuffers = RectangleBuffers | ImageBuffers
+export type EntityBuffers = RectangleBuffers | ImageBuffers;
 
 export type RectangleBuffers = {
-    position: WebGLBuffer,
-}
+  position: WebGLBuffer;
+};
 
 export type ImageBuffers = {
-    position: WebGLBuffer,
-    texture: WebGLTexture,
-    coords: WebGLBuffer,
-}
+  position: WebGLBuffer;
+  texture: WebGLTexture;
+  coords: WebGLBuffer;
+};

@@ -1,21 +1,17 @@
 import { ProgramInfo2d, programInfo2d } from "./shader.ts";
-import {
-  Canvas,
-  WebGL2RenderingContext,
-  WebGLProgram,
-} from "../../../deps.ts";
+import { Canvas, WebGL2RenderingContext, WebGLProgram } from "../../../deps.ts";
 import { fragment2d, vertex2d } from "./shader.ts";
 import {
   AtlasSprite,
   Entity,
+  EventManager,
+  FrameBuffer,
   Group,
   Image,
   Rectangle,
   RGBA,
   Sprite,
   TextureSprite,
-  EventManager,
-  FrameBuffer
 } from "../../../mod.ts";
 import {
   createBuffer,
@@ -71,12 +67,15 @@ export class WebGLRenderer2D {
   render(entities: Entity[]): void {
     this.#gl.clearColor.apply(null, this.#backgroundColor);
     if (this.canvas.getCurrentState().mouseButtonLeft) {
-      this.eventManager.emit('mouseDown', { x: this.canvas.getCurrentState().cursorX, y: this.canvas.getCurrentState().cursorY });
+      this.eventManager.emit("mouseDown", {
+        x: this.canvas.getCurrentState().cursorX,
+        y: this.canvas.getCurrentState().cursorY,
+      });
     }
     this.eventManager.keys.forEach((key) => {
       // deno-lint-ignore no-explicit-any
       if ((this.canvas.getCurrentState() as any)[`key${key.toUpperCase()}`]) {
-        this.eventManager.emit('keyDown', key);
+        this.eventManager.emit("keyDown", key);
       }
     });
     this.#gl.clear(this.#gl.COLOR_BUFFER_BIT | this.#gl.DEPTH_BUFFER_BIT);
@@ -146,7 +145,12 @@ export class WebGLRenderer2D {
 
   #setupFrameBuffer(entity: FrameBuffer): void {
     entity.requestStart = false;
-    const { x, y, width, height } = { x: 0, y: 0, width: entity.width, height: entity.height };
+    const { x, y, width, height } = {
+      x: 0,
+      y: 0,
+      width: entity.width,
+      height: entity.height,
+    };
     const data = [
       x,
       y,
@@ -168,7 +172,7 @@ export class WebGLRenderer2D {
     }
     const position = createBuffer(this.#gl, data);
     // deno-lint-ignore no-explicit-any
-    const texture = loadTexture(this.#gl, (entity as any))!;
+    const texture = loadTexture(this.#gl, entity as any)!;
     this.#buffers.set(entity.id, { position, texture, coords });
   }
   #setupImage(entity: Image | AtlasSprite): void {
