@@ -6,7 +6,6 @@ class Entity {
     width = 0;
     height = 0;
     constructor(x, y){
-        // deno-lint-ignore no-explicit-any
         this.id = crypto.randomUUID();
         this.#x = x;
         this.#y = y;
@@ -61,10 +60,10 @@ class Rectangle extends Entity {
         this.up = y;
         this.down = y + height;
         this.bottom = y + height;
-        this.fill = typeof fill === 'string' ? hexToRGBA(fill) : fill;
+        this.fill = typeof fill === "string" ? hexToRGBA(fill) : fill;
     }
     setFill(c) {
-        this.fill = typeof c === 'string' ? hexToRGBA(c) : c;
+        this.fill = typeof c === "string" ? hexToRGBA(c) : c;
     }
     setAlpha(a) {
         this.fill[3] = a;
@@ -72,13 +71,16 @@ class Rectangle extends Entity {
 }
 
 class Image extends Entity {
+    // @ts-ignore: typescript is weird
     bitmap;
+    // @ts-ignore: typescript is weird
     image;
     url;
     constructor(url, x, y){
         super(x, y);
         this.width = 0;
         this.height = 0;
+        // @ts-ignore: typescript is weird
         this.image = document.createElement("img");
         this.url = url;
     }
@@ -88,6 +90,7 @@ class Image extends Entity {
             this.image.onload = ()=>{
                 this.width = this.image.width;
                 this.height = this.image.height;
+                // @ts-ignore: typescript is weird
                 createImageBitmap(this.image).then((img)=>{
                     this.bitmap = img;
                     res(this);
@@ -99,362 +102,157 @@ class Image extends Entity {
 }
 
 const Arne16 = [
-    '#000',
-    '#9D9D9D',
-    '#FFF',
-    '#BE2633',
-    '#E06F8B',
-    '#493C2B',
-    '#A46422',
-    '#EB8931',
-    '#F7E26B',
-    '#2F484E',
-    '#44891A',
-    '#A3CE27',
-    '#1B2632',
-    '#005784',
-    '#31A2F2',
-    '#B2DCEF'
+    "#000",
+    "#9D9D9D",
+    "#FFF",
+    "#BE2633",
+    "#E06F8B",
+    "#493C2B",
+    "#A46422",
+    "#EB8931",
+    "#F7E26B",
+    "#2F484E",
+    "#44891A",
+    "#A3CE27",
+    "#1B2632",
+    "#005784",
+    "#31A2F2",
+    "#B2DCEF", 
 ];
 const C64 = [
-    '#000',
-    '#fff',
-    '#8b4131',
-    '#7bbdc5',
-    '#8b41ac',
-    '#6aac41',
-    '#3931a4',
-    '#d5de73',
-    '#945a20',
-    '#5a4100',
-    '#bd736a',
-    '#525252',
-    '#838383',
-    '#acee8b',
-    '#7b73de',
-    '#acacac'
+    "#000",
+    "#fff",
+    "#8b4131",
+    "#7bbdc5",
+    "#8b41ac",
+    "#6aac41",
+    "#3931a4",
+    "#d5de73",
+    "#945a20",
+    "#5a4100",
+    "#bd736a",
+    "#525252",
+    "#838383",
+    "#acee8b",
+    "#7b73de",
+    "#acacac", 
 ];
 const CGA = [
-    '#000',
-    '#2234d1',
-    '#0c7e45',
-    '#44aacc',
-    '#8a3622',
-    '#5c2e78',
-    '#aa5c3d',
-    '#b5b5b5',
-    '#5e606e',
-    '#4c81fb',
-    '#6cd947',
-    '#7be2f9',
-    '#eb8a60',
-    '#e23d69',
-    '#ffd93f',
-    '#fff'
+    "#000",
+    "#2234d1",
+    "#0c7e45",
+    "#44aacc",
+    "#8a3622",
+    "#5c2e78",
+    "#aa5c3d",
+    "#b5b5b5",
+    "#5e606e",
+    "#4c81fb",
+    "#6cd947",
+    "#7be2f9",
+    "#eb8a60",
+    "#e23d69",
+    "#ffd93f",
+    "#fff", 
 ];
 const JMP = [
-    '#000',
-    '#191028',
-    '#46af45',
-    '#a1d685',
-    '#453e78',
-    '#7664fe',
-    '#833129',
-    '#9ec2e8',
-    '#dc534b',
-    '#e18d79',
-    '#d6b97b',
-    '#e9d8a1',
-    '#216c4b',
-    '#d365c8',
-    '#afaab9',
-    '#f5f4eb'
+    "#000",
+    "#191028",
+    "#46af45",
+    "#a1d685",
+    "#453e78",
+    "#7664fe",
+    "#833129",
+    "#9ec2e8",
+    "#dc534b",
+    "#e18d79",
+    "#d6b97b",
+    "#e9d8a1",
+    "#216c4b",
+    "#d365c8",
+    "#afaab9",
+    "#f5f4eb", 
 ];
 const MSX = [
-    '#000',
-    '#191028',
-    '#46af45',
-    '#a1d685',
-    '#453e78',
-    '#7664fe',
-    '#833129',
-    '#9ec2e8',
-    '#dc534b',
-    '#e18d79',
-    '#d6b97b',
-    '#e9d8a1',
-    '#216c4b',
-    '#d365c8',
-    '#afaab9',
-    '#fff'
+    "#000",
+    "#191028",
+    "#46af45",
+    "#a1d685",
+    "#453e78",
+    "#7664fe",
+    "#833129",
+    "#9ec2e8",
+    "#dc534b",
+    "#e18d79",
+    "#d6b97b",
+    "#e9d8a1",
+    "#216c4b",
+    "#d365c8",
+    "#afaab9",
+    "#fff", 
 ];
 const PICO8 = [
-    '#000',
-    '#1D2B53',
-    '#7E2553',
-    '#008751',
-    '#AB5236',
-    '#5F574F',
-    '#C2C3C7',
-    '#FFF1E8',
-    '#FF004D',
-    '#FFA300',
-    '#FFEC27',
-    '#00E436',
-    '#29ADFF',
-    '#83769C',
-    '#FF77A8',
-    '#FFCCAA'
+    "#000",
+    "#1D2B53",
+    "#7E2553",
+    "#008751",
+    "#AB5236",
+    "#5F574F",
+    "#C2C3C7",
+    "#FFF1E8",
+    "#FF004D",
+    "#FFA300",
+    "#FFEC27",
+    "#00E436",
+    "#29ADFF",
+    "#83769C",
+    "#FF77A8",
+    "#FFCCAA", 
 ];
 
-class TextureSprite extends Entity {
-    data;
-    texture;
-    palette;
-    pixelWidth;
-    pixelHeight;
-    constructor(_scene, x, y, texture){
-        super(x, y);
-        this.texture = texture;
-        this.data = [];
-        this.palette = texture.palette || Arne16, this.pixelWidth = texture.pixelWidth || 1;
-        this.pixelHeight = texture.pixelHeight || this.pixelWidth;
-        this.width = Math.floor(Math.abs(this.texture.data[0].length * this.pixelWidth));
-        this.height = Math.floor(Math.abs(this.texture.data.length * this.pixelHeight));
-        this.setup();
+class EventManager {
+    listeners = new Map();
+    keys = [];
+    on(event, listener) {
+        if (!this.listeners.has(event)) {
+            this.listeners.set(event, new Set());
+        }
+        this.listeners.get(event)?.add(listener);
     }
-    setup() {
-        this.data = [];
-        for(let y = 0; y < this.texture.data.length; y++){
-            const row = this.texture.data[y];
-            for(let x = 0; x < row.length; x++){
-                const d = row[x];
-                if (d !== "." && d !== " ") {
-                    this.data.push(new Rectangle(// x position
-                    (x * this.pixelWidth) + this.x, // y position
-                    (y * this.pixelHeight) + this.y, // width
-                    this.pixelWidth, // height
-                    this.pixelHeight, // fill color
-                    hexToRGBA(this.palette[parseInt("0x" + d.toUpperCase())])));
-                }
+    off(event, listener) {
+        if (this.listeners.has(event)) {
+            this.listeners.get(event)?.delete(listener);
+        }
+    }
+    emit(event, data) {
+        if (this.listeners.has(event)) {
+            for (const listener of this.listeners.get(event)){
+                listener(data);
             }
         }
     }
-    setX(x) {
-        this.x = x;
-        let k = 0;
-        for(let j = 0; j < this.texture.data.length; j++){
-            const row = this.texture.data[j];
-            for(let i = 0; i < row.length; i++){
-                if (row[i] !== "." && row[i] !== " ") {
-                    const pixel = this.data[k];
-                    pixel.x = i * this.pixelWidth + this.x;
-                    k += 1;
-                }
-            }
-        }
-    }
-    setY(y) {
-        this.y = y;
-        let k = 0;
-        for(let j = 0; j < this.texture.data.length; j++){
-            const row = this.texture.data[j];
-            for(let i = 0; i < row.length; i++){
-                if (row[i] !== "." && row[i] !== " ") {
-                    const pixel = this.data[k];
-                    pixel.y = j * this.pixelWidth + this.y;
-                    k += 1;
-                }
-            }
-        }
-    }
-}
-
-class PhaserAtlas {
-    frames = {};
-    width;
-    height;
-    imgUrl;
-    constructor(data){
-        this.width = data.textures[0].size.w;
-        this.height = data.textures[0].size.h;
-        this.imgUrl = data.textures[0].image;
-        for (const frame of data.textures[0].frames){
-            this.frames[frame.filename] = {
-                x: frame.frame.x,
-                y: frame.frame.y,
-                width: frame.frame.w,
-                height: frame.frame.h
-            };
-        }
-    }
-}
-
-class PixiAtlas {
-    frames = {};
-    width;
-    height;
-    imgUrl;
-    constructor(data){
-        this.width = data.meta.size.w;
-        this.height = data.meta.size.h;
-        this.imgUrl = data.meta.image;
-        for(const i in data.frames){
-            const frame = data.frames[i];
-            this.frames[i] = {
-                x: frame.frame.x,
-                y: frame.frame.y,
-                width: frame.frame.w,
-                height: frame.frame.h
-            };
-        }
-    }
-}
-
-class GodotAtlas {
-    frames = {};
-    width;
-    height;
-    imgUrl;
-    constructor(data){
-        this.width = data.textures[0].size.w;
-        this.height = data.textures[0].size.h;
-        this.imgUrl = data.textures[0].image;
-        for (const frame of data.textures[0].sprites){
-            this.frames[frame.filename] = {
-                x: frame.region.x,
-                y: frame.region.y,
-                width: frame.region.w,
-                height: frame.region.h
-            };
-        }
-    }
-}
-
-function atlas(url, type = "phaser") {
-    let atlas1;
-    fetch(url).then((res)=>res.json()
-    ).then((data)=>{
-        switch(type){
-            case "phaser":
-                {
-                    atlas1 = new PhaserAtlas(data);
-                    break;
-                }
-            case "pixi":
-                {
-                    atlas1 = new PixiAtlas(data);
-                    break;
-                }
-            case "godot":
-                {
-                    atlas1 = new GodotAtlas(data);
-                    break;
-                }
-            default:
-                {
-                    throw new Error(`Unknown atlas type: ${type}`);
-                }
-        }
-    });
-    return atlas1;
-}
-
-class Atlas extends Entity {
-    atlas;
-    bitmap;
-    image;
-    preloaded = false;
-    constructor(atlasUrl, type = "phaser"){
-        super(0, 0);
-        this.image = document.createElement("img");
-        this.atlas = atlas(atlasUrl, type);
-    }
-    getFrame(key) {
-        return this.atlas.frames[key];
-    }
-    get imgUrl() {
-        return this.atlas.imgUrl;
-    }
-    load() {
-        return new Promise((res, rej)=>{
-            this.image.src = this.atlas.imgUrl;
-            this.image.onload = ()=>{
-                this.width = this.image.width;
-                this.height = this.image.height;
-                this.preloaded = true;
-                createImageBitmap(this.image).then((img)=>{
-                    this.bitmap = img;
-                    res(this);
-                });
-            };
-            this.image.onerror = rej;
-        });
-    }
-}
-
-class AtlasSprite extends Entity {
-    atlas;
-    frame;
-    bitmap;
-    image;
-    #frame;
-    constructor(atlas, x, y, frame){
-        super(x, y);
-        this.atlas = atlas;
-        this.#frame = frame;
-        this.image = document.createElement("img");
-    }
-    load() {
-        this.frame = this.atlas.getFrame(this.#frame);
-        return new Promise((res, rej)=>{
-            this.image.src = this.atlas.imgUrl;
-            this.image.onload = ()=>{
-                this.width = this.image.width;
-                this.height = this.image.height;
-                this.atlas.preloaded = true;
-                createImageBitmap(this.image).then((img)=>{
-                    this.bitmap = img;
-                    res(this);
-                });
-            };
-            this.image.onerror = rej;
-        });
-    }
-}
-
-class Group extends Entity {
-    children = [];
-    scene;
-    constructor(scene, x, y){
-        super(x, y);
-        this.scene = scene;
-    }
-    addChild(child) {
-        this.children.push(child);
-    }
-    killChild(child) {
-        this.children.splice(this.children.indexOf(child), 1);
-    }
-    killAllChildren() {
-        this.children = [];
+    clear() {
+        this.listeners.clear();
     }
 }
 
 class KeyManager {
     world;
     listeners = [];
+    // deno-lint-ignore no-explicit-any
     keysDown = {};
     constructor(world){
         this.world = world;
     }
     setKeys(keys) {
         this.listeners = keys;
+        // @ts-ignore: typescript is weird
         window.addEventListener("keydown", (e)=>{
             if (this.listeners.includes(e.key)) {
                 this.keysDown[e.key] = true;
             }
         });
+        // @ts-ignore: typescript is weird
         window.addEventListener("keyup", (e)=>{
             if (this.listeners.includes(e.key)) {
                 this.keysDown[e.key] = false;
@@ -579,7 +377,7 @@ function createRenderPipeline(device, module, layout, presentationFormat) {
             ]
         },
         primitive: {
-            topology: 'triangle-strip'
+            topology: "triangle-strip"
         }
     });
     return pipeline;
@@ -643,7 +441,7 @@ class Textures2D {
                 {
                     binding: 1,
                     resource: this.sampler
-                }
+                }, 
             ]
         });
     }
@@ -654,39 +452,13 @@ class Textures2D {
         };
         const texture = device.createTexture({
             size,
-            format: 'rgba8unorm',
+            format: "rgba8unorm",
             usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT
         });
         device.queue.writeTexture({
             texture
         }, new Uint8Array(4), {}, size);
         return new Textures2D(device, layout, texture, sampler);
-    }
-}
-
-class EventManager {
-    listeners = new Map();
-    keys = [];
-    on(event, listener) {
-        if (!this.listeners.has(event)) {
-            this.listeners.set(event, new Set());
-        }
-        this.listeners.get(event)?.add(listener);
-    }
-    off(event, listener) {
-        if (this.listeners.has(event)) {
-            this.listeners.get(event)?.delete(listener);
-        }
-    }
-    emit(event, data) {
-        if (this.listeners.has(event)) {
-            for (const listener of this.listeners.get(event)){
-                listener(data);
-            }
-        }
-    }
-    clear() {
-        this.listeners.clear();
     }
 }
 
@@ -698,6 +470,7 @@ function createBuffer(device, data) {
     device.queue.writeBuffer(buffer, 0, data);
     return buffer;
 }
+// @ts-ignore: typescript is weird
 function loadTexture(device, source) {
     const size = {
         width: source.width,
@@ -705,10 +478,10 @@ function loadTexture(device, source) {
     };
     const texture = device.createTexture({
         size: size,
-        format: 'rgba8unorm',
+        format: "rgba8unorm",
         usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT
     });
-    // @ts-ignore
+    // @ts-ignore: typescript is weird
     device.queue.copyExternalImageToTexture({
         source
     }, {
@@ -721,7 +494,9 @@ class GPURenderer {
     world;
     #device;
     #pipeline;
+    // @ts-ignore: typescript is weird
     #canvas;
+    // @ts-ignore: typescript is weird
     #context;
     #layouts;
     #sampler;
@@ -927,11 +702,11 @@ class GPURenderer {
 const printBanner = (version)=>{
     console.log.apply(globalThis.console, [
         "\n %c %c %c Caviar " + "v." + version + " - 🚀" + "WebGPU" + "  %c  %c  https://github.com/load1n9/caviar",
-        'background: #d48e1e; padding:5px 0;',
-        'background: #e67615; padding:5px 0;',
-        'color: #e67615; background: #030307; padding:5px 0;',
-        'background: #e67615; padding:5px 0;',
-        'background: #d48e1e; padding:5px 0;', 
+        "background: #d48e1e; padding:5px 0;",
+        "background: #e67615; padding:5px 0;",
+        "color: #e67615; background: #030307; padding:5px 0;",
+        "background: #e67615; padding:5px 0;",
+        "background: #d48e1e; padding:5px 0;", 
     ]);
 };
 
@@ -941,33 +716,41 @@ class World {
     scenes;
     currentScene;
     renderer;
+    // @ts-ignore: typescript is weird
     canvas;
     keyManager;
+    eventManager;
     // deno-lint-ignore no-explicit-any
     plugins = {};
     constructor(params, scenes){
         this.params = params;
         this.scenes = scenes;
+        // @ts-ignore: typescript is weird
         this.canvas = document.createElement("canvas");
         this.canvas.width = this.params.width;
         this.canvas.height = this.params.height;
+        // @ts-ignore: typescript is weird
         document.body.appendChild(this.canvas);
+        // @ts-ignore: typescript is weird
         document.body.style.margin = "0";
         this.currentScene = new this.scenes[0](this);
         this.renderer = new GPURenderer(this);
         this.keyManager = new KeyManager(this);
+        this.eventManager = new EventManager();
     }
     async start() {
-        printBanner("0.0.1");
+        printBanner("2.3.6");
         await this.renderer.init();
         this.setup();
         await this.currentScene.loadResources();
         this.renderer.start(this.currentScene.entities);
+        // @ts-ignore: typescript is weird
         requestAnimationFrame(this._draw.bind(this));
     }
     _draw() {
         this.updateProgramLifeCycle();
         this.renderer.render(this.currentScene.entities);
+        // @ts-ignore: typescript is weird
         requestAnimationFrame(this._draw.bind(this));
     }
     setFPS(fps) {
@@ -1018,13 +801,13 @@ class World {
 class Scene {
     world;
     entities = [];
-    _resources = [];
+    #resources = [];
     resources = [];
     constructor(world){
         this.world = world;
     }
     async loadResources() {
-        await Promise.all(this._resources);
+        await Promise.all(this.#resources);
     }
     setKeys(_keys) {
         this.world.keyManager.setKeys(_keys);
@@ -1034,13 +817,13 @@ class Scene {
             this.entities.push(...e);
             for (const entity of e){
                 if (entity instanceof Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/ ) {
-                    this._resources.push(entity.load());
+                    this.#resources.push(entity.load());
                 }
             }
         } else {
             this.entities.push(e);
             if (e instanceof Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/ ) {
-                this._resources.push(e.load());
+                this.#resources.push(e.load());
             }
         }
     }
@@ -1092,6 +875,248 @@ class Plugin {
     author = "";
     constructor(_world){}
     onStart() {}
+}
+
+class TextureSprite extends Entity {
+    data;
+    texture;
+    palette;
+    pixelWidth;
+    pixelHeight;
+    constructor(_scene, x, y, texture){
+        super(x, y);
+        this.texture = texture;
+        this.data = [];
+        this.palette = texture.palette || Arne16, this.pixelWidth = texture.pixelWidth || 1;
+        this.pixelHeight = texture.pixelHeight || this.pixelWidth;
+        this.width = Math.floor(Math.abs(this.texture.data[0].length * this.pixelWidth));
+        this.height = Math.floor(Math.abs(this.texture.data.length * this.pixelHeight));
+        this.setup();
+    }
+    setup() {
+        this.data = [];
+        for(let y = 0; y < this.texture.data.length; y++){
+            const row = this.texture.data[y];
+            for(let x = 0; x < row.length; x++){
+                const d = row[x];
+                if (d !== "." && d !== " ") {
+                    this.data.push(new Rectangle(// x position
+                    (x * this.pixelWidth) + this.x, // y position
+                    (y * this.pixelHeight) + this.y, // width
+                    this.pixelWidth, // height
+                    this.pixelHeight, // fill color
+                    hexToRGBA(this.palette[parseInt("0x" + d.toUpperCase())])));
+                }
+            }
+        }
+    }
+    setX(x) {
+        this.x = x;
+        let k = 0;
+        for(let j = 0; j < this.texture.data.length; j++){
+            const row = this.texture.data[j];
+            for(let i = 0; i < row.length; i++){
+                if (row[i] !== "." && row[i] !== " ") {
+                    const pixel = this.data[k];
+                    pixel.x = i * this.pixelWidth + this.x;
+                    k += 1;
+                }
+            }
+        }
+    }
+    setY(y) {
+        this.y = y;
+        let k = 0;
+        for(let j = 0; j < this.texture.data.length; j++){
+            const row = this.texture.data[j];
+            for(let i = 0; i < row.length; i++){
+                if (row[i] !== "." && row[i] !== " ") {
+                    const pixel = this.data[k];
+                    pixel.y = j * this.pixelWidth + this.y;
+                    k += 1;
+                }
+            }
+        }
+    }
+}
+
+class PhaserAtlas {
+    frames = {};
+    width;
+    height;
+    imgUrl;
+    constructor(data){
+        this.width = data.textures[0].size.w;
+        this.height = data.textures[0].size.h;
+        this.imgUrl = data.textures[0].image;
+        for (const frame of data.textures[0].frames){
+            this.frames[frame.filename] = {
+                x: frame.frame.x,
+                y: frame.frame.y,
+                width: frame.frame.w,
+                height: frame.frame.h
+            };
+        }
+    }
+}
+
+class PixiAtlas {
+    frames = {};
+    width;
+    height;
+    imgUrl;
+    constructor(data){
+        this.width = data.meta.size.w;
+        this.height = data.meta.size.h;
+        this.imgUrl = data.meta.image;
+        for(const i in data.frames){
+            const frame = data.frames[i];
+            this.frames[i] = {
+                x: frame.frame.x,
+                y: frame.frame.y,
+                width: frame.frame.w,
+                height: frame.frame.h
+            };
+        }
+    }
+}
+
+class GodotAtlas {
+    frames = {};
+    width;
+    height;
+    imgUrl;
+    constructor(data){
+        this.width = data.textures[0].size.w;
+        this.height = data.textures[0].size.h;
+        this.imgUrl = data.textures[0].image;
+        for (const frame of data.textures[0].sprites){
+            this.frames[frame.filename] = {
+                x: frame.region.x,
+                y: frame.region.y,
+                width: frame.region.w,
+                height: frame.region.h
+            };
+        }
+    }
+}
+
+function atlas(url, type = "phaser") {
+    let atlas1;
+    fetch(url).then((res)=>res.json()
+    ).then((data)=>{
+        switch(type){
+            case "phaser":
+                {
+                    atlas1 = new PhaserAtlas(data);
+                    break;
+                }
+            case "pixi":
+                {
+                    atlas1 = new PixiAtlas(data);
+                    break;
+                }
+            case "godot":
+                {
+                    atlas1 = new GodotAtlas(data);
+                    break;
+                }
+            default:
+                {
+                    throw new Error(`Unknown atlas type: ${type}`);
+                }
+        }
+    });
+    return atlas1;
+}
+
+class Atlas extends Entity {
+    atlas;
+    // @ts-ignore: typescript is weird
+    bitmap;
+    // @ts-ignore: typescript is weird
+    image;
+    preloaded = false;
+    constructor(atlasUrl, type = "phaser"){
+        super(0, 0);
+        // @ts-ignore: typescript is weird
+        this.image = document.createElement("img");
+        this.atlas = atlas(atlasUrl, type);
+    }
+    getFrame(key) {
+        return this.atlas.frames[key];
+    }
+    get imgUrl() {
+        return this.atlas.imgUrl;
+    }
+    load() {
+        return new Promise((res, rej)=>{
+            this.image.src = this.atlas.imgUrl;
+            this.image.onload = ()=>{
+                this.width = this.image.width;
+                this.height = this.image.height;
+                this.preloaded = true;
+                // @ts-ignore: typescript is weird
+                createImageBitmap(this.image).then((img)=>{
+                    this.bitmap = img;
+                    res(this);
+                });
+            };
+            this.image.onerror = rej;
+        });
+    }
+}
+
+class AtlasSprite extends Entity {
+    atlas;
+    frame;
+    // @ts-ignore: typescript is weird
+    bitmap;
+    // @ts-ignore: typescript is weird
+    image;
+    #frame;
+    constructor(atlas, x, y, frame){
+        super(x, y);
+        this.atlas = atlas;
+        this.#frame = frame;
+        // @ts-ignore: typescript is weird
+        this.image = document.createElement("img");
+    }
+    load() {
+        this.frame = this.atlas.getFrame(this.#frame);
+        return new Promise((res, rej)=>{
+            this.image.src = this.atlas.imgUrl;
+            this.image.onload = ()=>{
+                this.width = this.image.width;
+                this.height = this.image.height;
+                this.atlas.preloaded = true;
+                // @ts-ignore: typescript is weird
+                createImageBitmap(this.image).then((img)=>{
+                    this.bitmap = img;
+                    res(this);
+                });
+            };
+            this.image.onerror = rej;
+        });
+    }
+}
+
+class Group extends Entity {
+    children = [];
+    scene;
+    constructor(scene, x, y){
+        super(x, y);
+        this.scene = scene;
+    }
+    addChild(child) {
+        this.children.push(child);
+    }
+    killChild(child) {
+        this.children.splice(this.children.indexOf(child), 1);
+    }
+    killAllChildren() {
+        this.children = [];
+    }
 }
 
 export { Arne16, Atlas, AtlasSprite, C64, CGA, Entity, Group, Image, JMP, MSX, PICO8, Plugin, Rectangle, Scene, TextureSprite, World };

@@ -29,12 +29,14 @@ import { createBuffer, loadTexture } from "./util.ts";
 export class GPURenderer {
   #device?: GPUDevice;
   #pipeline?: GPURenderPipeline;
+  // @ts-ignore: typescript is weird
   #canvas: HTMLCanvasElement;
+  // @ts-ignore: typescript is weird
   #context?: RenderingContext;
-  #layouts: Layouts;
-  #sampler: GPUSampler;
-  #emptyBuffer: GPUBuffer;
-  #emptyTexture: Textures2D;
+  #layouts?: Layouts;
+  #sampler?: GPUSampler;
+  #emptyBuffer?: GPUBuffer;
+  #emptyTexture?: Textures2D;
 
   #buffers: Map<string, EntityBuffers> = new Map();
   #backgroundColor: RGBA = [1.0, 1.0, 1.0, 1.0];
@@ -99,7 +101,7 @@ export class GPURenderer {
   }
 
   render(entities: Entity[]) {
-    const encoder = this.#device.createCommandEncoder();
+    const encoder = this.#device!.createCommandEncoder();
     const textureView = (this.#context as any).getCurrentTexture().createView();
     const renderPass = encoder.beginRenderPass({
       colorAttachments: [
@@ -112,11 +114,11 @@ export class GPURenderer {
         },
       ],
     });
-    renderPass.setPipeline(this.#pipeline);
+    renderPass.setPipeline(this.#pipeline!);
     this.#render(entities, renderPass);
     // @ts-ignore  end is being weird
     renderPass.end();
-    this.#device.queue.submit([encoder.finish()]);
+    this.#device!.queue.submit([encoder.finish()]);
   }
   #render(entities: Entity[], renderPass: GPURenderPassEncoder): void {
     try {
@@ -153,21 +155,21 @@ export class GPURenderer {
       data[i] = (data[i] / this.#canvas.width) * 2 - 1;
       data[i + 1] = (data[i + 1] / this.#canvas.height) * -2 + 1;
     }
-    const position = createBuffer(this.#device, new Float32Array(data));
-    const uniforms = new Uniforms2D(this.#device, this.#layouts.uniform);
+    const position = createBuffer(this.#device!, new Float32Array(data));
+    const uniforms = new Uniforms2D(this.#device!, this.#layouts!.uniform);
     this.#buffers.set(entity.id, { position, uniforms });
   }
 
   #renderRectangle(entity: Rectangle, renderPass: GPURenderPassEncoder): void {
     const buffers = this.#buffers.get(entity.id) as RectangleBuffers;
     renderPass.setVertexBuffer(0, buffers.position);
-    renderPass.setVertexBuffer(1, this.#emptyBuffer);
+    renderPass.setVertexBuffer(1, this.#emptyBuffer!);
 
     const x = (entity.x / this.#canvas.width) * 2;
     const y = (entity.y / this.#canvas.height) * -2;
-    buffers.uniforms.setPosition(this.#device, x, y);
-    buffers.uniforms.setColor(this.#device, entity.fill);
-    renderPass.setBindGroup(0, this.#emptyTexture.bindGroup);
+    buffers.uniforms.setPosition(this.#device!, x, y);
+    buffers.uniforms.setColor(this.#device!, entity.fill);
+    renderPass.setBindGroup(0, this.#emptyTexture!.bindGroup);
     renderPass.setBindGroup(1, buffers.uniforms.bindGroup);
     renderPass.draw(4, 1);
   }
@@ -176,9 +178,9 @@ export class GPURenderer {
     // const { x, y, width, height } = entity instanceof Image
     //   ? { x: 0, y: 0, width: entity.width, height: entity.height }
     //   : entity.frame;
-    const x = entity instanceof Image ? 0 : entity.frame.x;
-    const y = entity instanceof Image ? 0 : entity.frame.y;
-    const { width, height } = entity instanceof Image ? entity : entity.frame;
+    const x = entity instanceof Image ? 0 : entity.frame!.x;
+    const y = entity instanceof Image ? 0 : entity.frame!.y;
+    const { width, height } = entity instanceof Image ? entity : entity.frame!;
 
     const data = [
       x,
@@ -194,19 +196,19 @@ export class GPURenderer {
       data[i] = data[i] / entity.width;
       data[i + 1] = data[i + 1] / entity.height;
     }
-    const coords = createBuffer(this.#device, new Float32Array(data));
+    const coords = createBuffer(this.#device!, new Float32Array(data));
     for (let i = 0; i < data.length; i += 2) {
       data[i] = data[i] * entity.width / this.#canvas.width * 2 - 1;
       data[i + 1] = data[i + 1] * entity.height / this.#canvas.height * -2 + 1;
     }
-    const position = createBuffer(this.#device, new Float32Array(data));
-    const tex2d = loadTexture(this.#device, entity.bitmap);
-    const uniforms = new Uniforms2D(this.#device, this.#layouts.uniform);
+    const position = createBuffer(this.#device!, new Float32Array(data));
+    const tex2d = loadTexture(this.#device!, entity.bitmap);
+    const uniforms = new Uniforms2D(this.#device!, this.#layouts!.uniform);
     const texture = new Textures2D(
-      this.#device,
-      this.#layouts.texture,
+      this.#device!,
+      this.#layouts!.texture,
       tex2d,
-      this.#sampler,
+      this.#sampler!,
     );
     this.#buffers.set(entity.id, { position, texture, coords, uniforms });
   }
@@ -222,9 +224,9 @@ export class GPURenderer {
     const x = entity.x / this.#canvas.width * 2;
     const y = entity.y / this.#canvas.height * -2;
 
-    buffers.uniforms.setUsage(this.#device, 1);
-    buffers.uniforms.setColor(this.#device, [1, 0, 0, 1]);
-    buffers.uniforms.setPosition(this.#device, x, y);
+    buffers.uniforms.setUsage(this.#device!, 1);
+    buffers.uniforms.setColor(this.#device!, [1, 0, 0, 1]);
+    buffers.uniforms.setPosition(this.#device!, x, y);
     renderPass.setBindGroup(0, buffers.texture.bindGroup);
     renderPass.setBindGroup(1, buffers.uniforms.bindGroup);
     renderPass.draw(4, 1);

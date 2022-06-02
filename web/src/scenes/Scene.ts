@@ -4,20 +4,20 @@ import { RGBA } from "../types.ts";
 export type Resource = Image /*| AtlasSprite | Sprite*/;
 
 export class Scene {
-  public entities: Array<Entity> = [];
-  private _resources: Promise<Resource>[] = [];
-  public resources: Resource[] = [];
+  entities: Array<Entity> = [];
+  #resources: Promise<Resource>[] = [];
+  resources: Resource[] = [];
   constructor(
     public world: World,
   ) {}
 
-  public async loadResources() {
-    await Promise.all(this._resources);
+  async loadResources() {
+    await Promise.all(this.#resources);
   }
-  public setKeys(_keys: Array<string>): void {
+  setKeys(_keys: Array<string>): void {
     this.world.keyManager.setKeys(_keys);
   }
-  public addChild(e: Entity | Array<Entity>): void {
+  addChild(e: Entity | Array<Entity>): void {
     if (e instanceof Array) {
       this.entities.push(...e);
       for (const entity of e) {
@@ -25,7 +25,7 @@ export class Scene {
           entity instanceof
             Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/
         ) {
-          this._resources.push(entity.load());
+          this.#resources.push(entity.load());
         }
       }
     } else {
@@ -34,20 +34,19 @@ export class Scene {
         e instanceof
           Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/
       ) {
-        this._resources.push(e.load());
-        
+        this.#resources.push(e.load());
       }
     }
   }
 
-  public killChild(e: Entity): void {
+  killChild(e: Entity): void {
     const index = this.entities.indexOf(e);
     if (index < -1) return;
     this.entities.splice(index, 1);
   }
 
   // deno-lint-ignore no-explicit-any
-  public _mouseDown(e: any) {
+  _mouseDown(e: any) {
     // deno-lint-ignore no-unused-vars
     for (const entity of this.entities) {
       //   if (entity instanceof Button) {
@@ -64,20 +63,20 @@ export class Scene {
     this.mouseDown(e);
   }
   // deno-lint-ignore no-explicit-any
-  public _mouseMotion(e: any) {
+  _mouseMotion(e: any) {
     this.mouseMotion(e);
   }
-  public setBackground(color: string | RGBA): void {
+  setBackground(color: string | RGBA): void {
     this.world.renderer.setBackground(color);
   }
-  public tick(): void {}
+  tick(): void {}
   // deno-lint-ignore no-explicit-any
-  public mouseDown(_e: any): void {}
+  mouseDown(_e: any): void {}
   // deno-lint-ignore no-explicit-any
-  public mouseMotion(_e: any): void {}
-  public setup(): void {}
-  public update(): void {}
-  public keyDown(e: string): boolean {
+  mouseMotion(_e: any): void {}
+  setup(): void {}
+  update(): void {}
+  keyDown(e: string): boolean {
     return this.world.keyManager.isDown(e);
   }
 }

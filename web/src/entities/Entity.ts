@@ -1,40 +1,39 @@
 export abstract class Entity {
-    id: string;
-    #x: number;
-    #y: number;
-    #z: number;
-    width = 0;
-    height = 0;
+  id: string;
+  #x: number;
+  #y: number;
+  #z: number;
+  width = 0;
+  height = 0;
 
-    constructor(x: number, y: number) {
-        // deno-lint-ignore no-explicit-any
-        this.id = (crypto as any).randomUUID();
-        this.#x = x;
-        this.#y = y;
-        this.#z = 1;
-    }
-    set x(x:number) {
-        this.#x = x;
-    }
-    get x(): number {
-        return this.#x;
-    }
-    set y(y:number) {
-        this.#y = y;
-    }
-    get y() {
-        return this.#y;
-    }
-    set z(z: number) {
-        this.#z = z;
-    }
-    get z(): number {
-        return this.#z;
-    }
-    
-    setPosition(x:number, y:number, z?:number) {
-        this.#x = x;
-        this.#y = y; 
-        if (z) this.#z = z;
-    }
+  constructor(x: number, y: number) {
+    this.id = crypto.randomUUID();
+    this.#x = x;
+    this.#y = y;
+    this.#z = 1;
+  }
+  set x(x: number) {
+    this.#x = x;
+  }
+  get x(): number {
+    return this.#x;
+  }
+  set y(y: number) {
+    this.#y = y;
+  }
+  get y() {
+    return this.#y;
+  }
+  set z(z: number) {
+    this.#z = z;
+  }
+  get z(): number {
+    return this.#z;
+  }
+
+  setPosition(x: number, y: number, z?: number) {
+    this.#x = x;
+    this.#y = y;
+    if (z) this.#z = z;
+  }
 }

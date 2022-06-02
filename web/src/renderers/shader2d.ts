@@ -43,161 +43,161 @@ fn fs_main(out: Output) -> @location(0) vec4<f32> {
 `;
 
 export const bindGroupUniform2d: GPUBindGroupLayoutDescriptor = {
-    entries: [
-        {
-            binding: 0, // all uniforms
-            visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-            buffer: {
-                type: "uniform",
-                minBindingSize: 32
-            },
-        },
-    ],
+  entries: [
+    {
+      binding: 0, // all uniforms
+      visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+      buffer: {
+        type: "uniform",
+        minBindingSize: 32,
+      },
+    },
+  ],
 };
 
 export const bindGroupTexture2d: GPUBindGroupLayoutDescriptor = {
-    entries: [
-        {
-            binding: 0, // texture
-            visibility: GPUShaderStage.FRAGMENT,
-            texture: {}
-        },
-        {
-            binding: 1, // sampler
-            visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-            sampler: {},
-        },
-    ],
+  entries: [
+    {
+      binding: 0, // texture
+      visibility: GPUShaderStage.FRAGMENT,
+      texture: {},
+    },
+    {
+      binding: 1, // sampler
+      visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+      sampler: {},
+    },
+  ],
 };
 
 export function createBindGroupLayout(device: GPUDevice) {
-    return {
-        uniform: device.createBindGroupLayout(bindGroupUniform2d),
-        texture: device.createBindGroupLayout(bindGroupTexture2d)
-    }
+  return {
+    uniform: device.createBindGroupLayout(bindGroupUniform2d),
+    texture: device.createBindGroupLayout(bindGroupTexture2d),
+  };
 }
 
 // https://github.com/denoland/webgpu-examples/blob/main/boids/mod.ts
 
 export function createRenderPipeline(
-    device: GPUDevice,
-    module: GPUShaderModule,
-    layout: GPUPipelineLayout,
-    presentationFormat: GPUTextureFormat,
+  device: GPUDevice,
+  module: GPUShaderModule,
+  layout: GPUPipelineLayout,
+  presentationFormat: GPUTextureFormat,
 ) {
-    const vertexBuffers: GPUVertexBufferLayout[] = [
+  const vertexBuffers: GPUVertexBufferLayout[] = [
+    {
+      arrayStride: 2 * 4,
+      attributes: [
         {
-            arrayStride: 2 * 4,
-            attributes: [
-                {
-                    format: "float32x2",
-                    offset: 0,
-                    shaderLocation: 0,
-                },
-            ],
+          format: "float32x2",
+          offset: 0,
+          shaderLocation: 0,
         },
+      ],
+    },
+    {
+      arrayStride: 2 * 4,
+      attributes: [
         {
-            arrayStride: 2 * 4,
-            attributes: [
-                {
-                    format: "float32x2",
-                    offset: 0,
-                    shaderLocation: 1,
-                },
-            ],
+          format: "float32x2",
+          offset: 0,
+          shaderLocation: 1,
         },
-    ]
-    const pipeline = device.createRenderPipeline({
-        layout,
-        vertex: {
-            module,
-            entryPoint: "vs_main",
-            buffers: vertexBuffers,
+      ],
+    },
+  ];
+  const pipeline = device.createRenderPipeline({
+    layout,
+    vertex: {
+      module,
+      entryPoint: "vs_main",
+      buffers: vertexBuffers,
+    },
+    fragment: {
+      module,
+      entryPoint: "fs_main",
+      targets: [
+        {
+          format: presentationFormat,
         },
-        fragment: {
-            module,
-            entryPoint: "fs_main",
-            targets: [
-                {
-                    format: presentationFormat,
-                },
-            ],
-        },
-        primitive: {
-            topology: 'triangle-strip',
-        },
-    });
-    return pipeline;
+      ],
+    },
+    primitive: {
+      topology: "triangle-strip",
+    },
+  });
+  return pipeline;
 }
 
 export class Uniforms2D {
-    buffer: GPUBuffer
-    bindGroup: GPUBindGroup
-    constructor(device: GPUDevice, layout: GPUBindGroupLayout) {
-        this.buffer = device.createBuffer({
-            size: 32,
-            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
-        })
-        this.bindGroup = device.createBindGroup({
-            layout,
-            entries: [{ binding: 0, resource: { buffer: this.buffer } }],
-        })
-    }
+  buffer: GPUBuffer;
+  bindGroup: GPUBindGroup;
+  constructor(device: GPUDevice, layout: GPUBindGroupLayout) {
+    this.buffer = device.createBuffer({
+      size: 32,
+      usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+    });
+    this.bindGroup = device.createBindGroup({
+      layout,
+      entries: [{ binding: 0, resource: { buffer: this.buffer } }],
+    });
+  }
 
-    setUsage(device: GPUDevice, usage: Usage) {
-        const buffer = new Float32Array([usage])
-        device.queue.writeBuffer(this.buffer, 8, buffer)
-    }
+  setUsage(device: GPUDevice, usage: Usage) {
+    const buffer = new Float32Array([usage]);
+    device.queue.writeBuffer(this.buffer, 8, buffer);
+  }
 
-    setPosition(device: GPUDevice, x: number, y: number) {
-        const buffer = new Float32Array([x, y])
-        device.queue.writeBuffer(this.buffer, 0, buffer)
-    }
+  setPosition(device: GPUDevice, x: number, y: number) {
+    const buffer = new Float32Array([x, y]);
+    device.queue.writeBuffer(this.buffer, 0, buffer);
+  }
 
-    setColor(device: GPUDevice, color: [number, number, number, number]) {
-        const buffer = new Float32Array(color)
-        device.queue.writeBuffer(this.buffer, 16, buffer)
-    }
+  setColor(device: GPUDevice, color: [number, number, number, number]) {
+    const buffer = new Float32Array(color);
+    device.queue.writeBuffer(this.buffer, 16, buffer);
+  }
 
-    colorNorm(rgba: RGBA): RGBA {
-        return rgba.map((c) => c / 255) as RGBA;
-    }
+  colorNorm(rgba: RGBA): RGBA {
+    return rgba.map((c) => c / 255) as RGBA;
+  }
 }
 
 export class Textures2D {
-    sampler: GPUSampler
-    texture: GPUTexture
-    bindGroup: GPUBindGroup
-    constructor(
-        device: GPUDevice,
-        layout: GPUBindGroupLayout,
-        texture: GPUTexture,
-        sampler: GPUSampler,
-    ) {
-        this.texture = texture
-        this.sampler = sampler
-        this.bindGroup = device.createBindGroup({
-            layout,
-            entries: [
-                { binding: 0, resource: this.texture.createView() },
-                { binding: 1, resource: this.sampler }
-            ],
-        })
-    }
+  sampler: GPUSampler;
+  texture: GPUTexture;
+  bindGroup: GPUBindGroup;
+  constructor(
+    device: GPUDevice,
+    layout: GPUBindGroupLayout,
+    texture: GPUTexture,
+    sampler: GPUSampler,
+  ) {
+    this.texture = texture;
+    this.sampler = sampler;
+    this.bindGroup = device.createBindGroup({
+      layout,
+      entries: [
+        { binding: 0, resource: this.texture.createView() },
+        { binding: 1, resource: this.sampler },
+      ],
+    });
+  }
 
-    static empty(
-        device: GPUDevice,
-        layout: GPUBindGroupLayout,
-        sampler: GPUSampler,
-    ) {
-        const size = { width: 1, height: 1 }
-        const texture = device.createTexture({
-            size,
-            format: 'rgba8unorm',
-            usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST
-                | GPUTextureUsage.RENDER_ATTACHMENT
-        })
-        device.queue.writeTexture({ texture }, new Uint8Array(4), {}, size)
-        return new Textures2D(device, layout, texture, sampler)
-    }
+  static empty(
+    device: GPUDevice,
+    layout: GPUBindGroupLayout,
+    sampler: GPUSampler,
+  ) {
+    const size = { width: 1, height: 1 };
+    const texture = device.createTexture({
+      size,
+      format: "rgba8unorm",
+      usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST |
+        GPUTextureUsage.RENDER_ATTACHMENT,
+    });
+    device.queue.writeTexture({ texture }, new Uint8Array(4), {}, size);
+    return new Textures2D(device, layout, texture, sampler);
+  }
 }
