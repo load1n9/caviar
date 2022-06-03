@@ -1,4 +1,8 @@
-import { World, Scene, Rectangle } from "../../../web/dist/mod.js";
+import {
+  Rectangle,
+  Scene,
+  World,
+} from "https://deno.land/x/caviar@2.4.8/web/dist/mod.js";
 
 class Game extends Scene {
   vx = 4;
@@ -41,7 +45,7 @@ class Game extends Scene {
       this.vx *= -1.1;
       this.vy = Math.floor(Math.random() * 8) - 4;
     }
-    if (this.ball.y < 0|| this.ball.y > 750) {
+    if (this.ball.y < 0 || this.ball.y > 750) {
       this.vy *= -1;
     }
     if (this.ball.x < 0) {
