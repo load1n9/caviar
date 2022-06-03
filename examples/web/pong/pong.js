@@ -1,6 +1,6 @@
-import { Rectangle, Scene } from "../../../../../web/dist/mod.js";
+import { World, Scene, Rectangle } from "../../../web/dist/mod.js";
 
-export class Game extends Scene {
+class Game extends Scene {
   vx = 4;
   vy = 4;
   p1 = new Rectangle(0, 336, 32, 96, "#6298bf");
@@ -73,3 +73,11 @@ export class Game extends Scene {
     this.scoreElement.innerText = `${this.score.p1} - ${this.score.p2}`;
   }
 }
+
+const pong = new World({
+  title: "test",
+  width: 1300,
+  height: 800,
+  resizable: true,
+}, [Game]);
+await pong.start();

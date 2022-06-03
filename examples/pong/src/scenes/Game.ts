@@ -89,6 +89,7 @@ export class Game extends Scene {
     ball.setY(ball.y + this.vy);
 
   }
+  // deno-lint-ignore no-explicit-any
   public keyDown(key: any) {
     const p1 = this.p1 as TextureSprite;
     const p2 = this.p2 as TextureSprite;
