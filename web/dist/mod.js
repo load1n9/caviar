@@ -17,17 +17,17 @@ class Entity {
     get x() {
         return this.#x;
     }
-    set y(y) {
-        this.#y = y;
-    }
-    get y() {
-        return this.#y;
-    }
     set z(z) {
         this.#z = z;
     }
     get z() {
         return this.#z;
+    }
+    set y(y) {
+        this.#y = y;
+    }
+    get y() {
+        return this.#y;
     }
     setPosition(x, y, z) {
         this.#x = x;
@@ -40,7 +40,7 @@ const hexToRGBA = (hex)=>[
         parseInt(hex.slice(1, 3), 16),
         parseInt(hex.slice(3, 5), 16),
         parseInt(hex.slice(5, 7), 16),
-        1, 
+        256, 
     ]
 ;
 
@@ -60,10 +60,14 @@ class Rectangle extends Entity {
         this.up = y;
         this.down = y + height;
         this.bottom = y + height;
-        this.fill = typeof fill === "string" ? hexToRGBA(fill) : fill;
+        this.fill = typeof fill === "string" ? this.colorNorm(hexToRGBA(fill)) : this.colorNorm(fill);
     }
     setFill(c) {
         this.fill = typeof c === "string" ? hexToRGBA(c) : c;
+    }
+    colorNorm(rgba) {
+        return rgba.map((c)=>c / 255
+        );
     }
     setAlpha(a) {
         this.fill[3] = a;
@@ -268,14 +272,14 @@ class KeyManager {
 
 const shader2d = `
 struct Uniforms {
-    position: vec2<f32>;
-    usage: f32;
-    color: vec4<f32>;
+    position: vec2<f32>,
+    usage: f32,
+    color: vec4<f32>,
 };
 
 struct Output {
-    @builtin(position) position: vec4<f32>;
-    @location(1) coords: vec2<f32>;
+    @builtin(position) position: vec4<f32>,
+    @location(1) coords: vec2<f32>,
 };
 
 @group(0) @binding(0)
@@ -521,17 +525,18 @@ class GPURenderer {
         const device = await adapter.requestDevice();
         this.#context = this.#canvas.getContext("webgpu");
         const devicePixelRatio = window.devicePixelRatio || 1;
-        const presentationSize = [
+        [
             this.#canvas.clientWidth * devicePixelRatio,
             this.#canvas.clientHeight * devicePixelRatio, 
         ];
         if (!device) throw new Error(`Could not request device!`);
         this.#device = device;
-        const format = this.#context.getPreferredFormat(adapter);
+        // @ts-ignore new feature
+        const format = navigator.gpu.getPreferredCanvasFormat(adapter);
         this.#context.configure({
             device: this.#device,
             format: format,
-            size: presentationSize
+            alphaMode: "premultiplied"
         });
         this.#layouts = createBindGroupLayout(device);
         const layout = this.#device.createPipelineLayout({
@@ -642,9 +647,6 @@ class GPURenderer {
         renderPass1.draw(4, 1);
     }
      #setupImage(entity2) {
-        // const { x, y, width, height } = entity instanceof Image
-        //   ? { x: 0, y: 0, width: entity.width, height: entity.height }
-        //   : entity.frame;
         const x = entity2 instanceof Image ? 0 : entity2.frame.x;
         const y = entity2 instanceof Image ? 0 : entity2.frame.y;
         const { width , height  } = entity2 instanceof Image ? entity2 : entity2.frame;

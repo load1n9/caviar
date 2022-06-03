@@ -18,19 +18,18 @@ export abstract class Entity {
   get x(): number {
     return this.#x;
   }
-  set y(y: number) {
-    this.#y = y;
-  }
-  get y() {
-    return this.#y;
-  }
   set z(z: number) {
     this.#z = z;
   }
   get z(): number {
     return this.#z;
   }
-
+  set y(y: number) {
+    this.#y = y;
+  }
+  get y() {
+    return this.#y;
+  }
   setPosition(x: number, y: number, z?: number) {
     this.#x = x;
     this.#y = y;

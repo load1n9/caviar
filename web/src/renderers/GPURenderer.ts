@@ -50,20 +50,20 @@ export class GPURenderer {
     const adapter = await (navigator as any).gpu.requestAdapter() as GPUAdapter;
     const device = await adapter.requestDevice();
     this.#context = this.#canvas.getContext("webgpu") /*as GPUCanvasContext*/;
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    const presentationSize = [
+    const devicePixelRatio = (window as any).devicePixelRatio || 1;
+    const _presentationSize = [
       this.#canvas.clientWidth * devicePixelRatio,
       this.#canvas.clientHeight * devicePixelRatio,
     ];
 
     if (!device) throw new Error(`Could not request device!`);
     this.#device = device;
-
-    const format = (this.#context as any).getPreferredFormat(adapter);
-    (this.#context as any).configure({
+    // @ts-ignore new feature
+    const format = navigator.gpu.getPreferredCanvasFormat(adapter);
+    this.#context.configure({
       device: this.#device,
       format: format,
-      size: presentationSize,
+      alphaMode: "premultiplied",
     });
 
     this.#layouts = createBindGroupLayout(device);
@@ -175,9 +175,6 @@ export class GPURenderer {
   }
 
   #setupImage(entity: Image | AtlasSprite): void {
-    // const { x, y, width, height } = entity instanceof Image
-    //   ? { x: 0, y: 0, width: entity.width, height: entity.height }
-    //   : entity.frame;
     const x = entity instanceof Image ? 0 : entity.frame!.x;
     const y = entity instanceof Image ? 0 : entity.frame!.y;
     const { width, height } = entity instanceof Image ? entity : entity.frame!;

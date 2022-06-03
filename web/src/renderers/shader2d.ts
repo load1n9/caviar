@@ -3,14 +3,14 @@ import { Usage } from "./types.ts";
 
 export const shader2d = `
 struct Uniforms {
-    position: vec2<f32>;
-    usage: f32;
-    color: vec4<f32>;
+    position: vec2<f32>,
+    usage: f32,
+    color: vec4<f32>,
 };
 
 struct Output {
-    @builtin(position) position: vec4<f32>;
-    @location(1) coords: vec2<f32>;
+    @builtin(position) position: vec4<f32>,
+    @location(1) coords: vec2<f32>,
 };
 
 @group(0) @binding(0)

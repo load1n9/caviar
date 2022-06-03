@@ -53,7 +53,7 @@ export class TextureSprite extends Entity {
     }
   }
 
-  public setX(x: number) {
+  setX(x: number) {
     this.x = x;
     let k = 0;
     for (let j = 0; j < this.texture.data.length; j++) {
@@ -67,7 +67,7 @@ export class TextureSprite extends Entity {
       }
     }
   }
-  public setY(y: number) {
+  setY(y: number) {
     this.y = y;
     let k = 0;
     for (let j = 0; j < this.texture.data.length; j++) {
