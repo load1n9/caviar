@@ -17,8 +17,8 @@ export default function Sidebar(props: { path: string }) {
   );
 }
 
-const link = apply`text(gray-900 hover:gray-600)`;
-const linkActive = apply`text(blue-600 hover:blue-500)`;
+const link = apply`text(gray-200 hover:gray-100)`;
+const linkActive = apply`text(blue-200 hover:blue-100)`;
 
 export function SidebarCategory(props: {
   path: string;

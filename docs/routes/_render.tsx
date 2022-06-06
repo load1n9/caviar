@@ -1,5 +1,5 @@
 import { setup } from "../client_deps.ts";
-import { RenderContext, RenderFn, virtualSheet } from "../server_deps.ts";
+import { RenderContext, RenderFn, virtualSheet, gfm } from "../server_deps.ts";
 import * as config from "../tw_config.ts";
 
 const sheet = virtualSheet();

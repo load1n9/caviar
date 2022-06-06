@@ -82,7 +82,7 @@ function Main(props: { path: string; }) {
 function MobileSidebar(props: { path: string }) {
   const container = tw`fixed inset-0 flex z-40 hidden` + " toggled";
   const backdrop = tw`absolute inset-0 bg-gray-600 opacity-75`;
-  const sidebar = tw`relative flex-1 flex flex-col w-[16rem] h-full bg-white border(r-2 gray-100)`;
+  const sidebar = tw`relative flex-1 flex flex-col w-[16rem] h-full bg(gray-900) border(r-2 gray-100)`;
   const heading = tw`p-4 border(b-2 gray-100)`;
   const items = tw`pt-2 pb-16 px-4 overflow-x-auto`;
   return (
@@ -119,8 +119,7 @@ function DesktopSidebar(props: { path: string }) {
   );
 }
 
-
-const button = apply`p-2 bg-gray-100 w-full border(1 gray-200) grid`;
+const button = apply`p-2 bg-gray-800 w-full grid`;
 
 function ForwardBackButtons(props: { slug: string }) {
   const currentIndex = SLUGS.findIndex((slug) => slug === props.slug);
@@ -129,9 +128,9 @@ function ForwardBackButtons(props: { slug: string }) {
   const previous = TABLE_OF_CONTENTS[previousSlug];
   const next = TABLE_OF_CONTENTS[nextSlug];
 
-  const upper = tw`text(sm gray-600)`;
+  const upper = tw`text(sm gray-100)`;
   const category = tw`font-normal`;
-  const lower = tw`text-gray-900 font-medium`;
+  const lower = tw`text-gray-200 font-medium`;
 
   return (
     <div class={tw`mt-8 flex flex(col md:row) gap-4`}>

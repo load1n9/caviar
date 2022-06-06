@@ -31,6 +31,9 @@ canvas {
   width: 50%;
   height: 50%;
 }
+body {
+  background: #080f1f;
+}
 `;
 
 export const handler: Handlers = {
