@@ -4,7 +4,7 @@
 import { apply, Fragment, h, Head, PageProps, tw } from "../../client_deps.ts";
 import { gfm, Handlers } from "../../server_deps.ts";
 import Sidebar from "../../components/Sidebar.tsx";
-
+import "https://esm.sh/prismjs@1.27.0/components/prism-javascript?no-check";
 import {
   SLUGS,
   TABLE_OF_CONTENTS,
@@ -26,7 +26,7 @@ export const handler: Handlers<Data> = {
     if (slug === "") {
       return new Response("", {
         status: 307,
-        headers: { location: "/docs/getting_started" },
+        headers: { location: "/docs/web/getting_started" },
       });
     }
     const entry = TABLE_OF_CONTENTS[slug];
@@ -36,7 +36,6 @@ export const handler: Handlers<Data> = {
       });
     }
     const url = new URL(`../../${entry.file}`, import.meta.url);
-    console.log(url)
     const markdown = await Deno.readTextFile(url);
     const page = { ...entry, markdown };
     const resp = ctx.render({ page });
@@ -162,6 +161,7 @@ function Content(props: { page: Page }) {
       <h1 class={title}>{props.page.title}</h1>
       <div
         class={`${body} markdown-body`}
+        data-color-mode="light" data-light-theme="light" data-dark-theme="dark"
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <ForwardBackButtons slug={props.page.slug} />

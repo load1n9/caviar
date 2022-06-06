@@ -11,6 +11,7 @@ export {
   C64,
   CGA,
   Entity,
+  FrameBuffer,
   Group,
   Image,
   JMP,
@@ -19,7 +20,6 @@ export {
   Rectangle,
   Sprite,
   TextureSprite,
-  FrameBuffer,
 } from "./src/entities/mod.ts";
 export { TransformMatrix, Vector } from "./src/math/mod.ts";
 export type { IVectorLike } from "./src/math/mod.ts";

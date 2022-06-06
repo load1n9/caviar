@@ -73,7 +73,7 @@ function Main(props: { path: string; }) {
       <MobileSidebar path={props.path} />
       <div class={main}>
         <DesktopSidebar path={props.path} />
-        <script type="module" src={`https://deno.land/x/caviar/examples/web/${props.path.replace("/examples/","")}/main.js`}></script>
+        <script type="module" src={`https://deno.land/x/caviar/docs/examples/${props.path.replace("/examples/","")}/main.js`}></script>
       </div>
     </>
   );

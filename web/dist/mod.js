@@ -733,17 +733,18 @@ class World {
         this.canvas = document.createElement("canvas");
         this.canvas.width = this.params.width;
         this.canvas.height = this.params.height;
+        if (this.params.id) this.canvas.id = this.params.id;
         // @ts-ignore: typescript is weird
-        document.body.appendChild(this.canvas);
+        (params.parent || document.body).appendChild(this.canvas);
         // @ts-ignore: typescript is weird
-        document.body.style.margin = "0";
+        (params.parent || document.body).style.margin = "0";
         this.currentScene = new this.scenes[0](this);
         this.renderer = new GPURenderer(this);
         this.keyManager = new KeyManager(this);
         this.eventManager = new EventManager();
     }
     async start() {
-        printBanner("2.4.6");
+        printBanner("2.4.10");
         await this.renderer.init();
         this.setup();
         await this.currentScene.loadResources();

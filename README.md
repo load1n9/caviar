@@ -15,7 +15,7 @@
  </p>
 <hr/>
 
-## game engine built on top of [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support
+## ⚡ blazing fast game engine built on top of [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support
 
 ### Maintainers
 

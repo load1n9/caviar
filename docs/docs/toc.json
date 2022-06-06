@@ -1,6 +1,18 @@
 {
-  "getting_started": {
-    "title": "Getting Started",
-    "pages": {}
+  "deno": {
+    "title": "Deno",
+    "pages": {
+      "getting_started": {
+        "title": "Getting Started"
+      }
+    }
+  },
+  "web": {
+    "title": "Web",
+    "pages": {
+      "getting_started": {
+        "title": "Getting Started"
+      }
+    }
   }
 }

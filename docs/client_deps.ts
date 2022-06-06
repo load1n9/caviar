@@ -10,7 +10,7 @@ import {
 export { apply, setup, tw };
 export type { Plugin, ThemeConfiguration };
 export { default as hljs } from "https://jspm.dev/highlight.js@11.0.1";
-import * as config from "./tw_config.ts";
+export * as config from "./tw_config.ts";
 export * as colors from "https://cdn.esm.sh/v73/twind@0.16.16/es2021/colors.js";
 if (IS_BROWSER) {
   setup({});

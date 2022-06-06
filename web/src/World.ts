@@ -5,8 +5,23 @@ import { GPURenderer } from "./renderers/GPURenderer.ts";
 import { printBanner } from "./utils/mod.ts";
 
 interface WorldOptions {
+  /**
+   * The width of the world.
+   */
   width: number;
+  /**
+   * The height of the world.
+   */
   height: number;
+  /**
+   * The parent element of the camvas (the canvas will be appended to this). defaults to document.body.
+   */
+  // @ts-ignore: typescript is weird
+  parent?: HTMLElement;
+  /**
+   * the id of the canvas.
+   */
+  id?: string;
 }
 export class World {
   FPS = 500;
@@ -27,10 +42,11 @@ export class World {
     this.canvas = document.createElement("canvas");
     this.canvas.width = this.params.width;
     this.canvas.height = this.params.height;
+    if (this.params.id) this.canvas.id = this.params.id;
     // @ts-ignore: typescript is weird
-    document.body.appendChild(this.canvas);
+    (params.parent || document.body).appendChild(this.canvas);
     // @ts-ignore: typescript is weird
-    document.body.style.margin = "0";
+    (params.parent || document.body).style.margin = "0";
     this.currentScene = new this.scenes[0](this);
     this.renderer = new GPURenderer(this);
     this.keyManager = new KeyManager(this);
@@ -38,7 +54,7 @@ export class World {
   }
 
   async start(): Promise<void> {
-    printBanner("2.4.7");
+    printBanner("2.4.10");
     await this.renderer.init();
     this.setup();
     await this.currentScene.loadResources();

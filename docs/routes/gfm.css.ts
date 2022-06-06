@@ -24,6 +24,13 @@ ol.nested li:before {
 .toggle:checked + .toggled {
 	display: block;
 }
+canvas {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+}
 `;
 
 export const handler: Handlers = {
