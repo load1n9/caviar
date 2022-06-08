@@ -4,5 +4,8 @@
   },
   "movingsquare": {
     "title": "Moving Square Demo"
+  },
+  "texturesprite": {
+    "title": "Texture Sprite Demo"
   }
 }

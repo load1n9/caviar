@@ -1,5 +1,0 @@
-{
-  "imports": {
-    "$fresh/": "https://raw.githubusercontent.com/lucacasonato/fresh/main/"
-  }
-}
