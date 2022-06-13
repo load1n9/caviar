@@ -744,7 +744,7 @@ class World {
         this.eventManager = new EventManager();
     }
     async start() {
-        printBanner("2.4.10");
+        printBanner("2.5.0");
         await this.renderer.init();
         this.setup();
         await this.currentScene.loadResources();

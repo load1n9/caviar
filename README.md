@@ -218,5 +218,5 @@ MIT
 
 ### Tools
 
-- [Caviar CLI](https://github.com/load1n9/caviar-cli) cli tool to generate
+- [Caviar CLI](https://github.com/load1n9/caviar/tree/main/cli) cli tool to generate
   caviar projects

@@ -54,7 +54,7 @@ export class World {
   }
 
   async start(): Promise<void> {
-    printBanner("2.4.10");
+    printBanner("2.5.0");
     await this.renderer.init();
     this.setup();
     await this.currentScene.loadResources();
