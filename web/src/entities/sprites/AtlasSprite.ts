@@ -3,7 +3,7 @@ import { Frame } from "../../types.ts";
 
 export class AtlasSprite extends Entity {
   atlas: Atlas;
-  frame?: Frame;
+  frame: Frame;
   // @ts-ignore: typescript is weird
   bitmap: ImageBitmap;
   // @ts-ignore: typescript is weird
@@ -15,9 +15,9 @@ export class AtlasSprite extends Entity {
     this.#frame = frame;
     // @ts-ignore: typescript is weird
     this.image = document.createElement("img");
+    this.frame = this.atlas.getFrame(this.#frame);
   }
   load() {
-    this.frame = this.atlas.getFrame(this.#frame);
     return new Promise<AtlasSprite>((res, rej) => {
       this.image.src = this.atlas.imgUrl;
       this.image.onload = () => {

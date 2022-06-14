@@ -478,6 +478,7 @@ function createBuffer(device, data) {
 }
 // @ts-ignore: typescript is weird
 function loadTexture(device, source) {
+    console.log(source);
     const size = {
         width: source.width,
         height: source.height
@@ -744,7 +745,7 @@ class World {
         this.eventManager = new EventManager();
     }
     async start() {
-        printBanner("2.4.10");
+        printBanner("2.5.1");
         await this.renderer.init();
         this.setup();
         await this.currentScene.loadResources();
@@ -820,13 +821,13 @@ class Scene {
         if (e instanceof Array) {
             this.entities.push(...e);
             for (const entity of e){
-                if (entity instanceof Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/ ) {
+                if (entity instanceof Image || entity instanceof AtlasSprite /*|| entity instanceof AtlasSprite */ ) {
                     this.#resources.push(entity.load());
                 }
             }
         } else {
             this.entities.push(e);
-            if (e instanceof Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/ ) {
+            if (e instanceof Image || e instanceof AtlasSprite /*|| e instanceof Sprite*/ ) {
                 this.#resources.push(e.load());
             }
         }
@@ -1005,32 +1006,30 @@ class GodotAtlas {
     }
 }
 
-function atlas(url, type = "phaser") {
+function atlas(// deno-lint-ignore no-explicit-any
+data, type = "phaser") {
     let atlas1;
-    fetch(url).then((res)=>res.json()
-    ).then((data)=>{
-        switch(type){
-            case "phaser":
-                {
-                    atlas1 = new PhaserAtlas(data);
-                    break;
-                }
-            case "pixi":
-                {
-                    atlas1 = new PixiAtlas(data);
-                    break;
-                }
-            case "godot":
-                {
-                    atlas1 = new GodotAtlas(data);
-                    break;
-                }
-            default:
-                {
-                    throw new Error(`Unknown atlas type: ${type}`);
-                }
-        }
-    });
+    switch(type){
+        case "phaser":
+            {
+                atlas1 = new PhaserAtlas(data);
+                break;
+            }
+        case "pixi":
+            {
+                atlas1 = new PixiAtlas(data);
+                break;
+            }
+        case "godot":
+            {
+                atlas1 = new GodotAtlas(data);
+                break;
+            }
+        default:
+            {
+                throw new Error(`Unknown atlas type: ${type}`);
+            }
+    }
     return atlas1;
 }
 
@@ -1041,11 +1040,12 @@ class Atlas extends Entity {
     // @ts-ignore: typescript is weird
     image;
     preloaded = false;
-    constructor(atlasUrl, type = "phaser"){
+    constructor(// deno-lint-ignore no-explicit-any
+    _atlas, type = "phaser"){
         super(0, 0);
         // @ts-ignore: typescript is weird
         this.image = document.createElement("img");
-        this.atlas = atlas(atlasUrl, type);
+        this.atlas = atlas(_atlas, type);
     }
     getFrame(key) {
         return this.atlas.frames[key];
@@ -1085,9 +1085,9 @@ class AtlasSprite extends Entity {
         this.#frame = frame;
         // @ts-ignore: typescript is weird
         this.image = document.createElement("img");
+        this.frame = this.atlas.getFrame(this.#frame);
     }
     load() {
-        this.frame = this.atlas.getFrame(this.#frame);
         return new Promise((res, rej)=>{
             this.image.src = this.atlas.imgUrl;
             this.image.onload = ()=>{

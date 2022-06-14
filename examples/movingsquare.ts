@@ -1,32 +1,23 @@
-import { World, Scene, Rectangle } from '../mod.ts';
-
+import { Rectangle, Scene, World } from "../mod.ts";
 
 class Game extends Scene {
-    public test = new Rectangle(0, 0, 100, 100, "#00ff00");
-    public test2 = new Rectangle(0, 0, 100, 100, "#ff0000");
-    
-    public setup() {
-        this.addChild(this.test);
-        this.addChild(this.test2);
-    }
-    public update() {
-        this.test.x += 5;
-        this.test2.x += 2;
-    }
+  test = new Rectangle(0, 0, 100, 100, "#00ff00");
+  test2 = new Rectangle(0, 0, 100, 100, "#ff0000");
 
+  setup() {
+    this.addChild([this.test, this.test2]);
+  }
+  update() {
+    this.test.x += 5;
+    this.test2.x += 2;
+  }
 }
 
 const test = new World({
-    title: "test",
-    width: 800,
-    height: 600,
-    // centered: true,
-    // fullscreen: false,
-    // hidden: false,
-    resizable: true,
-    // minimized: false,
-    // maximized: false,
-    // flags: null,
+  title: "test",
+  width: 800,
+  height: 600,
+  resizable: true,
 }, [Game]);
 
 await test.start();

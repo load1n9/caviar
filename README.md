@@ -17,18 +17,13 @@
 
 ## ⚡ blazing fast game engine built on top of [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support
 
-### Maintainers
-
-- Loading ([@load1n9](https://github.com/load1n9))
-- CarrotzRule ([@carrotzrule123](https://github.com/CarrotzRule123))
-
 <img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/demo.png" width="800rem" />
 
-### [Running In the Browser](https://github.com/load1n9/caviar/tree/main/web)
+### [Running In the Browser With WebGPU](https://github.com/load1n9/caviar/tree/main/web)
 
 ### Usage
 
-#### moving squares
+#### Moving Squares
 
 ```typescript
 import { Rectangle, Scene, World } from "https://deno.land/x/caviar/mod.ts";
@@ -38,8 +33,7 @@ class Game extends Scene {
   test2 = new Rectangle(0, 0, 100, 100, "#00ff00");
 
   setup() {
-    this.addChild(this.test);
-    this.addChild(this.test2);
+    this.addChild([this.test, this.test2]);
   }
   update() {
     this.test.x += 5;
@@ -57,7 +51,7 @@ const test = new World({
 await test.start();
 ```
 
-#### perlin noise
+#### Perlin Noise
 
 ```typescript
 import {
@@ -66,20 +60,17 @@ import {
   Scene,
   World,
 } from "https://deno.land/x/caviar/mod.ts";
-import { PerlinNoise } from "https://deno.land/x/caviar/src/utils/mod.ts";
+import { PerlinNoise } from "https://deno.land/x/caviar/src/plugins/perlin.ts";
 
 class Game extends Scene {
-  test: any;
   chunkSize = 16;
   tileSize = 16;
-  group: Group | undefined;
-
   setup() {
-    this.group = new Group(this, 0, 0);
+    const group = new Group(this, 0, 0);
     this.world.loadPlugin("perlin", PerlinNoise);
 
-    this.test = this.world.usePlugin("perlin");
-    this.test.setSeed(0);
+    const perlin = this.world.usePlugin("perlin");
+    perlin.setSeed(0);
 
     for (let x = -40; x < this.chunkSize; x++) {
       for (let y = -40; y < this.chunkSize; y++) {
@@ -87,9 +78,9 @@ class Game extends Scene {
           (x * this.tileSize);
         const tileY = (1 * (this.chunkSize * this.tileSize)) +
           (y * this.tileSize);
-        const perlinValue = this.test.perlin2(tileX / 100, tileY / 100);
+        const perlinValue = perlin.perlin2(tileX / 100, tileY / 100);
         if (perlinValue < 0.2) {
-          this.group.addChild(
+          group.addChild(
             new Rectangle(
               tileX,
               tileY,
@@ -99,7 +90,7 @@ class Game extends Scene {
             ),
           );
         } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
-          this.group.addChild(
+          group.addChild(
             new Rectangle(
               tileX,
               tileY,
@@ -109,7 +100,7 @@ class Game extends Scene {
             ),
           );
         } else if (perlinValue >= 0.3) {
-          this.group.addChild(
+          group.addChild(
             new Rectangle(
               tileX,
               tileY,
@@ -121,9 +112,7 @@ class Game extends Scene {
         }
       }
     }
-    this.addChild(this.group);
-  }
-  update() {
+    this.addChild(group);
   }
 }
 
@@ -137,23 +126,20 @@ const test = new World({
 await test.start();
 ```
 
-#### pixel texture
+#### Texture Sprites
+
+<img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/demo.png" width="800rem" />
 
 ```typescript
 import {
-  Keys,
   PICO8,
   Scene,
   TextureSprite,
   World,
 } from "https://deno.land/x/caviar/mod.ts";
-import type {
-  KeyEvent,
-  MouseDownEvent,
-} from "https://deno.land/x/caviar/mod.ts";
 
 class Game extends Scene {
-  test = new TextureSprite(this, 10, 10, {
+  sprite = new TextureSprite(this, 0, 0, {
     data: [
       "..9..9..",
       "..9999..",
@@ -170,29 +156,10 @@ class Game extends Scene {
   });
 
   setup() {
-    this.addChild(this.test);
+    this.addChild(this.sprite);
   }
-  draw() {
-  }
-  keyDown(key: KeyEvent) {
-    switch (key.keycode) {
-      case Keys.ARROWUP: {
-        this.test.setY(this.test.y - 10);
-        break;
-      }
-      case Keys.ARROWDOWN: {
-        this.test.setY(this.test.y + 10);
-        break;
-      }
-      case Keys.ARROWLEFT: {
-        this.test.setX(this.test.x - 10);
-        break;
-      }
-      case Keys.ARROWRIGHT: {
-        this.test.setX(this.test.x + 10);
-        break;
-      }
-    }
+  update() {
+    this.sprite.setX(this.sprite.x + 10);
   }
 }
 
@@ -200,23 +167,22 @@ const test = new World({
   title: "test",
   width: 800,
   height: 600,
-  centered: true,
-  fullscreen: false,
-  hidden: false,
   resizable: true,
-  minimized: false,
-  maximized: false,
-  flags: null,
 }, [Game]);
 
 await test.start();
 ```
 
+### Tools
+
+- [Caviar CLI](https://github.com/load1n9/caviar/tree/main/cli) cli tool to
+  generate caviar projects
+
+### Maintainers
+
+- Loading ([@load1n9](https://github.com/load1n9))
+- CarrotzRule ([@carrotzrule123](https://github.com/CarrotzRule123))
+
 ### License
 
 MIT
-
-### Tools
-
-- [Caviar CLI](https://github.com/load1n9/caviar/tree/main/cli) cli tool to generate
-  caviar projects

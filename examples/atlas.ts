@@ -3,8 +3,7 @@ import { Atlas, AtlasSprite, Scene, World } from "../mod.ts";
 class Game extends Scene {
   test = new Atlas("assets/pixi.json", "pixi");
   setup() {
-    const test = new AtlasSprite(this.test, 0, 0, "skully.png");
-    this.addChild(test);
+    this.addChild(new AtlasSprite(this.test, 0, 0, "skully.png"));
   }
 }
 

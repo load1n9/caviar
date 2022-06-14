@@ -1,16 +1,19 @@
+import { FrameBuffer, Scene, World } from "../mod.ts";
+
 const width = 800;
 const height = 600;
 const buffer = new Uint8Array(width * height * 4);
-import { FrameBuffer, Scene, World } from "../mod.ts";
 
 class Game extends Scene {
-  public test = new FrameBuffer(this.world, buffer);
+  test = new FrameBuffer(this.world, buffer);
 
-  public setup() {
+  setup() {
     this.addChild(this.test);
   }
-  public update() {
-    this.test.rawData[Math.floor(Math.random()* this.test.rawData.length-1)] = Math.floor(Math.random()*255)
+  update() {
+    this.test
+      .rawData[Math.floor(Math.random() * this.test.rawData.length - 1)] = Math
+        .floor(Math.random() * 255);
     this.test.setBuffer(this.test.rawData);
   }
 }
@@ -21,5 +24,5 @@ const test = new World({
   height: 600,
   resizable: true,
 }, [Game]);
-test.setFPS(10)
+test.setFPS(10);
 await test.start();

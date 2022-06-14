@@ -1,5 +1,5 @@
 import { Canvas, requestAnimationFrame } from "../deps.ts";
-import { Plugin, Scene } from "../mod.ts";
+import { Scene } from "../mod.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
 import type { MouseMotionEvent, WorldOptions } from "./types.ts";
 
@@ -86,7 +86,8 @@ export class World extends Canvas {
   loadPlugin(name: string, plugin: any): void {
     this.plugins[name] = plugin;
   }
-  usePlugin(name: string): Plugin {
+  // deno-lint-ignore no-explicit-any
+  usePlugin(name: string): any {
     const plug = new this.plugins[name](this);
     plug.onStart();
     return plug;

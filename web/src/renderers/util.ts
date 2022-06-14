@@ -8,6 +8,7 @@ export function createBuffer(device: GPUDevice, data: BufferSource) {
 }
   // @ts-ignore: typescript is weird
 export function loadTexture(device: GPUDevice, source: ImageBitmap) {
+  console.log(source)
   const size = { width: source.width, height: source.height };
   const texture = device.createTexture({
     size: size,

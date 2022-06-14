@@ -1,7 +1,7 @@
-import { PICO8, TextureSprite, Scene, World } from "../mod.ts";
+import { PICO8, Scene, TextureSprite, World } from "../mod.ts";
 
 class Game extends Scene {
-  public test = new TextureSprite(this, 0, 0, {
+  test = new TextureSprite(this, 0, 0, {
     data: [
       "..9..9..",
       "..9999..",
@@ -17,11 +17,11 @@ class Game extends Scene {
     palette: PICO8,
   });
 
-  public setup() {
+  setup() {
     this.addChild(this.test);
   }
-  public update() {
-    this.test.setX(this.test.x +10);
+  update() {
+    this.test.setX(this.test.x + 10);
   }
 }
 

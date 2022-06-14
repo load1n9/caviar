@@ -7,6 +7,7 @@ import {
   PixiAtlas,
 } from "./../../utils/atlas/mod.ts";
 
+
 export class Atlas extends Entity {
   atlas: PhaserAtlas | PixiAtlas | GodotAtlas;
   // @ts-ignore: typescript is weird
@@ -15,13 +16,14 @@ export class Atlas extends Entity {
   image: HTMLImageElement;
   preloaded = false;
   constructor(
-    atlasUrl: string,
+    // deno-lint-ignore no-explicit-any
+    _atlas: any,
     type: string = "phaser",
   ) {
     super(0, 0);
     // @ts-ignore: typescript is weird
     this.image = document.createElement("img");
-    this.atlas = atlas(atlasUrl, type);
+    this.atlas = atlas(_atlas, type);
   }
 
   getFrame(key: string): Frame {

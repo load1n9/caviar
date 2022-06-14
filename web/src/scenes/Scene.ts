@@ -1,7 +1,7 @@
-import { Entity, Image, World /*AtlasSprite, Sprite*/ } from "../../mod.ts";
+import { AtlasSprite, Entity, Image, World /*Sprite*/ } from "../../mod.ts";
 import { RGBA } from "../types.ts";
 
-export type Resource = Image /*| AtlasSprite | Sprite*/;
+export type Resource = Image | AtlasSprite /*| Sprite*/;
 
 export class Scene {
   entities: Array<Entity> = [];
@@ -23,7 +23,8 @@ export class Scene {
       for (const entity of e) {
         if (
           entity instanceof
-            Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/
+            Image ||
+          entity instanceof AtlasSprite /*|| entity instanceof AtlasSprite */
         ) {
           this.#resources.push(entity.load());
         }
@@ -32,7 +33,7 @@ export class Scene {
       this.entities.push(e);
       if (
         e instanceof
-          Image /*|| e instanceof AtlasSprite || e instanceof Sprite*/
+          Image || e instanceof AtlasSprite /*|| e instanceof Sprite*/
       ) {
         this.#resources.push(e.load());
       }

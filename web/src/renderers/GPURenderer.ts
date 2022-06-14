@@ -175,9 +175,9 @@ export class GPURenderer {
   }
 
   #setupImage(entity: Image | AtlasSprite): void {
-    const x = entity instanceof Image ? 0 : entity.frame!.x;
-    const y = entity instanceof Image ? 0 : entity.frame!.y;
-    const { width, height } = entity instanceof Image ? entity : entity.frame!;
+    const x = entity instanceof Image ? 0 : entity.frame.x;
+    const y = entity instanceof Image ? 0 : entity.frame.y;
+    const { width, height } = entity instanceof Image ? entity : entity.frame;
 
     const data = [
       x,
