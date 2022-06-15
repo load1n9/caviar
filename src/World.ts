@@ -38,8 +38,6 @@ export class World extends Canvas {
 
   _draw(): void {
     this._fps()();
-    // this.renderer.updateEvents();
-    // this.renderer.swapBuffers();
     if (this.shouldClose()) return;
     this.updateEvents();
     this.swapBuffers();

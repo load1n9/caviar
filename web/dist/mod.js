@@ -715,6 +715,8 @@ const printBanner = (version)=>{
     ]);
 };
 
+const VERSION = "2.5.2";
+
 class World {
     FPS = 500;
     params;
@@ -745,7 +747,7 @@ class World {
         this.eventManager = new EventManager();
     }
     async start() {
-        printBanner("2.5.1");
+        printBanner(VERSION);
         await this.renderer.init();
         this.setup();
         await this.currentScene.loadResources();
@@ -781,6 +783,7 @@ class World {
     loadPlugin(name, plugin) {
         this.plugins[name] = plugin;
     }
+    // deno-lint-ignore no-explicit-any
     usePlugin(name) {
         const plug = new this.plugins[name](this);
         plug.onStart();
@@ -836,6 +839,13 @@ class Scene {
         const index = this.entities.indexOf(e);
         if (index < -1) return;
         this.entities.splice(index, 1);
+    }
+    // deno-lint-ignore no-explicit-any
+    loadPlugin(name, plugin) {
+        this.world.loadPlugin(name, plugin);
+    }
+    usePlugin(name) {
+        return this.world.usePlugin(name);
     }
     // deno-lint-ignore no-explicit-any
     _mouseDown(e) {

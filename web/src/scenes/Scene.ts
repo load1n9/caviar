@@ -45,7 +45,14 @@ export class Scene {
     if (index < -1) return;
     this.entities.splice(index, 1);
   }
+  // deno-lint-ignore no-explicit-any
+  loadPlugin(name: string, plugin: any): void {
+    this.world.loadPlugin(name, plugin);
+  }
 
+  usePlugin(name: string) {
+    return this.world.usePlugin(name);
+  }
   // deno-lint-ignore no-explicit-any
   _mouseDown(e: any) {
     // deno-lint-ignore no-unused-vars

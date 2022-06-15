@@ -48,6 +48,15 @@ export class Scene {
       this.entities.splice(index, 1);
     }
   }
+  // deno-lint-ignore no-explicit-any
+  loadPlugin(name: string, plugin: any): void {
+    this.world.loadPlugin(name, plugin);
+  }
+
+  usePlugin(name: string) {
+    return this.world.usePlugin(name);
+  }
+
   killAllChildren(): void {
     this.entities = [];
   }

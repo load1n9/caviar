@@ -1,9 +1,9 @@
-import { Plugin, Scene } from "../mod.ts";
+import { Scene } from "../mod.ts";
 import { EventManager } from "./events/EventManager.ts";
 import { KeyManager } from "./events/KeyManager.ts";
 import { GPURenderer } from "./renderers/GPURenderer.ts";
 import { printBanner } from "./utils/mod.ts";
-
+import { VERSION } from "./version.ts";
 interface WorldOptions {
   /**
    * The width of the world.
@@ -54,7 +54,7 @@ export class World {
   }
 
   async start(): Promise<void> {
-    printBanner("2.5.1");
+    printBanner(VERSION);
     await this.renderer.init();
     this.setup();
     await this.currentScene.loadResources();
@@ -91,7 +91,8 @@ export class World {
   loadPlugin(name: string, plugin: any): void {
     this.plugins[name] = plugin;
   }
-  usePlugin(name: string): Plugin {
+  // deno-lint-ignore no-explicit-any
+  usePlugin(name: string): any {
     const plug = new this.plugins[name](this);
     plug.onStart();
     return plug;
