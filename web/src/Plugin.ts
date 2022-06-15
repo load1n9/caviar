@@ -7,4 +7,5 @@ export abstract class Plugin {
   author = "";
   constructor(_world: World) {}
   onStart(): void {}
+  static onUpdate(): void {}
 }

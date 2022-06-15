@@ -35,6 +35,8 @@ export class World {
   eventManager: EventManager;
   // deno-lint-ignore no-explicit-any
   plugins: any = {};
+  // deno-lint-ignore no-explicit-any
+  loadedPlugins: any = [];
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     this.params = params;
     this.scenes = scenes;
@@ -66,6 +68,11 @@ export class World {
   _draw(): void {
     this.updateProgramLifeCycle();
     this.renderer.render(this.currentScene.entities);
+    if (this.loadedPlugins.length > 0) {
+      for (const plug of this.loadedPlugins) {
+        plug.onDraw();
+      }
+    }
     // @ts-ignore: typescript is weird
     requestAnimationFrame(this._draw.bind(this));
   }
@@ -95,6 +102,7 @@ export class World {
   usePlugin(name: string): any {
     const plug = new this.plugins[name](this);
     plug.onStart();
+    this.loadedPlugins.push(plug);
     return plug;
   }
   // deno-lint-ignore no-explicit-any
