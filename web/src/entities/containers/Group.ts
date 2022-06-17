@@ -9,12 +9,24 @@ export class Group extends Entity {
     this.scene = scene;
   }
 
-  addChild(child: Entity) {
-    this.children.push(child);
+  addChild(childOrChildren: Entity | Entity[]) {
+    if (childOrChildren instanceof Array) {
+      for (const child of childOrChildren) {
+        this.addChild(child);
+      }
+    } else {
+    this.children.push(childOrChildren);
+    }
   }
 
-  killChild(child: Entity) {
+  killChild(childOrChildren: Entity) {
+    if (childOrChildren instanceof Array) {
+      for (const child of childOrChildren) {
+        this.killChild(child);
+      }
+    } else {
     this.children.splice(this.children.indexOf(child), 1);
+    }
   }
 
   killAllChildren() {

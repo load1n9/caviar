@@ -1,10 +1,9 @@
 import { Canvas, requestAnimationFrame } from "../deps.ts";
 import { Scene } from "../mod.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
-import type { MouseMotionEvent, WorldOptions } from "./types.ts";
-import { printBanner, sleepSync } from "./utils/mod.ts";
+import type { MouseMotionEvent, WorldOptions, RGBA } from "./types.ts";
+import { printBanner, sleepSync, hexToRGBA } from "./utils/mod.ts";
 import { VERSION } from "./version.ts";
-
 export class World extends Canvas {
   FPS = 500;
   params: WorldOptions;
@@ -113,6 +112,9 @@ export class World extends Canvas {
   updateProgramLifeCycle(): void {
     this.currentScene.tick();
     this.currentScene.update();
+  }
+  setBackground(color: string | RGBA): void {
+    this.renderer.setBackground(typeof color === "string" ? hexToRGBA(color) : color);
   }
   get mouseX(): number {
     return this.renderer.canvas.getCurrentState().cursorX;

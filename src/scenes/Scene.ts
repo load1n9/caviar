@@ -48,6 +48,7 @@ export class Scene {
       this.entities.splice(index, 1);
     }
   }
+
   // deno-lint-ignore no-explicit-any
   loadPlugin(name: string, plugin: any): void {
     this.world.loadPlugin(name, plugin);
@@ -76,22 +77,36 @@ export class Scene {
     }
     this.mouseDown(e);
   }
+
   _mouseMotion(e: MouseMotionEvent) {
     this.mouseMotion(e);
   }
+
   setKeys(_keys: Array<string>): void {
     this.world.renderer.eventManager.keys = _keys;
   }
+
+  setBackground(color: string | RGBA): void {
+    this.world.setBackground(color);
+  }
+
   get mouseX() {
     return this.world.mouseX;
   }
+
   get mouseY() {
     return this.world.mouseY;
   }
+
   tick(): void {}
+
   mouseDown(_e: MouseDownEvent): void {}
+
   mouseMotion(_e: MouseMotionEvent): void {}
+
   setup(): void {}
+
   update(): void {}
+
   keyDown(_e: KeyEvent): void {}
 }

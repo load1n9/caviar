@@ -1,16 +1,14 @@
 export abstract class Entity {
-  id: string;
+  id = crypto.randomUUID()
   #x: number;
   #y: number;
-  #z: number;
+  #z = 1;
   width = 0;
   height = 0;
 
   constructor(x: number, y: number) {
-    this.id = crypto.randomUUID();
     this.#x = x;
     this.#y = y;
-    this.#z = 1;
   }
   set x(x: number) {
     this.#x = x;
