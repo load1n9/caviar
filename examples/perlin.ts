@@ -9,7 +9,7 @@ class Game extends Scene {
     this.world.loadPlugin("perlin", PerlinNoise);
 
     const perlin = this.world.usePlugin("perlin");
-    perlin.setSeed(0);
+    perlin.setSeed(1000);
 
     for (let x = -40; x < this.chunkSize; x++) {
       for (let y = -40; y < this.chunkSize; y++) {
@@ -63,4 +63,3 @@ const test = new World({
 }, [Game]);
 
 await test.start();
-

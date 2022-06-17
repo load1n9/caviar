@@ -3,7 +3,7 @@ import {
   Scene,
   TextureSprite,
   World,
-} from "https://deno.land/x/caviar@2.4.10/web/dist/mod.js";
+} from "https://deno.land/x/caviar@2.5.3/web/dist/mod.js";
 
 class Game extends Scene {
   test = new TextureSprite(this, 0, 0, {

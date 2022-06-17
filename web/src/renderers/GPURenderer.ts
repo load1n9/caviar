@@ -12,6 +12,7 @@ import { World } from "../World.ts";
 import {
   createBindGroupLayout,
   createRenderPipeline,
+  mipMapShader,
   shader2d,
   Textures2D,
   Uniforms2D,
@@ -37,9 +38,10 @@ export class GPURenderer {
   #sampler?: GPUSampler;
   #emptyBuffer?: GPUBuffer;
   #emptyTexture?: Textures2D;
+  #mipMapShaderModule?: GPUShaderModule;
 
   #buffers: Map<string, EntityBuffers> = new Map();
-  #backgroundColor: RGBA = [1.0, 1.0, 1.0, 1.0];
+  #backgroundColor: RGBA = [0.0, 0.0, 0.0, 0.0];
 
   eventManager: EventManager = new EventManager();
 
@@ -63,7 +65,7 @@ export class GPURenderer {
     this.#context.configure({
       device: this.#device,
       format: format,
-      alphaMode: "premultiplied",
+      alphaMode: "opaque",
     });
 
     this.#layouts = createBindGroupLayout(device);
@@ -73,6 +75,7 @@ export class GPURenderer {
     const module = this.#device.createShaderModule({ code: shader2d });
     this.#pipeline = createRenderPipeline(this.#device, module, layout, format);
     this.#sampler = device.createSampler({});
+    this.#mipMapShaderModule = device.createShaderModule({code: mipMapShader});
     this.#emptyBuffer = device.createBuffer({
       size: 32,
       usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,

@@ -105,7 +105,7 @@ var uSampler: sampler;
 @group(1) @binding(0)
 var<uniform> uniforms: Uniforms;
 
-@stage(vertex)
+@vertex
 fn vs_main(
     @location(0) position: vec2<f32>,
     @location(1) coords: vec2<f32>,
@@ -116,13 +116,41 @@ fn vs_main(
     return out;
 }
 
-@stage(fragment)
+@fragment
 fn fs_main(out: Output) -> @location(0) vec4<f32> {
     if (uniforms.usage == 0.0) {
         return uniforms.color;
     } else {
         return textureSample(uTexture, uSampler, out.coords);
     }
+}
+`;
+const mipMapShader = `
+struct VertexOutput {
+  @builtin(position) position : vec4<f32>,
+  @location(0) texCoord : vec2<f32>,
+};
+
+var<private> pos : array<vec2<f32>, 4> = array<vec2<f32>, 4>(
+  vec2<f32>(-1.0, 1.0), vec2<f32>(1.0, 1.0),
+  vec2<f32>(-1.0, -1.0), vec2<f32>(1.0, -1.0));
+  
+@vertex
+fn vertexMain(@builtin(vertex_index) vertexIndex : u32) -> VertexOutput {
+  var output : VertexOutput;
+  output.texCoord = pos[vertexIndex] * vec2<f32>(0.5, -0.5) + vec2<f32>(0.5);
+  output.position = vec4<f32>(pos[vertexIndex], 0.0, 1.0);
+  return output;
+}
+
+@binding(0) @group(0)
+var imgSampler : sampler;
+@binding(1) @group(0)
+var img : texture_2d<f32>;
+
+@fragment
+fn fragmentMain(@location(0) texCoord : vec2<f32>) -> @location(0) vec4<f32> {
+  return textureSample(img, imgSampler, texCoord);
 }
 `;
 const bindGroupUniform2d = {
@@ -319,23 +347,100 @@ function createBuffer(device, data) {
     device.queue.writeBuffer(buffer, 0, data);
     return buffer;
 }
-function loadTexture(device, source) {
-    console.log(source);
+function loadTexture(device, source, mipmapShaderModule, genMipmap = false) {
     const size = {
         width: source.width,
         height: source.height
     };
-    const texture = device.createTexture({
+    const descriptor = {
         size: size,
         format: "rgba8unorm",
+        dimension: "2d",
         usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT
-    });
+    };
+    if (genMipmap) {
+        descriptor.mipLevelCount = Math.floor(Math.log2(Math.max(source.width, source.height))) + 1;
+    }
+    const texture = device.createTexture(descriptor);
     device.queue.copyExternalImageToTexture({
         source
     }, {
         texture
     }, size);
+    if (genMipmap) generateMipmap(device, texture, descriptor, mipmapShaderModule);
     return texture;
+}
+function generateMipmap(device, texture, textureDescriptor, mipmapShaderModule) {
+    const pipeline = device.createRenderPipeline({
+        layout: "auto",
+        vertex: {
+            module: mipmapShaderModule,
+            entryPoint: "vertexMain"
+        },
+        fragment: {
+            module: mipmapShaderModule,
+            entryPoint: "fragmentMain",
+            targets: [
+                {
+                    format: textureDescriptor.format
+                }
+            ]
+        },
+        primitive: {
+            topology: "triangle-strip",
+            stripIndexFormat: "uint32"
+        }
+    });
+    const sampler = device.createSampler({
+        minFilter: "linear"
+    });
+    let srcView = texture.createView({
+        baseMipLevel: 0,
+        mipLevelCount: 1
+    });
+    const commandEncoder = device.createCommandEncoder({});
+    for(let i = 1; i < textureDescriptor.mipLevelCount; ++i){
+        const dstView = texture.createView({
+            baseMipLevel: i,
+            mipLevelCount: 1
+        });
+        const passEncoder = commandEncoder.beginRenderPass({
+            colorAttachments: [
+                {
+                    view: dstView,
+                    loadOp: "clear",
+                    clearValue: [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    storeOp: "store"
+                }
+            ]
+        });
+        const bindGroup = device.createBindGroup({
+            layout: pipeline.getBindGroupLayout(0),
+            entries: [
+                {
+                    binding: 0,
+                    resource: sampler
+                },
+                {
+                    binding: 1,
+                    resource: srcView
+                }
+            ]
+        });
+        passEncoder.setPipeline(pipeline);
+        passEncoder.setBindGroup(0, bindGroup);
+        passEncoder.draw(4);
+        passEncoder.end();
+        srcView = dstView;
+    }
+    device.queue.submit([
+        commandEncoder.finish()
+    ]);
 }
 class KeyManager {
     listeners;
@@ -375,17 +480,15 @@ const printBanner = (version)=>{
 };
 const VERSION = "2.5.3";
 class Entity {
-    id;
+    id = crypto.randomUUID();
     #x;
     #y;
-    #z;
+    #z = 1;
     width = 0;
     height = 0;
     constructor(x, y){
-        this.id = crypto.randomUUID();
         this.#x = x;
         this.#y = y;
-        this.#z = 1;
     }
     set x(x) {
         this.#x = x;
@@ -682,11 +785,23 @@ class Group extends Entity {
         super(x, y);
         this.scene = scene;
     }
-    addChild(child) {
-        this.children.push(child);
+    addChild(childOrChildren) {
+        if (childOrChildren instanceof Array) {
+            for (const child of childOrChildren){
+                this.addChild(child);
+            }
+        } else {
+            this.children.push(childOrChildren);
+        }
     }
-    killChild(child) {
-        this.children.splice(this.children.indexOf(child), 1);
+    killChild(childOrChildren) {
+        if (childOrChildren instanceof Array) {
+            for (const child of childOrChildren){
+                this.killChild(child);
+            }
+        } else {
+            this.children.splice(this.children.indexOf(childOrChildren), 1);
+        }
     }
     killAllChildren() {
         this.children = [];
@@ -701,6 +816,7 @@ class GPURenderer {
     #sampler;
     #emptyBuffer;
     #emptyTexture;
+    #mipMapShaderModule;
     #buffers;
     #backgroundColor;
     eventManager;
@@ -708,10 +824,10 @@ class GPURenderer {
         this.world = world;
         this.#buffers = new Map();
         this.#backgroundColor = [
-            1.0,
-            1.0,
-            1.0,
-            1.0
+            0.0,
+            0.0,
+            0.0,
+            0.0
         ];
         this.eventManager = new EventManager();
         this.#canvas = this.world.canvas;
@@ -731,7 +847,7 @@ class GPURenderer {
         this.#context.configure({
             device: this.#device,
             format: format,
-            alphaMode: "premultiplied"
+            alphaMode: "opaque"
         });
         this.#layouts = createBindGroupLayout(device);
         const layout = this.#device.createPipelineLayout({
@@ -745,6 +861,9 @@ class GPURenderer {
         });
         this.#pipeline = createRenderPipeline(this.#device, module, layout, format);
         this.#sampler = device.createSampler({});
+        this.#mipMapShaderModule = device.createShaderModule({
+            code: mipMapShader
+        });
         this.#emptyBuffer = device.createBuffer({
             size: 32,
             usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST

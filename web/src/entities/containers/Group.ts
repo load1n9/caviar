@@ -15,7 +15,7 @@ export class Group extends Entity {
         this.addChild(child);
       }
     } else {
-    this.children.push(childOrChildren);
+      this.children.push(childOrChildren);
     }
   }
 
@@ -25,7 +25,7 @@ export class Group extends Entity {
         this.killChild(child);
       }
     } else {
-    this.children.splice(this.children.indexOf(child), 1);
+      this.children.splice(this.children.indexOf(childOrChildren), 1);
     }
   }
 

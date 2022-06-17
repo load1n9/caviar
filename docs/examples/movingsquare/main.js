@@ -1,4 +1,4 @@
-import { Scene, World, Rectangle } from "https://deno.land/x/caviar@2.4.10/web/dist/mod.js";
+import { Scene, World, Rectangle } from "https://deno.land/x/caviar@2.5.3/web/dist/mod.js";
 class Game extends Scene {
     test = new Rectangle(0, 0, 100, 100, "#00ff00");
     test2 = new Rectangle(0, 0, 100, 100, "#ff0000");
