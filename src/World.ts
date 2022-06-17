@@ -2,6 +2,8 @@ import { Canvas, requestAnimationFrame } from "../deps.ts";
 import { Scene } from "../mod.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
 import type { MouseMotionEvent, WorldOptions } from "./types.ts";
+import { printBanner, sleepSync } from "./utils/mod.ts";
+import { VERSION } from "./version.ts";
 
 export class World extends Canvas {
   FPS = 500;
@@ -22,6 +24,7 @@ export class World extends Canvas {
   }
 
   async start(): Promise<void> {
+    printBanner(VERSION);
     this.setup();
     await this.currentScene.loadResources();
     this.renderer.start(this.currentScene.entities);
@@ -47,7 +50,7 @@ export class World extends Canvas {
     this.renderer.render(this.currentScene.entities);
     if (this.loadedPlugins.length > 0) {
       for (const plug of this.loadedPlugins) {
-        plug.onDraw();
+        if (plug.onUpdate) plug.onUpdate();
       }
     }
     requestAnimationFrame(this._draw.bind(this));
@@ -65,8 +68,7 @@ export class World extends Canvas {
         start = performance.now();
         frames = 0;
       }
-
-      Deno.sleepSync(1 / this.FPS * 1000);
+      sleepSync(1 / this.FPS * 1000);
     };
   }
   // deno-lint-ignore no-explicit-any

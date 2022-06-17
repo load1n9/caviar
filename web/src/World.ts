@@ -70,7 +70,7 @@ export class World {
     this.renderer.render(this.currentScene.entities);
     if (this.loadedPlugins.length > 0) {
       for (const plug of this.loadedPlugins) {
-        plug.onDraw();
+        if (plug.onUpdate) plug.onUpdate();
       }
     }
     // @ts-ignore: typescript is weird
