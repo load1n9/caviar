@@ -25,6 +25,8 @@
 
 #### Moving Squares
 
+<img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/movingsquare.gif" width="800rem" />
+
 ```typescript
 import { Rectangle, Scene, World } from "https://deno.land/x/caviar/mod.ts";
 
@@ -52,6 +54,8 @@ await test.start();
 ```
 
 #### Perlin Noise
+
+<img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/perlin.png" width="800rem" />
 
 ```typescript
 import {

@@ -1,109 +1,77 @@
-import { PICO8, Scene, TextureSprite } from "../../../../mod.ts";
+import { Rectangle, Scene } from "../../../../mod.ts";
 
 export class Game extends Scene {
-  ball: TextureSprite | undefined;
-  p1: TextureSprite | undefined;
-  p2: TextureSprite | undefined;
-  vx = 2;
-  vy = 2;
-  score: number[] = [0, 0];
+  vx = 4;
+  vy = 4;
+  p1 = new Rectangle(0, 336, 32, 96, "#6298bf");
+  p2 = new Rectangle(1168, 336, 32, 96, "#cc694b");
+  ball = new Rectangle(568, 336, 32, 32, "#ffffff");
+  score = {
+    p1: 0,
+    p2: 0,
+  };
   setup() {
-    this.setKeys(["W", "S", "E", "D"]);
-    this.p1 = new TextureSprite(this, 0, 336, {
-      data: [
-        ".9.",
-        ".9.",
-        ".9.",
-      ],
-      pixelWidth: 32,
-      pixelHeight: 32,
-      palette: PICO8,
-    });
-    this.p2 = new TextureSprite(this, 1168, 336, {
-      data: [
-        ".A.",
-        ".A.",
-        ".A.",
-      ],
-      pixelWidth: 32,
-      pixelHeight: 32,
-      palette: PICO8,
-    });
-    this.ball = new TextureSprite(this, 568, 336, {
-      data: [
-        "E",
-      ],
-      pixelWidth: 32,
-      pixelHeight: 32,
-      palette: PICO8,
-    });
-    this.addChild(this.p1);
-    this.addChild(this.p2);
-    this.addChild(this.ball);
+    this.setKeys(["w", "s", "e", "d"]);
+    this.addChild([this.p1, this.p2, this.ball]);   
   }
   update() {
-    const ball = this.ball as TextureSprite;
-    const p1 = this.p1 as TextureSprite;
-    const p2 = this.p2 as TextureSprite;
-    if (ball.y > 25 || ball.y < 10) {
-      this.vy *= -1;
-    }
-
     if (
-      ball.x < p1.x + 32 + 10 &&
-      ball.y > p1.y &&
-      ball.y < p1.y + 96
+      this.ball.x < this.p1.x + 42 &&
+      this.ball.y > this.p1.y &&
+      this.ball.y < this.p1.y + this.p1.height
     ) {
       this.vx *= -1.1;
       this.vy = Math.floor(Math.random() * 8) - 4;
     }
 
     if (
-      ball.x > p2.x - 10 &&
-      ball.y > p2.y &&
-      ball.y < p2.y + p2.height
+      this.ball.x > this.p2.x - 42 &&
+      this.ball.y > this.p2.y &&
+      this.ball.y < this.p2.y + this.p2.height
     ) {
       this.vx *= -1.1;
       this.vy = Math.floor(Math.random() * 8) - 4;
     }
-    if (ball.y < 25 || ball.y > 800) {
+    if (this.ball.y < 0|| this.ball.y > 750) {
       this.vy *= -1;
     }
-    if (ball.x < 25) {
+    if (this.ball.x < 0) {
       //p1 side
-      ball.setX(568);
-      ball.setY(336);
-      this.score[1] += 1;
+      this.ball.x = 568;
+      this.ball.y = 336;
+      this.score.p2 += 1;
       this.vx = 4;
       this.vy = 4;
     }
-    if (ball.x > 1168) {
+    if (this.ball.x > 1300) {
       //p2 side
-      ball.setX(568);
-      ball.setY(336);
-      this.score[0] += 1;
+      this.ball.x = 568;
+      this.ball.y = 336;
+      this.score.p1 += 1;
       this.vx = -4;
       this.vy = 4;
     }
-    ball.setX(ball.x + this.vx);
-    ball.setY(ball.y + this.vy);
+    this.ball.x += this.vx;
+    this.ball.y += this.vy;
+    if (this.score.p1 === 10 || this.score.p2 === 10) {
+      this.score.p1 = 0;
+      this.score.p2 = 0;
+    }
   }
   // deno-lint-ignore no-explicit-any
   keyDown(key: any) {
-    const p1 = this.p1 as TextureSprite;
-    const p2 = this.p2 as TextureSprite;
     switch (key) {
-      case "W":
-        if (p1.y > 25) p1.setY(p1.y - 4);
+      case "w":
+        if (this.p1.y > 25) this.p1.y -= 4;
         break;
-      case "S":
-        if (p1.y < 700) p1.setY(p1.y + 4);
+      case "s":
+        if (this.p1.y < 700) this.p1.y += 4;
         break;
-      case "E":
-        if (p2.y > 25) p2.setY(p2.y - 4);
+      case "e":
+        if (this.p2.y > 25) this.p2.y -= 4;
         break;
-      case "D":
-        if (p2.y < 700) p2.setY(p2.y + 4);
+      case "d":
+        if (this.p2.y < 700) this.p2.y += 4;
         break;
     }
   }
