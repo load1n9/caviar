@@ -6,7 +6,7 @@ import {
   Sprite,
   World,
 } from "../../mod.ts";
-import type { KeyEvent, MouseDownEvent, MouseMotionEvent } from "../types.ts";
+import type { KeyEvent, MouseDownEvent, MouseMotionEvent, RGBA } from "../types.ts";
 
 export type Resource = Image | AtlasSprite | Sprite;
 
