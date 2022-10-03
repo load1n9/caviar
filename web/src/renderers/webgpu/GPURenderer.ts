@@ -1,14 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
-import { Entity } from "../entities/Entity.ts";
+import { Entity } from "../../entities/Entity.ts";
 import {
   AtlasSprite,
   Group,
   Image,
   Rectangle,
   TextureSprite,
-} from "../../mod.ts";
-import { RGBA } from "../types.ts";
-import { World } from "../World.ts";
+} from "../../../mod.ts";
+import { RGBA } from "../../types.ts";
+import { World } from "../../World.ts";
 import {
   createBindGroupLayout,
   createRenderPipeline,
@@ -23,8 +23,8 @@ import {
   Layouts,
   RectangleBuffers,
 } from "./types.ts";
-import { EventManager } from "../events/EventManager.ts";
-import { hexToRGBA } from "../utils/HexToRGBA.ts";
+import { EventManager } from "../../events/EventManager.ts";
+import { hexToRGBA } from "../../utils/HexToRGBA.ts";
 import { createBuffer, loadTexture } from "./util.ts";
 
 export class GPURenderer {

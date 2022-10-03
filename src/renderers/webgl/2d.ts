@@ -20,18 +20,19 @@ import {
   setBuffer,
 } from "./util.ts";
 import { EntityBuffers, ImageBuffers, RectangleBuffers } from "./types.ts";
+
 export class WebGLRenderer2D {
   #program: WebGLProgram;
   #gl: WebGL2RenderingContext;
   #location: ProgramInfo2d;
-  #buffers: Map<string, EntityBuffers>;
+  #buffers: Map<string, EntityBuffers> = new Map();
   eventManager: EventManager = new EventManager();
   #backgroundColor: RGBA = [0.0, 0.0, 0.0, 1.0];
+
   constructor(public canvas: Canvas) {
     const gl = canvas.getContext("webgl");
     if (!gl) throw new Error(`Could not request device!`);
     this.#gl = gl;
-    this.#buffers = new Map();
     this.#program = initShaderProgram(gl, vertex2d, fragment2d);
     this.#location = programInfo2d(gl, this.#program);
   }
@@ -72,12 +73,14 @@ export class WebGLRenderer2D {
         y: this.canvas.getCurrentState().cursorY,
       });
     }
+
     this.eventManager.keys.forEach((key) => {
       // deno-lint-ignore no-explicit-any
       if ((this.canvas.getCurrentState() as any)[`key${key.toUpperCase()}`]) {
         this.eventManager.emit("keyDown", key);
       }
     });
+
     this.#gl.clear(this.#gl.COLOR_BUFFER_BIT | this.#gl.DEPTH_BUFFER_BIT);
     this.#gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
@@ -175,6 +178,7 @@ export class WebGLRenderer2D {
     const texture = loadTexture(this.#gl, entity as any)!;
     this.#buffers.set(entity.id, { position, texture, coords });
   }
+
   #setupImage(entity: Image | AtlasSprite): void {
     const { x, y, width, height } = entity instanceof Image
       ? { x: 0, y: 0, width: entity.width, height: entity.height }
@@ -219,9 +223,11 @@ export class WebGLRenderer2D {
     this.#gl.uniform1f(this.#location.usage, 1);
     this.#gl.drawArrays(this.#gl.TRIANGLE_STRIP, 0, 4);
   }
+
   setBackground(color: RGBA): void {
     this.#backgroundColor = this.#colorNorm(color);
   }
+  
   #colorNorm(rgba: RGBA): RGBA {
     return rgba.map((c) => c / 255) as RGBA;
   }

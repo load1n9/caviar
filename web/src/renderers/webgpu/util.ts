@@ -6,6 +6,7 @@ export function createBuffer(device: GPUDevice, data: BufferSource) {
   device.queue.writeBuffer(buffer, 0, data);
   return buffer;
 }
+
 export function loadTexture(
   device: GPUDevice,
   // @ts-ignore: typescript is weird
@@ -33,6 +34,7 @@ export function loadTexture(
 
   return texture;
 }
+
 function generateMipmap(
   device: GPUDevice,
   texture: GPUTexture,

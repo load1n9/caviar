@@ -1,7 +1,7 @@
 import { Scene } from "../mod.ts";
 import { EventManager } from "./events/EventManager.ts";
 import { KeyManager } from "./events/KeyManager.ts";
-import { GPURenderer } from "./renderers/GPURenderer.ts";
+import { GPURenderer } from "./renderers/webgpu/GPURenderer.ts";
 import { printBanner } from "./utils/mod.ts";
 import { VERSION } from "./version.ts";
 interface WorldOptions {

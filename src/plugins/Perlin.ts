@@ -313,7 +313,7 @@ export class PerlinNoise extends Plugin {
   onStart() {
     console.log.apply(globalThis.console, [
       "\n %c %c %c Using Caviar's Perlin Noise Plugin" +
-      "  %c  %c  https://github.com/load1n9/caviar/blob/main/web/src/plugins/Perlin.ts",
+      "  %c  %c  https://github.com/load1n9/caviar/blob/main/src/plugins/Perlin.ts",
       "background: #d48e1e; padding:5px 0;",
       "background: #e67615; padding:5px 0;",
       "color: #e67615; background: #030307; padding:5px 0;",

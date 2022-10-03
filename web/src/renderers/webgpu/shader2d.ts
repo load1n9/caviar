@@ -1,4 +1,4 @@
-import { RGBA } from "../types.ts";
+import { RGBA } from "../../types.ts";
 import { Usage } from "./types.ts";
 
 export const shader2d = `

@@ -4,6 +4,7 @@ import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
 import type { MouseMotionEvent, WorldOptions, RGBA } from "./types.ts";
 import { printBanner, sleepSync, hexToRGBA } from "./utils/mod.ts";
 import { VERSION } from "./version.ts";
+
 export class World extends Canvas {
   FPS = 500;
   params: WorldOptions;
@@ -58,6 +59,7 @@ export class World extends Canvas {
   setFPS(fps: number): void {
     this.FPS = fps;
   }
+
   _fps(): () => void {
     let start = performance.now();
     let frames = 0;
@@ -70,6 +72,7 @@ export class World extends Canvas {
       sleepSync(1 / this.FPS * 1000);
     };
   }
+
   // deno-lint-ignore no-explicit-any
   keyDown(e: any): void {
     this.currentScene.keyDown(e);
@@ -88,10 +91,12 @@ export class World extends Canvas {
     }
     this.setup();
   }
+
   // deno-lint-ignore no-explicit-any
   loadPlugin(name: string, plugin: any): void {
     this.plugins[name] = plugin;
   }
+
   // deno-lint-ignore no-explicit-any
   usePlugin(name: string): any {
     const plug = new this.plugins[name](this);
@@ -99,26 +104,33 @@ export class World extends Canvas {
     this.loadedPlugins.push(plug);
     return plug;
   }
+
   // deno-lint-ignore no-explicit-any
   _mouseDown(e: any): void {
     this.currentScene._mouseDown(e);
   }
+
   _mouseMotion(e: MouseMotionEvent): void {
     this.currentScene._mouseMotion(e);
   }
+
   setup(): void {
     this.currentScene.setup();
   }
+
   updateProgramLifeCycle(): void {
     this.currentScene.tick();
     this.currentScene.update();
   }
+
   setBackground(color: string | RGBA): void {
     this.renderer.setBackground(typeof color === "string" ? hexToRGBA(color) : color);
   }
+
   get mouseX(): number {
     return this.renderer.canvas.getCurrentState().cursorX;
   }
+  
   get mouseY(): number {
     return this.renderer.canvas.getCurrentState().cursorY;
   }
