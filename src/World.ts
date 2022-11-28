@@ -18,6 +18,7 @@ export class World extends WebGLCanvas {
   plugins: any = {};
   // deno-lint-ignore no-explicit-any
   loadedPlugins: any = [];
+  reRender = false;
   constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
     super(params);
     this.params = params;
@@ -57,6 +58,10 @@ export class World extends WebGLCanvas {
     // if (this.shouldClose()) return;
     // this.updateEvents();
     this.updateProgramLifeCycle();
+    if (this.reRender) {
+      this.renderer.start(this.currentScene.entities);
+      this.reRender = false;
+    }
     this.renderer.render(this.currentScene.entities);
     if (this.loadedPlugins.length > 0) {
       for (const plug of this.loadedPlugins) {

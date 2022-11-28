@@ -203,8 +203,8 @@ export class WebGLRenderer2D {
     setBuffer(this.#gl, buffers.position, this.#location.position, 2);
     setBuffer(this.#gl, buffers.coords, this.#location.texture, 2);
 
-    const x = entity.x / this.canvas.width * 2;
-    const y = entity.y / this.canvas.height * -2;
+    const x = entity instanceof Image || entity instanceof FrameBuffer ? entity.x : entity.x-entity.frame.x / this.canvas.width * 2;
+    const y = entity instanceof Image || entity instanceof FrameBuffer ? entity.y : entity.y-entity.frame.y/ this.canvas.height * -2;
 
     this.#gl.activeTexture(this.#gl.TEXTURE0);
     this.#gl.bindTexture(this.#gl.TEXTURE_2D, buffers.texture);
