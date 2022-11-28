@@ -33,7 +33,6 @@ export type {
   RGBA,
   spriteConfig,
   WorldOptions,
-  WorldPhysicsOptions,
 } from "./src/types.ts";
 
 export { hexToRGBA } from "./src/utils/mod.ts";

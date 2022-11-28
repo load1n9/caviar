@@ -4,7 +4,7 @@ export class Vector implements IVector {
   constructor(
     public x: number = 0,
     public y: number = 0,
-  ) { }
+  ) {}
   clone(): Vector {
     return new Vector(this.x, this.y);
   }

@@ -30,7 +30,9 @@ export function loadTexture(
 
   // @ts-ignore: typescript is weird
   device.queue.copyExternalImageToTexture({ source }, { texture }, size);
-  if (genMipmap) generateMipmap(device, texture, descriptor, mipmapShaderModule!);
+  if (genMipmap) {
+    generateMipmap(device, texture, descriptor, mipmapShaderModule!);
+  }
 
   return texture;
 }
@@ -41,7 +43,6 @@ function generateMipmap(
   textureDescriptor: GPUTextureDescriptor,
   mipmapShaderModule: GPUShaderModule,
 ) {
-
   const pipeline = device.createRenderPipeline({
     // @ts-ignore: typescript is weird
     layout: "auto",

@@ -7,7 +7,6 @@ import {
   PixiAtlas,
 } from "./../../utils/atlas/mod.ts";
 
-
 export class Atlas extends Entity {
   atlas: PhaserAtlas | PixiAtlas | GodotAtlas;
   // @ts-ignore: typescript is weird

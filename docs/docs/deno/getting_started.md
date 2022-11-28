@@ -1,4 +1,5 @@
 ### Setup
+
 first we'll create a new class that extends Scene
 
 ```typescript
@@ -23,7 +24,9 @@ class Game extends Scene {
 
 ### Adding Entities
 
-first we'll make a rectangle with a width & height of 50 and set the x and y coordinates to 20, we'll also set the color to #0000ff and add the rectangle to the scene using the addChild method
+first we'll make a rectangle with a width & height of 50 and set the x and y
+coordinates to 20, we'll also set the color to #0000ff and add the rectangle to
+the scene using the addChild method
 
 ```typescript
 import { Rectangle, Scene } from "https://deno.land/x/caviar/mod.ts";
@@ -35,7 +38,8 @@ class Game extends Scene {
 }
 ```
 
-Next we'll create the world and add the scene to the world. We'll also run `await test.start()` to start the game.
+Next we'll create the world and add the scene to the world. We'll also run
+`await test.start()` to start the game.
 
 ```typescript
 import { Rectangle, Scene, World } from "https://deno.land/x/caviar/mod.ts";

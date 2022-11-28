@@ -53,12 +53,11 @@ export class Sprite extends Entity {
       this.frames[(this.frames.indexOf(this.frame) + 1) % this.frames.length];
   }
   previousFrame(): void {
-    this.frame =
-      this
-        .frames[
-          (this.frames.indexOf(this.frame) - 1 + this.frames.length) %
-          this.frames.length
-        ];
+    this.frame = this
+      .frames[
+        (this.frames.indexOf(this.frame) - 1 + this.frames.length) %
+        this.frames.length
+      ];
   }
   setFrame(frame: number): void {
     this.frame = this.frames[frame];

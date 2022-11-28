@@ -5,7 +5,7 @@ interface Item {
   data: any;
   type: "atlas";
   // deno-lint-ignore no-explicit-any
-  callback: any
+  callback: any;
 }
 export class Loader {
   static queue: Map<string, Item> = new Map();

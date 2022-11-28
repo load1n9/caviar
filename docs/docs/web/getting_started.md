@@ -98,7 +98,7 @@ const test = new World({
   width: 800,
   height: 600,
   resizable: true,
-  id: "example-canvas"
+  id: "example-canvas",
 }, [Game]);
 
 await test.start();
@@ -106,8 +106,13 @@ await test.start();
 
 #### run this in any browser with webgpu support
 
-
-*WebGPU is available for now in Chrome Canary on desktop behind an experimental flag. You can enable it at [chrome://flags/#enable-unsafe-webgpu](chrome://flags/#enable-unsafe-webgpu). The API is constantly changing and currently unsafe. As GPU sandboxing isn't implemented yet for the WebGPU API, it is possible to read GPU data for other processes! Don't browse the web with it enabled.*
+_WebGPU is available for now in Chrome Canary on desktop behind an experimental
+flag. You can enable it at
+[chrome://flags/#enable-unsafe-webgpu](chrome://flags/#enable-unsafe-webgpu).
+The API is constantly changing and currently unsafe. As GPU sandboxing isn't
+implemented yet for the WebGPU API, it is possible to read GPU data for other
+processes! Don't browse the web with it enabled._
 
 ![](https://i.ibb.co/RY0wNPT/Screenshot-2022-06-06-062842.png)
+
 ## [jsfiddle](https://jsfiddle.net/u4L1dewc/1/)

@@ -1,6 +1,5 @@
-
-
 # color palette
+
 - #DD901C
 - #DD791C
 - #F6D7BA

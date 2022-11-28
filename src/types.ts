@@ -4,10 +4,17 @@ export interface WorldOptions {
   height: number;
   visible?: boolean;
   resizable?: boolean;
-}
-
-export interface WorldPhysicsOptions {
-  gravity: number;
+  maximized?: boolean;
+  minimized?: boolean;
+  focused?: boolean;
+  autoExitEventLoop?: boolean;
+  glVersion?: [number, number];
+  gles?: boolean;
+  vsync?: boolean;
+  noClientAPI?: boolean;
+  removeDecorations?: boolean;
+  transparent?: boolean;
+  floating?: boolean;
 }
 
 export type RGBA = [number, number, number, number];

@@ -1,1 +1,1 @@
-export type { Renderer } from "./types.ts"
+export type { Renderer } from "./types.ts";

@@ -25,7 +25,9 @@ export class Rectangle extends Entity {
     this.up = y;
     this.down = y + height;
     this.bottom = y + height;
-    this.fill = typeof fill === "string" ? this.colorNorm(hexToRGBA(fill)) : this.colorNorm(fill);
+    this.fill = typeof fill === "string"
+      ? this.colorNorm(hexToRGBA(fill))
+      : this.colorNorm(fill);
   }
 
   setFill(c: RGBA | string): void {

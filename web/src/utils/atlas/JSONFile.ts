@@ -1,4 +1,3 @@
-
 // export function JSONFile (key: string, url?: string): RequestFileType {
 //     return (loader?: ILoader): Promise<IFile> =>
 //     {

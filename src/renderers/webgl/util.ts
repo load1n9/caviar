@@ -1,14 +1,14 @@
 import type {
   Image as HTMLImage,
-  WebGL2RenderingContext,
   WebGLBuffer,
   WebGLProgram,
+  WebGLRenderingContext,
   WebGLShader,
 } from "../../../deps.ts";
 import { FrameBuffer } from "../../../mod.ts";
 
 export function initShaderProgram(
-  gl: WebGL2RenderingContext,
+  gl: WebGLRenderingContext,
   vertex: string,
   fragment: string,
 ): WebGLProgram {
@@ -32,7 +32,7 @@ export function initShaderProgram(
 }
 
 function loadShader(
-  gl: WebGL2RenderingContext,
+  gl: WebGLRenderingContext,
   type: number,
   source: string,
 ): WebGLShader | null {
@@ -53,7 +53,7 @@ function loadShader(
 }
 
 export function createBuffer(
-  gl: WebGL2RenderingContext,
+  gl: WebGLRenderingContext,
   data: number[],
   target: number = gl.ARRAY_BUFFER,
   usage: number = gl.STATIC_DRAW,
@@ -66,7 +66,7 @@ export function createBuffer(
 }
 
 export function setBuffer(
-  gl: WebGL2RenderingContext,
+  gl: WebGLRenderingContext,
   buffer: WebGLBuffer,
   location: number,
   numComponents: number,
@@ -90,7 +90,7 @@ export function setBuffer(
 }
 
 export function loadTexture(
-  gl: WebGL2RenderingContext,
+  gl: WebGLRenderingContext,
   image: HTMLImage | FrameBuffer,
   level = 0,
   internalFormat = gl.RGBA,

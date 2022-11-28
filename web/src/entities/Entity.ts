@@ -1,5 +1,5 @@
 export abstract class Entity {
-  id = crypto.randomUUID()
+  id = crypto.randomUUID();
   #x: number;
   #y: number;
   #z = 1;

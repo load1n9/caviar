@@ -1,5 +1,9 @@
 import { ProgramInfo2d, programInfo2d } from "./shader.ts";
-import { Canvas, WebGL2RenderingContext, WebGLProgram } from "../../../deps.ts";
+import {
+  WebGLCanvas,
+  WebGLProgram,
+  WebGLRenderingContext,
+} from "../../../deps.ts";
 import { fragment2d, vertex2d } from "./shader.ts";
 import {
   AtlasSprite,
@@ -23,13 +27,13 @@ import { EntityBuffers, ImageBuffers, RectangleBuffers } from "./types.ts";
 
 export class WebGLRenderer2D {
   #program: WebGLProgram;
-  #gl: WebGL2RenderingContext;
+  #gl: WebGLRenderingContext;
   #location: ProgramInfo2d;
   #buffers: Map<string, EntityBuffers> = new Map();
   eventManager: EventManager = new EventManager();
   #backgroundColor: RGBA = [0.0, 0.0, 0.0, 1.0];
 
-  constructor(public canvas: Canvas) {
+  constructor(public canvas: WebGLCanvas) {
     const gl = canvas.getContext("webgl");
     if (!gl) throw new Error(`Could not request device!`);
     this.#gl = gl;
@@ -66,21 +70,7 @@ export class WebGLRenderer2D {
   }
 
   render(entities: Entity[]): void {
-    this.#gl.clearColor.apply(null, this.#backgroundColor);
-    if (this.canvas.getCurrentState().mouseButtonLeft) {
-      this.eventManager.emit("mouseDown", {
-        x: this.canvas.getCurrentState().cursorX,
-        y: this.canvas.getCurrentState().cursorY,
-      });
-    }
-
-    this.eventManager.keys.forEach((key) => {
-      // deno-lint-ignore no-explicit-any
-      if ((this.canvas.getCurrentState() as any)[`key${key.toUpperCase()}`]) {
-        this.eventManager.emit("keyDown", key);
-      }
-    });
-
+    this.#gl.clearColor(...this.#backgroundColor);
     this.#gl.clear(this.#gl.COLOR_BUFFER_BIT | this.#gl.DEPTH_BUFFER_BIT);
     this.#gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
@@ -227,7 +217,7 @@ export class WebGLRenderer2D {
   setBackground(color: RGBA): void {
     this.#backgroundColor = this.#colorNorm(color);
   }
-  
+
   #colorNorm(rgba: RGBA): RGBA {
     return rgba.map((c) => c / 255) as RGBA;
   }

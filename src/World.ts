@@ -1,16 +1,19 @@
-import { Canvas, requestAnimationFrame } from "../deps.ts";
+import { WindowKeyboardEvent } from "https://raw.githubusercontent.com/deno-windowing/dwm/main/mod.ts";
+import { WebGLCanvas } from "../deps.ts";
 import { Scene } from "../mod.ts";
+import { KeyManager } from "./events/KeyManager.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
-import type { MouseMotionEvent, WorldOptions, RGBA } from "./types.ts";
-import { printBanner, sleepSync, hexToRGBA } from "./utils/mod.ts";
+import type { MouseMotionEvent, RGBA, WorldOptions } from "./types.ts";
+import { hexToRGBA, printBanner, sleepSync } from "./utils/mod.ts";
 import { VERSION } from "./version.ts";
 
-export class World extends Canvas {
+export class World extends WebGLCanvas {
   FPS = 500;
   params: WorldOptions;
   scenes: Array<typeof Scene>;
   currentScene: Scene;
   renderer: WebGLRenderer2D;
+  keyManager: KeyManager;
   // deno-lint-ignore no-explicit-any
   plugins: any = {};
   // deno-lint-ignore no-explicit-any
@@ -20,6 +23,7 @@ export class World extends Canvas {
     this.params = params;
     this.scenes = scenes;
     this.currentScene = new this.scenes[0](this);
+    this.keyManager = new KeyManager(this);
     this.renderer = new WebGLRenderer2D(this);
   }
 
@@ -39,13 +43,19 @@ export class World extends Canvas {
       // deno-lint-ignore no-explicit-any
       (event: any) => this._mouseDown(event),
     );
+    addEventListener("mousedown", (evt) => {
+      this._mouseDown(evt);
+    });
+    addEventListener("keydown", (evt) => {
+      this.keyDown(evt);
+    });
+    await this.run();
   }
 
   _draw(): void {
     this._fps()();
-    if (this.shouldClose()) return;
-    this.updateEvents();
-    this.swapBuffers();
+    // if (this.shouldClose()) return;
+    // this.updateEvents();
     this.updateProgramLifeCycle();
     this.renderer.render(this.currentScene.entities);
     if (this.loadedPlugins.length > 0) {
@@ -73,9 +83,8 @@ export class World extends Canvas {
     };
   }
 
-  // deno-lint-ignore no-explicit-any
-  keyDown(e: any): void {
-    this.currentScene.keyDown(e);
+  keyDown(e: WindowKeyboardEvent): boolean {
+    return this.currentScene.keyDown(e.key);
   }
 
   setScene(scene: number | string): void {
@@ -124,14 +133,16 @@ export class World extends Canvas {
   }
 
   setBackground(color: string | RGBA): void {
-    this.renderer.setBackground(typeof color === "string" ? hexToRGBA(color) : color);
+    this.renderer.setBackground(
+      typeof color === "string" ? hexToRGBA(color) : color,
+    );
   }
 
-  get mouseX(): number {
-    return this.renderer.canvas.getCurrentState().cursorX;
-  }
-  
-  get mouseY(): number {
-    return this.renderer.canvas.getCurrentState().cursorY;
-  }
+  // get mouseX(): number {
+  //   return this.renderer.canvas.getCurrentState().cursorX;
+  // }
+
+  // get mouseY(): number {
+  //   return this.renderer.canvas.getCurrentState().cursorY;
+  // }
 }

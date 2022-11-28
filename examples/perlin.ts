@@ -1,5 +1,5 @@
 import { Group, Rectangle, Scene, World } from "../mod.ts";
-import { PerlinNoise } from "../src/plugins/perlin.ts";
+import { PerlinNoise } from "../src/plugins/Perlin.ts";
 
 class Game extends Scene {
   chunkSize = 16;

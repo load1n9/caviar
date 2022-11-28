@@ -1,12 +1,12 @@
 import { setup } from "../client_deps.ts";
-import { RenderContext, RenderFn, virtualSheet, gfm } from "../server_deps.ts";
+import { gfm, RenderContext, RenderFn, virtualSheet } from "../server_deps.ts";
 import * as config from "../tw_config.ts";
 
 const sheet = virtualSheet();
 sheet.reset();
 setup({
   sheet,
-  ...config
+  ...config,
 });
 
 export function render(ctx: RenderContext, render: RenderFn) {

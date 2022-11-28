@@ -1,6 +1,6 @@
 import {
-  WebGL2RenderingContext,
   WebGLProgram,
+  WebGLRenderingContext,
   WebGLUniformLocation,
 } from "../../../deps.ts";
 
@@ -84,7 +84,7 @@ export interface ProgramInfo2d {
 }
 
 export function programInfo2d(
-  gl: WebGL2RenderingContext,
+  gl: WebGLRenderingContext,
   program: WebGLProgram,
 ) {
   return {

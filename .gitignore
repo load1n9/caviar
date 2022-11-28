@@ -1,3 +1,5 @@
 .vscode
 web/test
 web/src/renderers/webgl/*
+.deno_plugins
+deno.lock

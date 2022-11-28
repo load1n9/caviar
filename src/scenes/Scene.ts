@@ -6,7 +6,7 @@ import {
   Sprite,
   World,
 } from "../../mod.ts";
-import type { KeyEvent, MouseDownEvent, MouseMotionEvent, RGBA } from "../types.ts";
+import type { MouseDownEvent, MouseMotionEvent, RGBA } from "../types.ts";
 
 export type Resource = Image | AtlasSprite | Sprite;
 
@@ -83,20 +83,20 @@ export class Scene {
   }
 
   setKeys(_keys: Array<string>): void {
-    this.world.renderer.eventManager.keys = _keys;
+    this.world.keyManager.setKeys(_keys);
   }
 
   setBackground(color: string | RGBA): void {
     this.world.setBackground(color);
   }
 
-  get mouseX() {
-    return this.world.mouseX;
-  }
+  // get mouseX() {
+  //   return this.world.mouseX;
+  // }
 
-  get mouseY() {
-    return this.world.mouseY;
-  }
+  // get mouseY() {
+  //   return this.world.mouseY;
+  // }
 
   tick(): void {}
 
@@ -108,5 +108,7 @@ export class Scene {
 
   update(): void {}
 
-  keyDown(_e: KeyEvent): void {}
+  keyDown(e: string): boolean {
+    return this.world.keyManager.isDown(e);
+  }
 }

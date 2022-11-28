@@ -11,7 +11,6 @@ import {
   TableOfContentsEntry,
 } from "../../data/examples.ts";
 
-
 export default function DocsPage(props: PageProps) {
   return (
     <>
@@ -27,8 +26,8 @@ export default function DocsPage(props: PageProps) {
 
 function Header() {
   const header = tw`mx-auto max-w-screen-lg flex gap-3 justify-between`;
-  const sidebarButton = tw
-    `px-4 py-4 md:hidden border(l-2 gray-100) flex items-center hover:bg-gray-50`;
+  const sidebarButton =
+    tw`px-4 py-4 md:hidden border(l-2 gray-100) flex items-center hover:bg-gray-50`;
   return (
     <header class={header}>
       <div class={tw`p-4`}>
@@ -66,14 +65,20 @@ function Title() {
   );
 }
 
-function Main(props: { path: string; }) {
+function Main(props: { path: string }) {
   const main = tw`mx-auto max-w-screen-lg px-4 flex gap-6`;
   return (
     <>
       <MobileSidebar path={props.path} />
       <div class={main}>
         <DesktopSidebar path={props.path} />
-        <script type="module" src={`https://deno.land/x/caviar/docs/examples/${props.path.replace("/examples/","")}/main.js`}></script>
+        <script
+          type="module"
+          src={`https://deno.land/x/caviar/docs/examples/${
+            props.path.replace("/examples/", "")
+          }/main.js`}
+        >
+        </script>
       </div>
     </>
   );
@@ -82,7 +87,8 @@ function Main(props: { path: string; }) {
 function MobileSidebar(props: { path: string }) {
   const container = tw`fixed inset-0 flex z-40 hidden` + " toggled";
   const backdrop = tw`absolute inset-0 bg-gray-600 opacity-75`;
-  const sidebar = tw`relative flex-1 flex flex-col w-[16rem] h-full bg(gray-900) border(r-2 gray-100)`;
+  const sidebar =
+    tw`relative flex-1 flex flex-col w-[16rem] h-full bg(gray-900) border(r-2 gray-100)`;
   const heading = tw`p-4 border(b-2 gray-100)`;
   const items = tw`pt-2 pb-16 px-4 overflow-x-auto`;
   return (
@@ -111,10 +117,9 @@ function MobileSidebar(props: { path: string }) {
 function DesktopSidebar(props: { path: string }) {
   return (
     <nav
-      class={tw
-        `w-[16rem] flex-shrink-0 hidden md:block py-8 pr-4 border(r-2 gray-100)`}
+      class={tw`w-[16rem] flex-shrink-0 hidden md:block py-8 pr-4 border(r-2 gray-100)`}
     >
-        <Sidebar path={props.path} />
+      <Sidebar path={props.path} />
     </nav>
   );
 }

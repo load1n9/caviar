@@ -176,12 +176,15 @@ const test = new World({
 
 await test.start();
 ```
-As Caviar uses the Deno FFI, you will need to add the flags `--allow-ffi --unstable` to run the programs.
-You can also add other flags to skip the permissions check the Deno does. An example of starting the program in Deno with all these flags is
+
+As Caviar uses the Deno FFI, you will need to add the flags
+`--allow-ffi --unstable` to run the programs. You can also add other flags to
+skip the permissions check the Deno does. An example of starting the program in
+Deno with all these flags is
+
 ```
 deno run --allow-ffi --allow-env --allow-read --allow-write --allow-net --unstable test.ts
 ```
-
 
 ### Tools
 
