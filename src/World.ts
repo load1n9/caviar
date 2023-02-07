@@ -1,15 +1,15 @@
-import { WindowKeyboardEvent } from "https://raw.githubusercontent.com/deno-windowing/dwm/main/mod.ts";
+import { CreateWindowOptions, WindowKeyboardEvent } from "https://deno.land/x/dwm@0.3.0/mod.ts";
 import { WebGLCanvas } from "../deps.ts";
 import { Scene } from "../mod.ts";
 import { KeyManager } from "./events/KeyManager.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
-import type { MouseMotionEvent, RGBA, WorldOptions } from "./types.ts";
+import type { MouseMotionEvent, RGBA, } from "./types.ts";
 import { hexToRGBA, printBanner, sleepSync } from "./utils/mod.ts";
 import { VERSION } from "./version.ts";
 
 export class World extends WebGLCanvas {
   FPS = 500;
-  params: WorldOptions;
+  params: CreateWindowOptions;
   scenes: Array<typeof Scene>;
   currentScene: Scene;
   renderer: WebGLRenderer2D;
@@ -19,9 +19,10 @@ export class World extends WebGLCanvas {
   // deno-lint-ignore no-explicit-any
   loadedPlugins: any = [];
   reRender = false;
-  constructor(params: WorldOptions, scenes: Array<typeof Scene>) {
+  constructor(params: CreateWindowOptions, scenes: Array<typeof Scene>) {
     super(params);
     this.params = params;
+    // this.params.glVersion = this.params.glVersion || [3, 3];
     this.scenes = scenes;
     this.currentScene = new this.scenes[0](this);
     this.keyManager = new KeyManager(this);

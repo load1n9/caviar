@@ -5,7 +5,7 @@ import {
 } from "../../../deps.ts";
 
 export const vertex2d = `
-#version 330 core
+// #version 330 core
 
 attribute vec2 aVertexPosition;
 attribute vec2 aTextureCoord;
@@ -30,7 +30,7 @@ void main(void) {
 `;
 
 export const fragment2d = `
-#version 330 core
+// #version 330 core
 
 varying vec4 vColor;
 varying highp vec2 vTextureCoord;
@@ -48,7 +48,7 @@ void main(void) {
 `;
 
 export const vertex3d = `
-#version 330 core
+// #version 330 core
 
 attribute vec4 aVertexPosition;
 attribute vec4 aVertexColor;
@@ -64,7 +64,7 @@ void main() {
 `;
 
 export const fragment3d = `
-#version 330 core
+// #version 330 core
 
 varying lowp vec4 vColor;
 
