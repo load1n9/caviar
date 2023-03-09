@@ -16,7 +16,7 @@ const test = new World({
   width: 1800,
   height: 1600,
   resizable: true,
-  gles: true
+  gles: true,
 }, [Game]);
 
 await test.start();

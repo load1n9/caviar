@@ -8,8 +8,8 @@ class Game extends Scene {
     this.addChild(this.test);
   }
   update(): void {
-      this.test.nextFrame();
-      this.world.reRender = true;
+    this.test.nextFrame();
+    this.world.reRender = true;
   }
 }
 
