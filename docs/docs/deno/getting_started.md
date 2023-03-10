@@ -61,8 +61,8 @@ await test.start();
 
 run this with the unstable flag
 
-```
+```sh
 deno run -A --unstable main.ts
 ```
 
-![](https://i.ibb.co/RzSZfBH/Screenshot-2021-12-10-112659.png)
+![preview](https://i.ibb.co/RzSZfBH/Screenshot-2021-12-10-112659.png)

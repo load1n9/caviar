@@ -1,17 +1,17 @@
-### Caviar CLI
+# Caviar CLI
 
-#### cli to generate caviar projects, plugins and scenes
+## Command-line interface to generate caviar projects, plugins and scenes
 
-## install:
+### install
 
-```
+```sh
 deno install -Af --unstable -n caviar https://deno.land/x/caviar/cli/caviar.ts
 ```
 
-## Usage:
+## Usage
 
 generate project:
 
-```shell
+```sh
 caviar generate project
 ```

@@ -10,5 +10,21 @@
     "example_sprite": "deno run -A --unstable examples/sprite.ts",
     "example_texturesprite": "deno run -A --unstable examples/texturesprite.ts",
     "example_transparent_window": "deno run -A --unstable examples/transparent_window.ts"
+  },
+  "lint": {
+    "files": {
+      "exclude": [
+        "./web",
+        "./docs"
+      ]
+    }
+  },
+  "check": {
+    "files": {
+      "exclude": [
+        "./web",
+        "./docs"
+      ]
+    }
   }
 }

@@ -11,6 +11,7 @@ interface Settings {
   maxLife: number;
   fill: RGBA | string;
 }
+
 export class ParticleSystem extends Entity {
   particles: Array<Particle> = [];
   constructor(

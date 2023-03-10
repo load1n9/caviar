@@ -14,10 +14,12 @@ export const createWorld = (
       : `"https://deno.land/x/caviar@${VERSION}/mod.ts"`
   };
 import { Boot } from "./src/scenes/Boot.${web ? "js" : "ts"}";
+
 const ${name} = new World({
-    title: "${title}",
-    width: ${width},
-    height: ${height},
-    resizable: ${resizable},
+  title: "${title}",
+  width: ${width},
+  height: ${height},
+  resizable: ${resizable},
 }, [Boot]);
+
 await ${name}.start();`;

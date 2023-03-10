@@ -1,5 +1,5 @@
 import { GodotAtlas, PhaserAtlas, PixiAtlas } from "./mod.ts";
-import { fromFileUrl } from "https://deno.land/std@0.125.0/path/mod.ts";
+import { fromFileUrl } from "../../../deps.ts";
 
 export function atlas(
   url: string,

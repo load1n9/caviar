@@ -2,7 +2,7 @@ import {
   Confirm,
   Input,
   Number,
-} from "https://deno.land/x/cliffy@v0.20.1/prompt/mod.ts";
+} from "https://deno.land/x/cliffy@v0.25.7/prompt/mod.ts";
 import { createScene } from "./structs/Scene.ts";
 import { createWorld } from "./structs/World.ts";
 import { HTML } from "./structs/html.ts";

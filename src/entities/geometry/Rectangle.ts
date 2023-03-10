@@ -1,6 +1,7 @@
 import { Entity } from "../mod.ts";
 import type { RGBA } from "../../types.ts";
 import { hexToRGBA } from "../../utils/mod.ts";
+
 export class Rectangle extends Entity {
   width: number;
   height: number;
@@ -41,5 +42,4 @@ export class Rectangle extends Entity {
     return (x > this.x && x < this.x + this.width && y > this.y &&
       y < this.y + this.height);
   }
-  
 }
