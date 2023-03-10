@@ -22,13 +22,13 @@ export class Atlas extends Entity {
   }
 
   getFrame(key: string): Frame {
-    console.log(this.atlas.frames);
     return this.atlas.frames[key];
   }
 
   get imgUrl(): string {
     return this.atlas.imgUrl;
   }
+
   load(): Promise<Atlas> {
     return new Promise<Atlas>((res, rej) => {
       this.image.src = this.atlas.imgUrl;

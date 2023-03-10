@@ -19,6 +19,12 @@ export class Group extends Entity {
     }
   }
 
+  setInteractive(interactive = true): void {
+    for (const child of this.children) {
+      child.setInteractive(interactive);
+    }
+  }
+
   killChild(child: Entity | Entity[]) {
     if (child instanceof Array) {
       for (const entity of child) {

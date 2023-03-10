@@ -6,6 +6,8 @@ export abstract class Entity {
   width = 0;
   height = 0;
 
+  #interactive = false;
+
   constructor(x: number, y: number) {
     this.id = crypto.randomUUID();
     this.#x = x;
@@ -31,9 +33,24 @@ export abstract class Entity {
     return this.#z;
   }
 
+  get interactive() {
+    return this.#interactive;
+  }
+
+  setInteractive(interactive = true) {
+    this.#interactive = interactive;
+  }
+
   setPosition(x: number, y: number, z?: number) {
     this.#x = x;
     this.#y = y;
     if (z) this.#z = z;
+  }
+
+  collides(_x: number, _y: number) {
+    return false;
+  }
+
+  onClick() {
   }
 }

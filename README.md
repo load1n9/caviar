@@ -15,7 +15,7 @@
  </p>
 <hr/>
 
-## ⚡ blazing fast game engine built on top of [daybreak](https://github.com/CarrotzRule123/daybreak) with WebGPU bindings with desktop and web support
+## ⚡ blazing fast game engine built on top of [gluten](https://github.com/deno-windowing/gluten) & [dwm](https://github.com/deno-windowing/dwm) with WebGPU & WebGL rendering
 
 <img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/demo.png" width="800rem" />
 
@@ -43,14 +43,14 @@ class Game extends Scene {
   }
 }
 
-const test = new World({
-  title: "test",
+const world = new World({
+  title: "",
   width: 800,
   height: 600,
   resizable: true,
 }, [Game]);
 
-await test.start();
+await world.start();
 ```
 
 #### Perlin Noise
@@ -64,17 +64,18 @@ import {
   Scene,
   World,
 } from "https://deno.land/x/caviar/mod.ts";
-import { PerlinNoise } from "https://deno.land/x/caviar/src/plugins/perlin.ts";
+import { PerlinNoise } from "https://deno.land/x/caviar/src/plugins/Perlin.ts";
 
 class Game extends Scene {
   chunkSize = 16;
   tileSize = 16;
+
   setup() {
     const group = new Group(this, 0, 0);
     this.world.loadPlugin("perlin", PerlinNoise);
 
     const perlin = this.world.usePlugin("perlin");
-    perlin.setSeed(0);
+    perlin.setSeed(1000);
 
     for (let x = -40; x < this.chunkSize; x++) {
       for (let y = -40; y < this.chunkSize; y++) {
@@ -120,14 +121,14 @@ class Game extends Scene {
   }
 }
 
-const test = new World({
-  title: "test",
+const world = new World({
+  title: "Perlin Noise Plugin Example",
   width: 800,
   height: 600,
   resizable: true,
 }, [Game]);
 
-await test.start();
+await world.start();
 ```
 
 #### Texture Sprites
@@ -143,7 +144,7 @@ import {
 } from "https://deno.land/x/caviar/mod.ts";
 
 class Game extends Scene {
-  sprite = new TextureSprite(this, 0, 0, {
+  test = new TextureSprite(this, 0, 0, {
     data: [
       "..9..9..",
       "..9999..",
@@ -160,21 +161,21 @@ class Game extends Scene {
   });
 
   setup() {
-    this.addChild(this.sprite);
+    this.addChild(this.test);
   }
   update() {
-    this.sprite.setX(this.sprite.x + 10);
+    this.test.setX(this.test.x + 10);
   }
 }
 
-const test = new World({
-  title: "test",
+const world = new World({
+  title: "Texture Sprite Example",
   width: 800,
   height: 600,
   resizable: true,
 }, [Game]);
 
-await test.start();
+await world.start();
 ```
 
 As Caviar uses the Deno FFI, you will need to add the flags
@@ -182,7 +183,7 @@ As Caviar uses the Deno FFI, you will need to add the flags
 skip the permissions check the Deno does. An example of starting the program in
 Deno with all these flags is
 
-```
+```sh
 deno run --allow-ffi --allow-env --allow-read --allow-write --allow-net --unstable test.ts
 ```
 

@@ -7,6 +7,7 @@ class Game extends Scene {
   setup() {
     this.addChild(this.test);
   }
+
   update(): void {
     this.test.nextFrame();
     this.world.reRender = true;
@@ -14,7 +15,7 @@ class Game extends Scene {
 }
 
 const test = new World({
-  title: "test",
+  title: "Sprite Example",
   width: 800,
   height: 600,
   resizable: true,

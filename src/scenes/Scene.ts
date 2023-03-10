@@ -1,6 +1,5 @@
 import {
   AtlasSprite,
-  Button,
   Entity,
   Image,
   Sprite,
@@ -63,18 +62,6 @@ export class Scene {
   }
 
   _mouseDown(e: MouseDownEvent) {
-    for (const entity of this.entities) {
-      if (entity instanceof Button) {
-        if (
-          e.x >= entity.x &&
-          e.x <= entity.child.x + entity.child.width &&
-          e.y >= entity.child.y &&
-          e.y <= entity.child.y + entity.child.height
-        ) {
-          entity.onClick();
-        }
-      }
-    }
     this.mouseDown(e);
   }
 
@@ -90,14 +77,6 @@ export class Scene {
     this.world.setBackground(color);
   }
 
-  // get mouseX() {
-  //   return this.world.mouseX;
-  // }
-
-  // get mouseY() {
-  //   return this.world.mouseY;
-  // }
-
   tick(): void {}
 
   mouseDown(_e: MouseDownEvent): void {}
@@ -107,6 +86,14 @@ export class Scene {
   setup(): void {}
 
   update(): void {}
+
+  onClick(x: number, y: number): void {
+    for (const entity of this.entities) {
+      if (entity.interactive && entity.collides(x, y)) {
+        entity.onClick();
+      }
+    }
+  }
 
   keyDown(e: string): boolean {
     return this.world.keyManager.isDown(e);

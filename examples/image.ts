@@ -12,7 +12,7 @@ class Game extends Scene {
 }
 
 const test = new World({
-  title: "test",
+  title: "Image Example",
   width: 1800,
   height: 1600,
   resizable: true,

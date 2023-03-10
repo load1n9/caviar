@@ -10,11 +10,13 @@ class Game extends Scene {
     p1: 0,
     p2: 0,
   };
+
   setup() {
     this.setKeys(["W", "S", "E", "D"]);
     this.addChild([this.p1, this.p2, this.ball]);
     this.setBackground([0, 0, 0, 1]);
   }
+
   update() {
     if (
       this.ball.x < this.p1.x + 42 &&
@@ -33,9 +35,11 @@ class Game extends Scene {
       this.vx *= -1.1;
       this.vy = Math.floor(Math.random() * 8) - 4;
     }
+
     if (this.ball.y < 0 || this.ball.y > 750) {
       this.vy *= -1;
     }
+
     if (this.ball.x < 0) {
       //p1 side
       this.ball.x = 568;
@@ -44,6 +48,7 @@ class Game extends Scene {
       this.vx = 4;
       this.vy = 4;
     }
+
     if (this.ball.x > 1300) {
       //p2 side
       this.ball.x = 568;
@@ -52,12 +57,15 @@ class Game extends Scene {
       this.vx = -4;
       this.vy = 4;
     }
+
     this.ball.x += this.vx;
     this.ball.y += this.vy;
+
     if (this.keyDown("W") && this.p1.y > 25) this.p1.y -= 4;
     if (this.keyDown("S") && this.p1.y < 700) this.p1.y += 4;
     if (this.keyDown("E") && this.p2.y > 25) this.p2.y -= 4;
     if (this.keyDown("D") && this.p2.y < 700) this.p2.y += 4;
+
     if (this.score.p1 === 10 || this.score.p2 === 10) {
       this.score.p1 = 0;
       this.score.p2 = 0;
@@ -66,7 +74,7 @@ class Game extends Scene {
 }
 
 const pong = new World({
-  title: "test",
+  title: "Pong Example",
   width: 1300,
   height: 800,
   resizable: true,

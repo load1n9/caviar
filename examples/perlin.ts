@@ -4,6 +4,7 @@ import { PerlinNoise } from "../src/plugins/Perlin.ts";
 class Game extends Scene {
   chunkSize = 16;
   tileSize = 16;
+
   setup() {
     const group = new Group(this, 0, 0);
     this.world.loadPlugin("perlin", PerlinNoise);
@@ -56,7 +57,7 @@ class Game extends Scene {
 }
 
 const test = new World({
-  title: "test",
+  title: "Perlin Noise Plugin Example",
   width: 800,
   height: 600,
   resizable: true,

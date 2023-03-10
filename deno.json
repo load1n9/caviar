@@ -6,6 +6,7 @@
     "example_image": "deno run -A --unstable examples/image.ts",
     "example_movingsquare": "deno run -A --unstable examples/movingsquare.ts",
     "example_perlin": "deno run -A --unstable examples/perlin.ts",
+    "example_onclick": "deno run -A --unstable examples/onclick.ts",
     "example_sprite": "deno run -A --unstable examples/sprite.ts",
     "example_texturesprite": "deno run -A --unstable examples/texturesprite.ts",
     "example_transparent_window": "deno run -A --unstable examples/transparent_window.ts"

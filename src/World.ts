@@ -22,6 +22,9 @@ export class World extends WebGLCanvas {
   // deno-lint-ignore no-explicit-any
   loadedPlugins: any = [];
   reRender = false;
+
+  #showBanner = true;
+
   constructor(params: CreateWindowOptions, scenes: Array<typeof Scene>) {
     super(params);
     this.params = params;
@@ -33,7 +36,7 @@ export class World extends WebGLCanvas {
   }
 
   async start(): Promise<void> {
-    printBanner(VERSION);
+    if (this.#showBanner) printBanner(VERSION);
     this.setup();
     await this.currentScene.loadResources();
     this.renderer.start(this.currentScene.entities);
@@ -48,12 +51,15 @@ export class World extends WebGLCanvas {
       // deno-lint-ignore no-explicit-any
       (event: any) => this._mouseDown(event),
     );
+
     addEventListener("mousedown", (evt) => {
       this._mouseDown(evt);
     });
+
     addEventListener("keydown", (evt) => {
       this.keyDown(evt);
     });
+
     await this.run();
   }
 
@@ -126,6 +132,7 @@ export class World extends WebGLCanvas {
   // deno-lint-ignore no-explicit-any
   _mouseDown(e: any): void {
     this.currentScene._mouseDown(e);
+    this.currentScene.onClick(e.x, e.y);
   }
 
   _mouseMotion(e: MouseMotionEvent): void {
@@ -147,11 +154,7 @@ export class World extends WebGLCanvas {
     );
   }
 
-  // get mouseX(): number {
-  //   return this.renderer.canvas.getCurrentState().cursorX;
-  // }
-
-  // get mouseY(): number {
-  //   return this.renderer.canvas.getCurrentState().cursorY;
-  // }
+  disableBanner() {
+    this.#showBanner = false;
+  }
 }

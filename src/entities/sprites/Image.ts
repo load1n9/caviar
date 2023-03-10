@@ -31,4 +31,9 @@ export class Image extends Entity {
       this.image.onerror = rej;
     });
   }
+  
+  collides(x: number, y: number): boolean {
+    return (x > this.x && x < this.x + this.image.width && y > this.y &&
+      y < this.y + this.image.height);
+  }
 }

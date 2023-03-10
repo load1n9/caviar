@@ -18,6 +18,7 @@ export class EventManager {
       this.listeners.get(event)?.delete(listener);
     }
   }
+  
   emit(event: string, data: Event): void {
     if (this.listeners.has(event)) {
       for (const listener of this.listeners.get(event)!) {
@@ -25,6 +26,7 @@ export class EventManager {
       }
     }
   }
+
   clear(): void {
     this.listeners.clear();
   }

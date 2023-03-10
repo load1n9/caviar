@@ -10,6 +10,7 @@ export class TextureSprite extends Entity {
   pixelHeight: number;
   width: number;
   height: number;
+
   constructor(_scene: Scene, x: number, y: number, texture: PixelTexture) {
     super(x, y);
     this.texture = texture;
@@ -25,6 +26,7 @@ export class TextureSprite extends Entity {
     );
     this.setup();
   }
+
   setup() {
     this.data = [];
     for (let y = 0; y < this.texture.data.length; y++) {
@@ -65,6 +67,7 @@ export class TextureSprite extends Entity {
       }
     }
   }
+
   setY(y: number) {
     this.y = y;
     let k = 0;
@@ -78,5 +81,10 @@ export class TextureSprite extends Entity {
         }
       }
     }
+  }
+
+  collides(x: number, y: number): boolean {
+    return (x > this.x && x < this.x + this.width && y > this.y &&
+      y < this.y + this.height);
   }
 }

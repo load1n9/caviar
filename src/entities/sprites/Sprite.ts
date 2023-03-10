@@ -12,13 +12,14 @@ export class Sprite extends Entity {
   cols: number;
   frames: Array<Frame> = [];
   frame: Frame = { x: 0, y: 0, width: 0, height: 0 };
+
   #frame: number;
   constructor(
     url: string,
     x: number,
     y: number,
     { rows, cols }: spriteConfig,
-    _frame: number = 0,
+    frame = 0,
   ) {
     super(x, y);
     this.image = new HTMLImage();
@@ -27,8 +28,9 @@ export class Sprite extends Entity {
     this.height = 0;
     this.rows = rows;
     this.cols = cols;
-    this.#frame = _frame;
+    this.#frame = frame;
   }
+
   load(): Promise<Sprite> {
     return new Promise<Sprite>((res, rej) => {
       this.image.src = this.url;
@@ -52,6 +54,7 @@ export class Sprite extends Entity {
     this.frame =
       this.frames[(this.frames.indexOf(this.frame) + 1) % this.frames.length];
   }
+
   previousFrame(): void {
     this.frame = this
       .frames[
@@ -59,7 +62,13 @@ export class Sprite extends Entity {
         this.frames.length
       ];
   }
+
   setFrame(frame: number): void {
     this.frame = this.frames[frame];
+  }
+
+  collides(x: number, y: number): boolean {
+    return (x > this.x && x < this.x + this.frame.width && y > this.y &&
+      y < this.y + this.frame.height);
   }
 }

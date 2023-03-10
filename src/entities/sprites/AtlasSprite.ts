@@ -7,6 +7,7 @@ export class AtlasSprite extends Entity {
   frame: Frame;
   image: HTMLImage;
   #frame: string;
+
   constructor(atlas: Atlas, x: number, y: number, frame: string) {
     super(x, y);
     this.atlas = atlas;
@@ -14,6 +15,7 @@ export class AtlasSprite extends Entity {
     this.frame = atlas.getFrame(frame);
     this.image = new HTMLImage();
   }
+
   load() {
     return new Promise<AtlasSprite>((res, rej) => {
       this.image.src = this.atlas.imgUrl;
@@ -25,5 +27,10 @@ export class AtlasSprite extends Entity {
       };
       this.image.onerror = rej;
     });
+  }
+
+  collides(x: number, y: number): boolean {
+    return (x > this.x && x < this.x + this.frame.width && y > this.y &&
+      y < this.y + this.frame.height);
   }
 }

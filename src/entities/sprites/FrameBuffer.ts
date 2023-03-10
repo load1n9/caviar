@@ -23,8 +23,14 @@ export class FrameBuffer extends Entity {
       res(this);
     });
   }
+
   setBuffer(buffer: Uint8Array) {
     this.rawData = buffer;
     this.requestStart = true;
+  }
+
+  collides(x: number, y: number): boolean {
+    return (x > 0 && x < this.width && y > 0 &&
+      y < this.height);
   }
 }

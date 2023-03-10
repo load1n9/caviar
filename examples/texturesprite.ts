@@ -26,7 +26,7 @@ class Game extends Scene {
 }
 
 const test = new World({
-  title: "test",
+  title: "Texture Sprite Example",
   width: 800,
   height: 600,
   resizable: true,

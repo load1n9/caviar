@@ -7,7 +7,6 @@ export {
   Arne16,
   Atlas,
   AtlasSprite,
-  Button,
   C64,
   CGA,
   Entity,
