@@ -10,6 +10,11 @@ import type { MouseMotionEvent, RGBA } from "./types.ts";
 import { hexToRGBA, printBanner, sleepSync } from "./utils/mod.ts";
 import { VERSION } from "./version.ts";
 
+const _draw = Symbol("[[caviar_draw]]");
+const _fps = Symbol("[[caviar_fps]]");
+const _mouseDown = Symbol("[[caviar_mouse_down]]");
+const _mouseMotion = Symbol("[[caviar_mouse_motion]]");
+
 export class World extends WebGLCanvas {
   /**
    * Frames displayed per second
@@ -78,7 +83,7 @@ export class World extends WebGLCanvas {
     this.setup();
     await this.currentScene.loadResources();
     this.renderer.start(this.currentScene.entities);
-    requestAnimationFrame(this._draw.bind(this));
+    requestAnimationFrame(this[_draw].bind(this));
     this.renderer.eventManager.on(
       "keyDown",
       // deno-lint-ignore no-explicit-any
@@ -87,11 +92,11 @@ export class World extends WebGLCanvas {
     this.renderer.eventManager.on(
       "mouseDown",
       // deno-lint-ignore no-explicit-any
-      (event: any) => this._mouseDown(event),
+      (event: any) => this[_mouseDown](event),
     );
 
     addEventListener("mousedown", (evt) => {
-      this._mouseDown(evt);
+      this[_mouseDown](evt);
     });
 
     addEventListener("keydown", (evt) => {
@@ -101,8 +106,8 @@ export class World extends WebGLCanvas {
     await this.run();
   }
 
-  _draw(): void {
-    this._fps()();
+  [_draw](): void {
+    this[_fps]()();
     this.updateProgramLifeCycle();
     if (this.reRender) {
       this.renderer.start(this.currentScene.entities);
@@ -114,7 +119,7 @@ export class World extends WebGLCanvas {
         if (plug.onUpdate) plug.onUpdate();
       }
     }
-    requestAnimationFrame(this._draw.bind(this));
+    requestAnimationFrame(this[_draw].bind(this));
   }
 
   /**
@@ -124,7 +129,7 @@ export class World extends WebGLCanvas {
     this.FPS = fps;
   }
 
-  _fps(): () => void {
+  [_fps](): () => void {
     let start = performance.now();
     let frames = 0;
     return () => {
@@ -185,12 +190,12 @@ export class World extends WebGLCanvas {
   }
 
   // deno-lint-ignore no-explicit-any
-  _mouseDown(e: any): void {
+  [_mouseDown](e: any): void {
     this.currentScene._mouseDown(e);
     this.currentScene.onClick(e.x, e.y);
   }
 
-  _mouseMotion(e: MouseMotionEvent): void {
+  [_mouseMotion](e: MouseMotionEvent): void {
     this.currentScene._mouseMotion(e);
   }
 
@@ -210,14 +215,8 @@ export class World extends WebGLCanvas {
   }
 
   /**
-   * Sets the background to the given hex code
-   */
-  setBackground(color: string): void;
-
-  /**
    * Sets the background to the given color
    */
-  setBackground(color: RGBA): void;
   setBackground(color: string | RGBA): void {
     this.renderer.setBackground(
       typeof color === "string" ? hexToRGBA(color) : color,

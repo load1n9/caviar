@@ -31,5 +31,4 @@ const test = new World({
   resizable: true,
 }, [Game]);
 
-
 await test.start();

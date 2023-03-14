@@ -1,10 +1,4 @@
-import {
-  AtlasSprite,
-  Entity,
-  Image,
-  Sprite,
-  World,
-} from "../../mod.ts";
+import { AtlasSprite, Entity, Image, Sprite, World } from "../../mod.ts";
 import type { MouseDownEvent, MouseMotionEvent, RGBA } from "../types.ts";
 
 export type Resource = Image | AtlasSprite | Sprite;
@@ -72,7 +66,6 @@ export class Scene {
   setKeys(_keys: Array<string>): void {
     this.world.keyManager.setKeys(_keys);
   }
-
   setBackground(color: string | RGBA): void {
     this.world.setBackground(color);
   }
