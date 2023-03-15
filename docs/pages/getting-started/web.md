@@ -110,7 +110,7 @@ const test = new World({
 await test.start();
 ```
 
-#### run this in any browser with webgpu support
+### run this in any browser with webgpu support
 
 _WebGPU is available for now in Chrome Canary on desktop behind an experimental
 flag. You can enable it at
@@ -119,6 +119,6 @@ The API is constantly changing and currently unsafe. As GPU sandboxing isn't
 implemented yet for the WebGPU API, it is possible to read GPU data for other
 processes! Don't browse the web with it enabled._
 
-![](https://i.ibb.co/RY0wNPT/Screenshot-2022-06-06-062842.png)
+![preview](https://i.ibb.co/RY0wNPT/Screenshot-2022-06-06-062842.png)
 
 ## [jsfiddle](https://jsfiddle.net/u4L1dewc/1/)
