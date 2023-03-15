@@ -1,5 +1,6 @@
 {
-  "tasks": {
-    "start": "deno run -A --watch --no-check main.ts"
-  }
+    "tasks": {
+        "dev": "pyro dev",
+        "build": "pyro build"
+    }
 }
