@@ -1,5 +1,5 @@
 ---
 title: Getting Started
-description: My first Pyro directory
+description: Getting Started with caviar
 index: 1
 ---

@@ -3,6 +3,7 @@ title: Getting Started Web
 description: Web guide
 index: 3
 ---
+
 ## Setup
 
 since caviar doesn't require any build or tools, we can write this exampes using

@@ -3,6 +3,7 @@ title: Getting Started Deno
 description: Deno guide
 index: 2
 ---
+
 ### Setup
 
 first we'll create a new class that extends Scene
