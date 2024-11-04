@@ -1,6 +1,6 @@
 {
-    "tasks": {
-        "dev": "pyro dev",
-        "build": "pyro build"
-    }
+  "tasks": {
+    "dev": "pyro dev",
+    "build": "pyro build"
+  }
 }

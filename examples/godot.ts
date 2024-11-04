@@ -2,7 +2,7 @@ import { Atlas, AtlasSprite, Scene, World } from "../mod.ts";
 
 class Game extends Scene {
   test = new Atlas("assets/godot.json", "godot");
-  setup() {
+  override setup() {
     this.addChild(new AtlasSprite(this.test, 0, 0, "sprite1"));
   }
 }

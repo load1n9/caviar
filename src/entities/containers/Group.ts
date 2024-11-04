@@ -1,4 +1,4 @@
-import { Entity, Scene } from "../../../mod.ts";
+import { Entity, type Scene } from "../../../mod.ts";
 
 export class Group extends Entity {
   children: Array<Entity> = [];
@@ -19,7 +19,7 @@ export class Group extends Entity {
     }
   }
 
-  setInteractive(interactive = true): void {
+  override setInteractive(interactive = true): void {
     for (const child of this.children) {
       child.setInteractive(interactive);
     }

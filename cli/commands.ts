@@ -1,8 +1,4 @@
-import {
-  Confirm,
-  Input,
-  Number,
-} from "https://deno.land/x/cliffy@v0.25.7/prompt/mod.ts";
+import { Confirm, Input, Number } from "jsr:@cliffy/prompt@1.0.0-rc.7";
 import { createScene } from "./structs/Scene.ts";
 import { createWorld } from "./structs/World.ts";
 import { HTML } from "./structs/html.ts";
@@ -47,8 +43,8 @@ export const genPlugin = async () => {
   });
   const content = `import { World, Plugin } from  ${
     web
-      ? `"https://deno.land/x/caviar@${VERSION}/web/dist/mod.js"`
-      : `"https://deno.land/x/caviar@${VERSION}/mod.ts"`
+      ? `"https://deno.land/x/caviar/web/dist/mod.js"`
+      : `"https://deno.land/x/caviar/mod.ts"`
   };
   export class ${name} extends Plugin {
       constructor(world${web ? "" : ": World"}) {

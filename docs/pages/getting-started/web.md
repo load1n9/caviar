@@ -11,14 +11,14 @@ only an html file.
 
 ```html
 <html>
-    <head>
-        <title>Caviar Example</title>
-    </head>
-    <body>
-        <script type="module">
-            // our code will be written here
-        </script>
-    </body>
+  <head>
+    <title>Caviar Example</title>
+  </head>
+  <body>
+    <script type="module">
+      // our code will be written here
+    </script>
+  </body>
 </html>
 ```
 

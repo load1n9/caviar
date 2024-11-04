@@ -1,5 +1,5 @@
-import { RGBA } from "../../types.ts";
-import { Usage } from "./types.ts";
+import type { RGBA } from "../../types.ts";
+import type { Usage } from "./types.ts";
 
 export const shader2d = `
 struct Uniforms {

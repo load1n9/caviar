@@ -11,13 +11,13 @@ class Game extends Scene {
     p2: 0,
   };
 
-  setup() {
+  override setup() {
     this.setKeys(["W", "S", "E", "D"]);
     this.addChild([this.p1, this.p2, this.ball]);
     this.setBackground([0, 0, 0, 1]);
   }
 
-  update() {
+  override update() {
     if (
       this.ball.x < this.p1.x + 42 &&
       this.ball.y > this.p1.y &&

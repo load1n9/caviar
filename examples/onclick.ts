@@ -1,4 +1,4 @@
-import { Rectangle, RGBA, Scene, World } from "../mod.ts";
+import { Rectangle, type RGBA, Scene, World } from "../mod.ts";
 
 class Custom extends Rectangle {
   constructor(x: number, y: number, fill: RGBA | string) {
@@ -6,7 +6,7 @@ class Custom extends Rectangle {
     this.setInteractive(true);
   }
 
-  onClick() {
+  override onClick() {
     console.log("onClick");
   }
 }
@@ -15,10 +15,10 @@ class Game extends Scene {
   test = new Custom(0, 0, "#00ff00");
   test2 = new Custom(0, 0, "#ff0000");
 
-  setup() {
+  override setup() {
     this.addChild([this.test, this.test2]);
   }
-  update() {
+  override update() {
     this.test.x += 5;
     this.test2.x += 2;
   }

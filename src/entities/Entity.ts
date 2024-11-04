@@ -5,7 +5,7 @@ export abstract class Entity {
   /**
    * Identifier for the entity
    */
-  readonly id: string;
+  readonly id = crypto.randomUUID();
   #x: number;
   #y: number;
   #z: number;

@@ -3,10 +3,10 @@ import { Image, Scene, World } from "../mod.ts";
 class Game extends Scene {
   test = new Image("assets/caviar.png", 0, 0);
 
-  setup() {
+  override setup() {
     this.addChild(this.test);
   }
-  update() {
+  override update() {
     this.test.x += 1;
   }
 }

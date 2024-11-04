@@ -1,6 +1,6 @@
 import { Entity } from "../Entity.ts";
-import { Rectangle, Scene } from "../../../mod.ts";
-import { PixelTexture } from "../../types.ts";
+import { Rectangle, type Scene } from "../../../mod.ts";
+import type { PixelTexture } from "../../types.ts";
 import { Arne16 } from "./Palettes.ts";
 import { hexToRGBA } from "../../utils/HexToRGBA.ts";
 

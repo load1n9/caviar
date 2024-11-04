@@ -1,5 +1,5 @@
-import { Atlas, Entity } from "../mod.ts";
-import { Frame } from "../../types.ts";
+import { type Atlas, Entity } from "../mod.ts";
+import type { Frame } from "../../types.ts";
 import { Image as HTMLImage } from "../../../deps.ts";
 
 export class AtlasSprite extends Entity {
@@ -29,7 +29,7 @@ export class AtlasSprite extends Entity {
     });
   }
 
-  collides(x: number, y: number): boolean {
+  override collides(x: number, y: number): boolean {
     return (x > this.x && x < this.x + this.frame.width && y > this.y &&
       y < this.y + this.frame.height);
   }

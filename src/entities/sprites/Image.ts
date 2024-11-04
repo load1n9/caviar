@@ -2,8 +2,8 @@ import { Entity } from "../mod.ts";
 import { Image as HTMLImage } from "../../../deps.ts";
 
 export class Image extends Entity {
-  width: number;
-  height: number;
+  override width: number;
+  override height: number;
   image: HTMLImage;
   url: string;
 
@@ -32,7 +32,7 @@ export class Image extends Entity {
     });
   }
 
-  collides(x: number, y: number): boolean {
+  override collides(x: number, y: number): boolean {
     return (x > this.x && x < this.x + this.image.width && y > this.y &&
       y < this.y + this.image.height);
   }

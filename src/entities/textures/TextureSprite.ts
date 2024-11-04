@@ -1,6 +1,6 @@
 import { Entity } from "../mod.ts";
-import { hexToRGBA, Rectangle, Scene } from "../../../mod.ts";
-import { PixelTexture } from "../../types.ts";
+import { hexToRGBA, Rectangle, type Scene } from "../../../mod.ts";
+import type { PixelTexture } from "../../types.ts";
 import { Arne16 } from "./palettes/mod.ts";
 export class TextureSprite extends Entity {
   data: Rectangle[];
@@ -8,8 +8,8 @@ export class TextureSprite extends Entity {
   palette: string[];
   pixelWidth: number;
   pixelHeight: number;
-  width: number;
-  height: number;
+  override width: number;
+  override height: number;
 
   constructor(_scene: Scene, x: number, y: number, texture: PixelTexture) {
     super(x, y);
@@ -83,7 +83,7 @@ export class TextureSprite extends Entity {
     }
   }
 
-  collides(x: number, y: number): boolean {
+  override collides(x: number, y: number): boolean {
     return (x > this.x && x < this.x + this.width && y > this.y &&
       y < this.y + this.height);
   }

@@ -1,5 +1,5 @@
-import { Entity, Scene } from "../../../mod.ts";
-import { BasicParticle, Particle } from "./mod.ts";
+import { Entity, type Scene } from "../../../mod.ts";
+import { BasicParticle, type Particle } from "./mod.ts";
 import type { RGBA } from "../../types.ts";
 
 interface Settings {

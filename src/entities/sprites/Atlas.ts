@@ -1,10 +1,10 @@
 import { Entity } from "../mod.ts";
-import { Frame } from "../../types.ts";
+import type { Frame } from "../../types.ts";
 import {
   atlas,
-  GodotAtlas,
-  PhaserAtlas,
-  PixiAtlas,
+  type GodotAtlas,
+  type PhaserAtlas,
+  type PixiAtlas,
 } from "./../../utils/mod.ts";
 import { Image as HTMLImage } from "../../../deps.ts";
 

@@ -1,11 +1,11 @@
 import { Entity } from "../mod.ts";
-import { Frame, spriteConfig } from "../../types.ts";
+import type { Frame, spriteConfig } from "../../types.ts";
 import { generateFrames } from "../../utils/mod.ts";
 import { Image as HTMLImage } from "../../../deps.ts";
 
 export class Sprite extends Entity {
-  width: number;
-  height: number;
+  override width: number;
+  override height: number;
   image: HTMLImage;
   url: string;
   rows: number;
@@ -67,7 +67,7 @@ export class Sprite extends Entity {
     this.frame = this.frames[frame];
   }
 
-  collides(x: number, y: number): boolean {
+  override collides(x: number, y: number): boolean {
     return (x > this.x && x < this.x + this.frame.width && y > this.y &&
       y < this.y + this.frame.height);
   }

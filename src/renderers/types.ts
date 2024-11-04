@@ -1,4 +1,4 @@
-import { Entity } from "../../mod.ts";
+import type { Entity } from "../../mod.ts";
 
 export interface Renderer {
   start(entities: Entity[]): void;

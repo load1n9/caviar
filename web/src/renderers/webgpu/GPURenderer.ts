@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { Entity } from "../../entities/Entity.ts";
+import type { Entity } from "../../entities/Entity.ts";
 import {
   AtlasSprite,
   Group,
@@ -7,8 +7,8 @@ import {
   Rectangle,
   TextureSprite,
 } from "../../../mod.ts";
-import { RGBA } from "../../types.ts";
-import { World } from "../../World.ts";
+import type { RGBA } from "../../types.ts";
+import type { World } from "../../World.ts";
 import {
   createBindGroupLayout,
   createRenderPipeline,
@@ -17,7 +17,7 @@ import {
   Textures2D,
   Uniforms2D,
 } from "./shader2d.ts";
-import {
+import type {
   EntityBuffers,
   ImageBuffers,
   Layouts,

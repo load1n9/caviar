@@ -1,5 +1,5 @@
-import { ProgramInfo2d, programInfo2d } from "./shader.ts";
-import {
+import { type ProgramInfo2d, programInfo2d } from "./shader.ts";
+import type {
   WebGLCanvas,
   WebGLProgram,
   WebGLRenderingContext,
@@ -7,13 +7,13 @@ import {
 import { fragment2d, vertex2d } from "./shader.ts";
 import {
   AtlasSprite,
-  Entity,
+  type Entity,
   EventManager,
   FrameBuffer,
   Group,
   Image,
   Rectangle,
-  RGBA,
+  type RGBA,
   Sprite,
   TextureSprite,
 } from "../../../mod.ts";
@@ -23,7 +23,7 @@ import {
   loadTexture,
   setBuffer,
 } from "./util.ts";
-import { EntityBuffers, ImageBuffers, RectangleBuffers } from "./types.ts";
+import type { EntityBuffers, ImageBuffers, RectangleBuffers } from "./types.ts";
 
 export class WebGLRenderer2D {
   #program: WebGLProgram;

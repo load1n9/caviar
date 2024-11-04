@@ -1,4 +1,4 @@
-import { Frame } from "../../types.ts";
+import type { Frame } from "../../types.ts";
 interface IPixiFrame {
   frame: { x: number; y: number; w: number; h: number };
   rotated: boolean;

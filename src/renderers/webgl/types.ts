@@ -1,4 +1,4 @@
-import { WebGLBuffer, WebGLTexture } from "../../../deps.ts";
+import type { WebGLBuffer, WebGLTexture } from "../../../deps.ts";
 
 export type EntityBuffers = RectangleBuffers | ImageBuffers;
 

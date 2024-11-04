@@ -1,5 +1,5 @@
 import { Timer } from "./Timer.ts";
-import { Clock } from "./Clock.ts";
+import type { Clock } from "./Clock.ts";
 
 export const DelayedCall = (
   clock: Clock,

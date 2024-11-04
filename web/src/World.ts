@@ -1,4 +1,4 @@
-import { Scene } from "../mod.ts";
+import type { Scene } from "../mod.ts";
 import { EventManager } from "./events/EventManager.ts";
 import { KeyManager } from "./events/KeyManager.ts";
 import { GPURenderer } from "./renderers/webgpu/GPURenderer.ts";

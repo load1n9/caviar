@@ -1,4 +1,4 @@
-import { Entity, Scene } from "../../../mod.ts";
+import { Entity, type Scene } from "../../../mod.ts";
 
 export class Group extends Entity {
   children: Array<Entity> = [];

@@ -3,8 +3,6 @@ import type { RGBA } from "../../types.ts";
 import { hexToRGBA } from "../../utils/mod.ts";
 
 export class Rectangle extends Entity {
-  width: number;
-  height: number;
   right: number;
   left: number;
   up: number;
@@ -38,7 +36,7 @@ export class Rectangle extends Entity {
     this.fill[3] = a;
   }
 
-  collides(x: number, y: number): boolean {
+  override collides(x: number, y: number): boolean {
     return (x > this.x && x < this.x + this.width && y > this.y &&
       y < this.y + this.height);
   }

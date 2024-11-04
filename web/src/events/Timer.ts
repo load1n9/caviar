@@ -1,4 +1,4 @@
-import { Clock } from "./Clock.ts";
+import type { Clock } from "./Clock.ts";
 import type { TimerEvent } from "./types.ts";
 
 const NOOP = () => {};

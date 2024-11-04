@@ -1,4 +1,4 @@
-import { World } from "https://deno.land/x/caviar@2.6.4/mod.ts";
+import { World } from "https://deno.land/x/caviar@2.6.9/mod.ts";
 import { Boot } from "./src/scenes/Boot.ts";
 
 const example = new World({

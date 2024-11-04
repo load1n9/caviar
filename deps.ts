@@ -1,3 +1,3 @@
-export { fromFileUrl } from "https://deno.land/std@0.179.0/path/mod.ts";
-export * from "https://deno.land/x/gluten@0.1.6/mod.ts";
-export * from "https://deno.land/x/dwm@0.3.3/mod.ts";
+export { fromFileUrl } from "jsr:@std/path@1.0.8";
+export * from "https://deno.land/x/gluten@0.1.9/mod.ts";
+export * from "jsr:@gfx/dwm@0.3.8";

@@ -1,9 +1,9 @@
 import {
-  CreateWindowOptions,
+  type CreateWindowOptions,
   WebGLCanvas,
-  WindowKeyboardEvent,
+  type WindowKeyboardEvent,
 } from "../deps.ts";
-import { Scene } from "../mod.ts";
+import type { Scene } from "../mod.ts";
 import { KeyManager } from "./events/KeyManager.ts";
 import { WebGLRenderer2D } from "./renderers/webgl/2d.ts";
 import type { MouseMotionEvent, RGBA } from "./types.ts";
@@ -83,6 +83,7 @@ export class World extends WebGLCanvas {
     this.setup();
     await this.currentScene.loadResources();
     this.renderer.start(this.currentScene.entities);
+    // @ts-ignore - Deno doesn't have a global type
     requestAnimationFrame(this[_draw].bind(this));
     this.renderer.eventManager.on(
       "keyDown",
@@ -100,7 +101,7 @@ export class World extends WebGLCanvas {
     });
 
     addEventListener("keydown", (evt) => {
-      this.keyDown(evt);
+      this.keyDown(evt as WindowKeyboardEvent);
     });
 
     await this.run();
@@ -119,6 +120,7 @@ export class World extends WebGLCanvas {
         if (plug.onUpdate) plug.onUpdate();
       }
     }
+    // @ts-ignore - Deno doesn't have a global type
     requestAnimationFrame(this[_draw].bind(this));
   }
 

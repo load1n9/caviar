@@ -1,9 +1,9 @@
 import { Entity } from "../mod.ts";
-import { World } from "../../../mod.ts";
+import type { World } from "../../../mod.ts";
 
 export class FrameBuffer extends Entity {
-  width: number;
-  height: number;
+  override width: number;
+  override height: number;
   rawData = new Uint8Array(0);
   requestStart = true;
   constructor(
@@ -29,7 +29,7 @@ export class FrameBuffer extends Entity {
     this.requestStart = true;
   }
 
-  collides(x: number, y: number): boolean {
+  override collides(x: number, y: number): boolean {
     return (x > 0 && x < this.width && y > 0 &&
       y < this.height);
   }

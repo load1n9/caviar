@@ -5,7 +5,7 @@ class Game extends Scene {
   chunkSize = 16;
   tileSize = 16;
 
-  setup() {
+  override setup() {
     const group = new Group(this, 0, 0);
     this.world.loadPlugin("perlin", PerlinNoise);
 

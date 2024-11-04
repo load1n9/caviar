@@ -1,4 +1,4 @@
-import { World } from "../World.ts";
+import type { World } from "../World.ts";
 import type { TimerEvent } from "./types.ts";
 export class Clock {
   now?: number;

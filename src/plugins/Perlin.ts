@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { Plugin, World } from "../../mod.ts";
+import { Plugin, type World } from "../../mod.ts";
 
 class Grad {
   constructor(
@@ -310,7 +310,7 @@ export class PerlinNoise extends Plugin {
     this.gradP = new Array(512);
     this.setSeed(0);
   }
-  onStart() {
+  override onStart() {
     console.log.apply(globalThis.console, [
       "\n %c %c %c Using Caviar's Perlin Noise Plugin" +
       "  %c  %c  https://github.com/load1n9/caviar/blob/main/src/plugins/Perlin.ts",

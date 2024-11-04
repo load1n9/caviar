@@ -1,5 +1,5 @@
-import { Atlas, Entity } from "../mod.ts";
-import { Frame } from "../../types.ts";
+import { type Atlas, Entity } from "../mod.ts";
+import type { Frame } from "../../types.ts";
 
 export class AtlasSprite extends Entity {
   atlas: Atlas;

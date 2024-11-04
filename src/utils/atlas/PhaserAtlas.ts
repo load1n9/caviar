@@ -1,4 +1,4 @@
-import { Frame } from "../../types.ts";
+import type { Frame } from "../../types.ts";
 
 interface IPhaserFrame {
   filename: string;

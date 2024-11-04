@@ -17,10 +17,10 @@ class Game extends Scene {
     palette: PICO8,
   });
 
-  setup() {
+  override setup() {
     this.addChild(this.test);
   }
-  update() {
+  override update() {
     this.test.setX(this.test.x + 10);
   }
 }

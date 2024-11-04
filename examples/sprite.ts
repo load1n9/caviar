@@ -4,11 +4,11 @@ class Game extends Scene {
   FPS = 5;
   test = new Sprite("assets/sample2.png", 0, 0, { rows: 1, cols: 4 }, 1);
 
-  setup() {
+  override setup() {
     this.addChild(this.test);
   }
 
-  update(): void {
+  override update(): void {
     this.test.nextFrame();
     this.world.reRender = true;
   }

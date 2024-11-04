@@ -15,7 +15,7 @@
  </p>
 <hr/>
 
-## ⚡ blazing fast game engine built on top of [gluten](https://github.com/deno-windowing/gluten) & [dwm](https://github.com/deno-windowing/dwm) with WebGPU & WebGL rendering
+## ⚡ native and web game engine built on top of [gluten](https://github.com/deno-windowing/gluten) & [dwm](https://github.com/deno-windowing/dwm) with WebGPU & WebGL rendering
 
 <img src="https://raw.githubusercontent.com/load1n9/caviar/main/assets/demo.png" width="800rem" />
 
@@ -34,10 +34,10 @@ class Game extends Scene {
   test = new Rectangle(0, 0, 100, 100, "#00ff00");
   test2 = new Rectangle(0, 0, 100, 100, "#00ff00");
 
-  setup() {
+  override setup() {
     this.addChild([this.test, this.test2]);
   }
-  update() {
+  override update() {
     this.test.x += 5;
     this.test2.x += 2;
   }
@@ -70,7 +70,7 @@ class Game extends Scene {
   chunkSize = 16;
   tileSize = 16;
 
-  setup() {
+  override setup() {
     const group = new Group(this, 0, 0);
     this.world.loadPlugin("perlin", PerlinNoise);
 
@@ -160,10 +160,10 @@ class Game extends Scene {
     palette: PICO8,
   });
 
-  setup() {
+  override setup() {
     this.addChild(this.test);
   }
-  update() {
+  override update() {
     this.test.setX(this.test.x + 10);
   }
 }
@@ -178,13 +178,11 @@ const world = new World({
 await world.start();
 ```
 
-As Caviar uses the Deno FFI, you will need to add the flags
-`--allow-ffi --unstable` to run the programs. You can also add other flags to
-skip the permissions check the Deno does. An example of starting the program in
-Deno with all these flags is
+As Caviar uses the Deno FFI, you will need to add the flags `--allow-ffi` to
+your Deno command.
 
 ```sh
-deno run --allow-ffi --allow-env --allow-read --allow-write --allow-net --unstable test.ts
+deno run --allow-env --allow-read --allow-write --allow-ffi test.ts
 ```
 
 ### Tools
@@ -194,7 +192,7 @@ deno run --allow-ffi --allow-env --allow-read --allow-write --allow-net --unstab
 
 ### Maintainers
 
-- Loading ([@load1n9](https://github.com/load1n9))
+- Dean Srebnik ([@load1n9](https://github.com/load1n9))
 - CarrotzRule ([@carrotzrule123](https://github.com/CarrotzRule123))
 
 ### License

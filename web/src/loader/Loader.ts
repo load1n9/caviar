@@ -20,7 +20,7 @@ export class Loader {
       return;
     }
     const item = Loader.queue.values().next().value;
-    if (item.type === "atlas") {
+    if (item!.type === "atlas") {
       // Loader.loadAtlas(item);
     }
   }

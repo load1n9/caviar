@@ -1,5 +1,10 @@
-import { AtlasSprite, Entity, Image, World /*Sprite*/ } from "../../mod.ts";
-import { RGBA } from "../types.ts";
+import {
+  AtlasSprite,
+  type Entity,
+  Image,
+  type World, /*Sprite*/
+} from "../../mod.ts";
+import type { RGBA } from "../types.ts";
 
 export type Resource = Image | AtlasSprite /*| Sprite*/;
 

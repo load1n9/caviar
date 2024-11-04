@@ -5,7 +5,7 @@ import type {
   WebGLRenderingContext,
   WebGLShader,
 } from "../../../deps.ts";
-import { FrameBuffer } from "../../../mod.ts";
+import type { FrameBuffer } from "../../../mod.ts";
 
 export function initShaderProgram(
   gl: WebGLRenderingContext,

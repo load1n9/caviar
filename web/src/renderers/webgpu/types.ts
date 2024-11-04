@@ -1,4 +1,4 @@
-import { Textures2D, Uniforms2D } from "./shader2d.ts";
+import type { Textures2D, Uniforms2D } from "./shader2d.ts";
 
 export type Layouts = {
   uniform: GPUBindGroupLayout;

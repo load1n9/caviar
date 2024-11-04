@@ -1,4 +1,10 @@
-import { AtlasSprite, Entity, Image, Sprite, World } from "../../mod.ts";
+import {
+  AtlasSprite,
+  type Entity,
+  Image,
+  Sprite,
+  type World,
+} from "../../mod.ts";
 import type { MouseDownEvent, MouseMotionEvent, RGBA } from "../types.ts";
 
 export type Resource = Image | AtlasSprite | Sprite;

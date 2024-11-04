@@ -7,10 +7,10 @@ const buffer = new Uint8Array(width * height * 4);
 class Game extends Scene {
   test = new FrameBuffer(this.world, buffer);
 
-  setup() {
+  override setup() {
     this.addChild(this.test);
   }
-  update() {
+  override update() {
     this.test
       .rawData[Math.floor(Math.random() * this.test.rawData.length - 1)] = Math
         .floor(Math.random() * 255);

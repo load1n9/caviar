@@ -1,30 +1,34 @@
 {
+  "name": "@loading/caviar",
+  "version": "2.6.9",
+  "exports": {
+    ".": "./mod.ts",
+    "./plugins/Perlin": "./src/plugins/Perlin.ts",
+    "./web": "./web/dist/mod.js",
+    "./web/plugins/Perlin": "./web/src/plugins/Perlin.ts"
+  },
   "tasks": {
-    "example_atlas": "deno run -A --unstable examples/atlas.ts",
-    "example_frame": "deno run -A --unstable examples/frame.ts",
-    "example_godot": "deno run -A --unstable examples/godot.ts",
-    "example_image": "deno run -A --unstable examples/image.ts",
-    "example_movingsquare": "deno run -A --unstable examples/movingsquare.ts",
-    "example_perlin": "deno run -A --unstable examples/perlin.ts",
-    "example_onclick": "deno run -A --unstable examples/onclick.ts",
-    "example_sprite": "deno run -A --unstable examples/sprite.ts",
-    "example_texturesprite": "deno run -A --unstable examples/texturesprite.ts",
-    "example_transparent_window": "deno run -A --unstable examples/transparent_window.ts"
+    "example:atlas": "deno run -A examples/atlas.ts",
+    "example:frame": "deno run -A examples/frame.ts",
+    "example:godot": "deno run -A examples/godot.ts",
+    "example:image": "deno run -A examples/image.ts",
+    "example:movingsquare": "deno run -A examples/movingsquare.ts",
+    "example:perlin": "deno run -A examples/perlin.ts",
+    "example:onclick": "deno run -A examples/onclick.ts",
+    "example:sprite": "deno run -A examples/sprite.ts",
+    "example:texturesprite": "deno run -A examples/texturesprite.ts",
+    "example:transparent_window": "deno run -A examples/transparent_window.ts"
   },
   "lint": {
-    "files": {
-      "exclude": [
-        "./web",
-        "./docs"
-      ]
-    }
+    "exclude": [
+      "./web",
+      "./docs"
+    ]
   },
   "check": {
-    "files": {
-      "exclude": [
-        "./web",
-        "./docs"
-      ]
-    }
+    "exclude": [
+      "./web",
+      "./docs"
+    ]
   }
 }
